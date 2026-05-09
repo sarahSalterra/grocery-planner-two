@@ -9,6 +9,7 @@ import { CUISINES } from '../db/data/filterOptions'
 import CookPromptModal from '../notifications/CookPromptModal'
 import { getAllergyOmitIds, DIETARY_MODE_FIELD, getStackedSubOptions } from '../utils/dietaryUtils'
 import { scaleRecipe, formatMinutes, getTotalTime, getTotalActiveTime, convertToMetric } from '../utils/recipeUtils'
+import { GLOSSARY_MAP, GLOSSARY_TERMS_SORTED } from '../db/data/glossary'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -28,9 +29,58 @@ function CookRecipeModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
   const shortcutVisible = preferences.shortcutMode?.includes('visible') ?? true
 
   // If the meal was planned in shortcut mode, open already in shortcut mode
-  const [showShortcut, setShowShortcut] = useState(initialShortcut ?? shortcutIsOn)
-  const [showSubs,     setShowSubs]     = useState(preferences.showSubstitutions ?? false)
-  const [stepsChecked, setStepsChecked] = useState(new Set())
+  const [showShortcut,  setShowShortcut]  = useState(initialShortcut ?? shortcutIsOn)
+  const [showSubs,      setShowSubs]      = useState(preferences.showSubstitutions ?? false)
+  const [stepsChecked,  setStepsChecked]  = useState(new Set())
+  const [activeTooltip, setActiveTooltip] = useState(null) // { term, definition } | null
+
+  // Beginner mode: highlight glossary terms in step text
+  const isBeginnerMode = preferences.glossaryBeginnerMode ?? false
+
+  // Regex built once from glossary terms (longest first to avoid partial matches)
+  const glossaryRegex = useMemo(() => {
+    if (!isBeginnerMode) return null
+    const escaped = GLOSSARY_TERMS_SORTED.map((t) =>
+      t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    )
+    return new RegExp(`\\b(${escaped.join('|')})\\b`, 'gi')
+  }, [isBeginnerMode])
+
+  // Split a step text string into plain strings and clickable <span> elements
+  function renderAnnotatedText(text) {
+    if (!isBeginnerMode || !glossaryRegex || !text) return text
+    const parts = []
+    let lastIndex = 0
+    glossaryRegex.lastIndex = 0
+    let match
+    while ((match = glossaryRegex.exec(text)) !== null) {
+      if (match.index > lastIndex) parts.push(text.slice(lastIndex, match.index))
+      const word  = match[1]
+      const entry = GLOSSARY_MAP[word.toLowerCase()]
+      if (entry) {
+        const captured = word
+        parts.push(
+          <button
+            key={match.index}
+            className={`glossary-term${activeTooltip?.term === entry.term ? ' glossary-term--active' : ''}`}
+            onClick={(e) => {
+              e.stopPropagation()
+              setActiveTooltip((prev) =>
+                prev?.term === entry.term ? null : { term: entry.term, definition: entry.definition }
+              )
+            }}
+          >
+            {captured}
+          </button>
+        )
+      } else {
+        parts.push(word)
+      }
+      lastIndex = glossaryRegex.lastIndex
+    }
+    if (lastIndex < text.length) parts.push(text.slice(lastIndex))
+    return parts.length > 0 ? parts : text
+  }
 
   const subMode = preferences.substitutionMode ?? 'regular'
 
@@ -226,7 +276,9 @@ function CookRecipeModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
                     )}
                     <div className="cook-step__content">
                       <span className="cook-step__name">{step.name}</span>
-                      <p className="cook-step__text">{useShortcut ? step.shortcutText : step.text}</p>
+                      <p className="cook-step__text">
+                        {renderAnnotatedText(useShortcut ? step.shortcutText : step.text)}
+                      </p>
                     </div>
                   </li>
                 )
@@ -235,6 +287,30 @@ function CookRecipeModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
           </div>
 
         </div>
+
+        {/* Glossary tooltip — bottom sheet */}
+        {activeTooltip && (
+          <div
+            className="glossary-tooltip-backdrop"
+            onClick={() => setActiveTooltip(null)}
+          >
+            <div
+              className="glossary-tooltip"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="glossary-tooltip__header">
+                <span className="glossary-tooltip__term">{activeTooltip.term}</span>
+                <button
+                  className="glossary-tooltip__close"
+                  onClick={() => setActiveTooltip(null)}
+                >
+                  ✕
+                </button>
+              </div>
+              <p className="glossary-tooltip__def">{activeTooltip.definition}</p>
+            </div>
+          </div>
+        )}
 
         {/* Footer actions */}
         <div className="cook-modal-footer">

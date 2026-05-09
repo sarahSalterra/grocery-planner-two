@@ -7,7 +7,7 @@ import { CUISINES } from '../db/data/filterOptions'
 import StepNav from '../components/StepNav'
 import MiniSettings from '../components/MiniSettings'
 import { isRecipeAllergyExcluded, getAllergyOmitIds, DIETARY_MODE_FIELD, DIETARY_MODE_LABELS, getStackedSubOptions } from '../utils/dietaryUtils'
-import { convertToMetric, formatMinutes, getTotalTime, getTotalActiveTime, scaleRecipe } from '../utils/recipeUtils'
+import { convertToMetric, formatMinutes, getTotalTime, getTotalActiveTime, scaleRecipe, parseQtyStr } from '../utils/recipeUtils'
 import { buildGroceryList } from '../utils/groceryUtils'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -923,7 +923,7 @@ export default function MealPlanning() {
           const data = ingredientsMap[ing.ingredientId]
           agg[key] = { ingredientId: ing.ingredientId, name: data?.name ?? ing.ingredientId, qty: 0, unit: ing.unit }
         }
-        agg[key].qty += parseFloat(ing.quantity) || 0
+        agg[key].qty += parseQtyStr(ing.quantity)
       })
     }
 

@@ -99,7 +99,7 @@ export function formatQuantity(num) {
 
 // Parse a display quantity string (possibly a fraction or mixed number with
 // unicode characters) back to a plain float.
-function parseQtyStr(str) {
+export function parseQtyStr(str) {
   if (!str && str !== 0) return 0
   const s = String(str).trim()
 

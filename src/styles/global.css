@@ -2,21 +2,23 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --color-bg:        #f7f5f0;
-  --color-surface:   #ffffff;
-  --color-border:    #e2ddd6;
-  --color-primary:   #4a7c59;
+  --color-bg:         #f7f5f0;
+  --color-surface:    #ffffff;
+  --color-bg-card:    #ffffff;
+  --color-border:     #e2ddd6;
+  --color-primary:    #4a7c59;
   --color-primary-light: #d6ead9;
-  --color-accent:    #e07b39;
-  --color-text:      #2c2c2c;
-  --color-text-soft: #7a7067;
-  --color-danger:    #c0392b;
-  --radius-sm:       6px;
-  --radius-md:       12px;
-  --radius-lg:       20px;
-  --shadow-sm:       0 1px 4px rgba(0,0,0,0.08);
-  --shadow-md:       0 4px 16px rgba(0,0,0,0.12);
-  --font:            'Segoe UI', system-ui, sans-serif;
+  --color-accent:     #e07b39;
+  --color-text:       #2c2c2c;
+  --color-text-soft:  #7a7067;
+  --color-text-muted: #7a7067;
+  --color-danger:     #c0392b;
+  --radius-sm:        6px;
+  --radius-md:        12px;
+  --radius-lg:        20px;
+  --shadow-sm:        0 1px 4px rgba(0,0,0,0.08);
+  --shadow-md:        0 4px 16px rgba(0,0,0,0.12);
+  --font:             'Segoe UI', system-ui, sans-serif;
 }
 
 html, body, #root {
@@ -66,7 +68,10 @@ a { color: inherit; text-decoration: none; }
 .settings-trigger:hover { background: var(--color-border); }
 
 /* ─── Week Calendar ─────────────────────────────────────────────────── */
-.home-calendar { padding: 0 16px 16px; }
+.home-calendar {
+  padding: 0 16px 16px;
+  overflow-x: auto;
+}
 
 .week-calendar {
   display: grid;
@@ -77,6 +82,7 @@ a { color: inherit; text-decoration: none; }
   border-radius: var(--radius-md);
   padding: 10px 8px;
   box-shadow: var(--shadow-sm);
+  min-width: 420px;
 }
 
 .calendar-day {
@@ -3181,6 +3187,152 @@ a { color: inherit; text-decoration: none; }
 
 .cook-btn--muted {
   opacity: 0.6;
+}
+
+/* ── Glossary — term highlights in step text ── */
+
+.glossary-term {
+  display: inline;
+  background: none;
+  border: none;
+  padding: 0 1px;
+  margin: 0;
+  font: inherit;
+  color: var(--color-primary);
+  border-bottom: 1.5px dotted var(--color-primary);
+  cursor: pointer;
+  border-radius: 0;
+  transition: background 0.1s;
+}
+
+.glossary-term:hover,
+.glossary-term--active {
+  background: var(--color-primary-light, #e8f4fb);
+  border-radius: 3px;
+}
+
+/* ── Glossary tooltip bottom sheet ── */
+
+.glossary-tooltip-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: flex-end;
+  border-radius: inherit;
+}
+
+.glossary-tooltip {
+  width: 100%;
+  background: var(--color-bg-card);
+  border-top: 2px solid var(--color-primary);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  padding: 16px 18px 20px;
+}
+
+.glossary-tooltip__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.glossary-tooltip__term {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-transform: capitalize;
+}
+
+.glossary-tooltip__close {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.glossary-tooltip__close:hover {
+  background: var(--color-surface);
+}
+
+.glossary-tooltip__def {
+  font-size: 0.88rem;
+  color: var(--color-text);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ── Glossary settings sub-view ── */
+
+.glossary-view {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.glossary-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px 12px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  background: var(--color-bg);
+  color: var(--color-text);
+  margin-bottom: 14px;
+  outline: none;
+}
+
+.glossary-search:focus {
+  border-color: var(--color-primary);
+}
+
+.glossary-empty {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: 20px 0;
+}
+
+.glossary-group {
+  margin-bottom: 10px;
+}
+
+.glossary-group__letter {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  padding: 6px 0 4px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 6px;
+}
+
+.glossary-entry {
+  padding: 8px 4px;
+  border-bottom: 1px solid var(--color-surface);
+}
+
+.glossary-entry__term {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--color-text);
+  text-transform: capitalize;
+  margin-bottom: 3px;
+}
+
+.glossary-entry__def {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin: 0;
 }
 
 /* ── Recipe Library Browse (empty state) ── */

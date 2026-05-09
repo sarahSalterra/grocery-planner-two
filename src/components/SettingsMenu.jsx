@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import {
   HOUSEHOLD_SIZES,
   PRIORITIES,
@@ -10,6 +10,7 @@ import {
   getNotificationPermission,
 } from '../notifications/notificationService'
 import { DIETARY_MODE_LABELS } from '../utils/dietaryUtils'
+import { GLOSSARY } from '../db/data/glossary'
 
 // ─── Sub-view: Household Size ─────────────────────────────────────────────────
 
@@ -527,6 +528,61 @@ function RevertDataView({ onUpdate }) {
   )
 }
 
+// ─── Sub-view: Glossary ───────────────────────────────────────────────────────
+
+function GlossaryView() {
+  const [search, setSearch] = useState('')
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase()
+    if (!q) return GLOSSARY
+    return GLOSSARY.filter(
+      (e) => e.term.toLowerCase().includes(q) || e.definition.toLowerCase().includes(q)
+    )
+  }, [search])
+
+  // Group alphabetically
+  const grouped = useMemo(() => {
+    const map = {}
+    filtered.forEach((entry) => {
+      const letter = entry.term[0].toUpperCase()
+      if (!map[letter]) map[letter] = []
+      map[letter].push(entry)
+    })
+    return Object.entries(map).sort(([a], [b]) => a.localeCompare(b))
+  }, [filtered])
+
+  return (
+    <div className="settings-subview__body glossary-view">
+      <p className="settings-subview__desc">
+        Definitions for common cooking and baking techniques. Enable Beginner Mode to see
+        highlighted terms while cooking.
+      </p>
+      <input
+        className="glossary-search"
+        type="text"
+        placeholder="Search terms…"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      {grouped.length === 0 && (
+        <p className="glossary-empty">No matching terms found.</p>
+      )}
+      {grouped.map(([letter, entries]) => (
+        <div key={letter} className="glossary-group">
+          <span className="glossary-group__letter">{letter}</span>
+          {entries.map((entry) => (
+            <div key={entry.term} className="glossary-entry">
+              <span className="glossary-entry__term">{entry.term}</span>
+              <p className="glossary-entry__def">{entry.definition}</p>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  )
+}
+
 // ─── Main SettingsMenu ────────────────────────────────────────────────────────
 
 const VIEW_TITLES = {
@@ -539,6 +595,7 @@ const VIEW_TITLES = {
   editShortcut:    'Shortcut Mode',
   dietary:         'Diet & Allergies',
   revertData:      'Reset to Defaults',
+  glossary:        'Cooking Glossary',
 }
 
 export default function SettingsMenu({ isOpen, onClose, preferences, onUpdate }) {
@@ -604,6 +661,7 @@ export default function SettingsMenu({ isOpen, onClose, preferences, onUpdate })
         {view === 'editShortcut'    && <EditShortcutView    preferences={preferences} onUpdate={onUpdate} />}
         {view === 'dietary'         && <DietaryView         preferences={preferences} onUpdate={onUpdate} />}
         {view === 'revertData'      && <RevertDataView      onUpdate={onUpdate} />}
+        {view === 'glossary'        && <GlossaryView />}
 
         {/* Main view */}
         {view === 'main' && (
@@ -636,6 +694,19 @@ export default function SettingsMenu({ isOpen, onClose, preferences, onUpdate })
               <h3 className="settings-section__title">Customize</h3>
               <ActionRow label="Customize Recipes"   onClick={() => onUpdate({ _action: 'customizeRecipes' })} />
               <ActionRow label="Customize Inventory" onClick={() => onUpdate({ _action: 'customizeInventory' })} />
+            </div>
+
+            <div className="settings-section">
+              <h3 className="settings-section__title">Cooking Guide</h3>
+              <div className="settings-row">
+                <span className="settings-row__label">Glossary</span>
+                <button className="settings-action-btn" onClick={() => setView('glossary')}>View →</button>
+              </div>
+              <ToggleRow
+                label="Beginner Mode"
+                checked={preferences.glossaryBeginnerMode ?? false}
+                onToggle={() => onUpdate({ glossaryBeginnerMode: !(preferences.glossaryBeginnerMode ?? false) })}
+              />
             </div>
 
             <div className="settings-section">

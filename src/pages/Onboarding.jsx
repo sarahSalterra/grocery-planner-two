@@ -538,6 +538,11 @@ export default function Onboarding({ onComplete }) {
         updated.showLowWaste = value.slice(0, 3).includes('low-waste')
       }
 
+      // Auto-enable glossary beginner mode when the user selects beginner experience
+      if (key === 'experienceMode') {
+        updated.glossaryBeginnerMode = value === 'beginner'
+      }
+
       return updated
     })
   }

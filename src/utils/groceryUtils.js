@@ -17,7 +17,7 @@ import { getIngredients }    from '../db/ingredientsDB'
 import { getHouseholdGoods } from '../db/householdGoodsDB'
 import { DEPARTMENTS }       from '../db/data/filterOptions'
 import { getAllergyOmitIds, DIETARY_MODE_FIELD } from './dietaryUtils'
-import { scaleRecipe }       from './recipeUtils'
+import { scaleRecipe, parseQtyStr } from './recipeUtils'
 
 const DEPT_LABELS = {
   produce:   'Produce',
@@ -136,7 +136,7 @@ function _buildGroceryList(preferences, recipesMap, ingredientsMap, goodsMap) {
           atLeast:    false,
         }
       }
-      ingAgg[key].qty += parseFloat(ing.quantity) || 0
+      ingAgg[key].qty += parseQtyStr(ing.quantity)
     })
   }
 

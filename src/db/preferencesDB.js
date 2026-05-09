@@ -79,6 +79,11 @@ const DEFAULTS = {
   // Recipe IDs completed this week. Cleared when a new meal plan is started.
   cookedRecipeIds: [],
 
+  // ── Glossary ──────────────────────────────────────────────────────────────
+  // When true, cooking terms in recipe step text are highlighted and tappable
+  // for inline definitions. Only shown when experienceMode === 'beginner'.
+  glossaryBeginnerMode: false,
+
   // ── Low Waste → Meal Planning handoff ─────────────────────────────────────
   // Recipes selected on the Use Up Items page that should be auto-added to
   // the calendar when Meal Planning loads. Cleared immediately after read.
