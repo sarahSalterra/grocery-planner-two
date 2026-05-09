@@ -1,0 +1,206 @@
+grocery app features:
+
+meal planning calendar with recipe selection and extras
+household inventory restock (can choose wholesale option if set in preferences)
+use up items ingredient search
+grocery list
+cook
+
+
+Settings:
+customize recipes
+customize inventory
+preferences (how often you shop, do you use wholesale, what size family do you cook for, do you most value simplicity, low-cost, speed, least waste, or variety, shortcut/substitution mode available, do you have dietary restrictions, and substitution mode- options are default, more strict, or more leniant, and planned or free flow mode, show/hide optional use up items step, with notifications on or off, and revert to default data)
+
+shortcut mode and substitition mode should be available on any page if set to 'available' so the user can change these settings anytime.
+
+local data that will be stored and can be changed, deleted, or added to:
+
+recipes added (default settings saved for reverting)
+ingredients added (default settings saved for reverting)
+household goods added (defult settings saved for reverting)
+user app preferences saved
+
+
+example structure for recipe data:
+
+// recipe for spaghetti
+
+{	
+	id: "spaghetti-bolognese",
+	name: "Spaghetti Bolognese",
+	cuisine: "Italian",
+	dish-type: "main",
+	difficulty: "easy",
+	price-level: "mid",
+	time-requirement: "short",
+	multi-tasking: "possible",
+	shortcut-replaces: "no",
+	ingredients: [
+		// ["ingredient-id","quantity","unit","shortcut-substitute"]
+		["spaghetti","16","oz""none"],
+		["tomato-sauce","8","oz","spaghetti-sauce"],
+		["mushrooms","6","oz","omit"],
+		["basil","0.5","tsp","omit"],
+		["oregano","0.5","tsp","omit"],
+		["salt","0.5","tsp","none"],
+		["ground-beef","1","lb","none"]
+	],
+	steps: [
+	    // ["step-name","step text","shortcut-replacement"]
+	    ["prepare sides","Prepare any desired sides for the meal.","no-shortcut"],
+	    ["boil pasta","Fill a pot half to 3/4 full of water and bring to a boil, adding the pasta and allowing to cook while the meat is prepared, stirring occasionally.","no-shortcut"],
+		["cook beef","Brown the ground beef on medium heat on the stove in a pan, seasoning it with salt (along with mushrooms, if using).","no-shortcut"],
+		["make sauce","Add the tomato sauce, basil, and oregano to the meat, mixing and continuing to cook on medium heat until fragrant and thoroughly heated.","Add the spaghetti sauce to the meat, mix, and heat thoroughly."],
+		["drain pasta","Once pasta is cooked to desired consistency, drain and serve the pasta with the meat sauce over it.","no-shortcut"]
+	],
+	recommended-sides: [
+		["yeast-rolls"],
+		["ceasar-salad"]
+	]
+
+}
+
+
+example structure for ingredient data:
+
+{
+	id: "tomato-sauce",
+	name: "Tomato Sauce",
+	department: "pantry",
+	veg-substitute: "n/a",
+	vegan-substitute: "n/a",
+	gluten-substitute: "n/a",
+	dairy-substitute: "n\a",
+	fish-substitute: "n\a",
+	allergy-substitute: "none",
+	strict-substitute: "none",
+	lenient-substitute: "none",
+	other-substitute: "none"
+},
+{
+	id: "ground-beef",
+	name: "Ground Beef",
+	department: "butchery",
+	veg-substitute: "plant-based meat",
+	vegan-substitute: "plant-based meat",
+	gluten-substitute: "n/a",
+	dairy-substitute: "n/a",
+	fish-substitute: "ground salmon",
+	allergy-substitute: "none",
+	strict-substitute: "none",
+	lenient-substitute: ["ground chicken","omit"],
+	other-substitute: ["ground turkey","italian sausage","ground pork"]
+},
+{
+	id: "spaghetti",
+	name: "Spaghetti",
+	department: "pantry",
+	veg-substitute: "n/a",
+	vegan-substitute: "n/a",
+	gluten-substitute: "gluten-free spaghetti",
+	dairy-substitute: "n/a",
+	fish-substitute: "n/a",
+	allergy-substitute: "none",
+	strict-substitute: "none",
+	lenient-substitute: ["fettucini","linguini","rigatoni","penne","macaroni","ditalini"],
+	other-substitute: ["angel hair","thin spaghetti"]
+}
+
+example structure for grocery department data:
+
+{
+	departments: ["produce","pantry","deli","bakery","spices","baking","butchery","frozen","dairy","snacks","drinks","household","hygiene","pets"],
+	additional-departments: ["wholesale","international-market"]
+}
+
+example structure for properties used to filter recipes:
+
+{
+	cuisines: ["Italian","American","Mexican","Chinese","Thai","Mediterranean","Slavic","British","Middle-Eastern","Indian"],
+	difficulties: ["easy","moderate","difficult"],
+	price-levels: ["cheap","mid","expensive"],
+	time-requirements: ["short","medium","long"],
+	dish-types: ["main","side","dessert","snack","breakfast","beverage"],
+	multi-task: ["ideal","possible","unlikely"]
+
+}
+
+example structure for household goods data:
+
+{
+	// ["item-id","item name","department"],
+	["toothpaste","toothpaste","hygiene"],
+	["toilet-paper","toilet paper","household"],
+	["dog-food","dog food","pets"],
+	["lemonade","lemonade","drinks"],
+	["cookies","cookies","snacks"]
+}
+
+structure for a sample user's household inventory data and preferences (each item in the array referring to the id of each household item or ingredient):
+
+{
+	user-id: "main-user",
+	name: "Shayla Bailey",
+	user-type: "couple-chef",
+	household-inventory: ["toothpaste","toilet-paper","lemonade","cookies","eggs","milk"],
+	common-ingredients: ["tomato-sauce","eggs","milk","salt","basil","oregano"],
+	priorities-ranked: ["cheapest","easiest","quickest","exploration","frequency","low-waste"],
+	substitution-mode: ["regular"],
+	shortcut-mode: ["off-visible"],
+	plan-mode: ["unplanned"]
+	no-waste-mode: ["visible"]
+}
+
+// a note for how users should be prompted when setting up their preferences: on the first page of setting up preferences, the user should enter their name and how many people (eating adult-sized portions) will each meal feed (options should be: single-1 person, couple-2 people, small household-3 to 5 people, or large household-6 or more people). On the next page, they should be prompted to arrange a list of priorities from top (those they value most) to bottom (those they value least), "cheapest" (cooking most cost-effectively), "easiest" (recipes are simple and low-effort to make, often meaning multi-tasking is also possible), "quickest" (recipes take the least time to complete), "exploration" (trying new recipes and exploring flavors for fun), "frequency" (cooking as few times per week as possible), and "low-waste" (making sure few ingredients ever go to waste or clutter the kitchen). The order in which the user prioritizes these can set default sorting and filtering on recipe selection once the recipe selection page has been built. On the following preferences page, they can select from a number of modes to set by default. they can set "shortcut mode" (highlight this option if they prioritized easiest or quickest as top priority and cheapest as lowest or second lowest. have the option set to "off" by default, and if the user selects it but they ranked "cheapest" a higher priority than both "quickest" and "easiest", highlight the option in red to recommend they unselect it). they can set "experience mode" (they must answer a question about their experience with cooking by selecting from two options, "beginner/very new to cooking" or "experienced/comfortable following recipes"). they can set "plan mode" (they must answer a question about their cooking routine by selecting from three options, "planned/i plan meals and schedule cooking for most days each week", "unplanned/i choose recipes to cook each week but decide spontaneously when to cook", or "mealprep/i cook higher quantities of food fewer times per week"). For someone who prioritizes limiting their frequency of cooking, the mealprep option should be highlighted to recommend it. if they select the mealprep mode, recipe quantities will also scale up one level accordingly from the household size the user set once the preferences are saved. they can set "substitution mode" (set to "regular/flexible and intuitive" by default, but they can change it to "strict/most technical substitutions only" if they are a passionate chef, or "lenient/lowest waste but highest variance in flavor". the lenient option should be highlighted if they prioritized "low-waste" highest, or they prioritized "cheapest" and "low-waste" as their top 2. the "strict" option should be highlighted if they prioritized "exploration" the highest and "easiest" and "quickest" as the bottom two priorities in either order). the user should also be asked if they show wholesale (yes or no), which will eventually translate to the grocery list having an option to separate "household inventory" restock items into a separate list section for shopping wholesale rather than regular grocery, once the grocery list page has been built.
+
+structure for user preference data:
+
+{
+	id: "shortcut-mode",
+	name: "Shortcut Mode",
+	options: ["on-visible","on-hidden","off-visible","off-hidden"], 
+},
+{
+	id: "substitution-mode",
+	name: "Substitution Mode",
+	options: ["strict","regular","lenient"]
+},
+{
+	id: "plan-mode",
+	name: "Plan Mode",
+	options: ["planned","unplanned","mealprep"]	
+},
+{
+	id: "no-waste-mode",
+	name: "No Waste Mode",
+	options: ["visible","hidden"]
+},
+{
+	id: "experience-mode",
+	name: "Experience Mode",
+	options: ["beginner","experienced"]
+},
+{
+	id: "user-type",
+	name: "User Type",
+	options: ["single-chef","couple-chef","small-household-chef","large-household-chef","single-mealprep","couple-mealprep","small-household-mealprep","large-household-mealprep","single-explorer","couple-explorer","small-household-explorer","large-household-explorer"]
+},
+{
+	id: "recipe-size",
+	name: "Recipe Size",
+	options: ["half","single","double","triple","quadruple"]
+}
+
+// a note about user types: a user's type profile can determine how recipes should be scaled up or down to match the size of their household. recipes are set to couple chef size by default (feeds 2 people, with up to 2 servings leftover). For a single chef and single, recipe quantities should be halfed. For couple chef or single mealprep, recipe should be sized to single. For small household chef or couple mealprep, recipes should be double. For large household chef or small household mealprep, recipes should be tripled. For large household mealprep, recipes should be quadrupled.
+
+// a note about priorities and recipe filters: when setting up their preferences, a user who prioritizes "cheapest" highest should have their recipe selection section sorted from cheapest to most expensive. A user who prioritizes "easiest" and/or "quickest" should have their selection sorted by difficulty from least difficult/time-consuming to most. A user who prioritizes "exploration" lowest, such as a pickier eater, should have recipes filtered for most conventional cuisines (avoiding recipes that use "international-market" ingredients, which would require separate trips to special markets). A user who prioritizes "low-waste" and "cheapest" as their two highest priorities in either order should have the optional "use up ingredients" step always visible on their main page, and they should have "lenient" substitution mode recommended to them when setting their preferences.
+
+// Meal Planning Page:
+
+// the meal planning page should have a section that shows a view of the recipe library (not editable this time) with the option to open the filters panel and filter or sort the recipes (recipes will already likely be sorted according to some of the user's preferences, but if none are set yet, they may be alphabetized). Each recipe should have a 'view' button and a 'select' button, so the user can open up the recipe and view it (again, non-editable this time, but the user can view a shortcut version of the recipe or show substitutions for each ingredient that has a possible substitute). if the user 'selects' a recipe, it should be added to the second section of the meal planning page, which will be the weekly calendar (or two weeks, if the user changed their preferences to shop only once every 2 weeks). If the user set their preferences to 'planned', the weekly calendar section can be separated into individual days, and the selected meal will appear in whichever day the user had selected (monday by default), or if the user has their preferences set to 'unplanned' or 'mealprep', there won't be subdivisions for days, just the 'shopping day', and the selected recipes can be tiled in the undivided segment representing the rest of the week. if the 'shopping day' set in the user preferences is not sunday, please move the weekly calendar such that whichever day is the shopping day appears first, so that the remaining days until the following week's 'shopping day' can fall in an unsegmented section after the shopping day. when a 'main dish' recipe is added to the weekly calendar, it should include the option to add sides (any 'recommended-sides' included in that recipe's object will be in a list the user can select 1 or more from to add along with the main dish). by default, the 'filters' should be set to only show main dishes' but can be switched to show only 'extras' (snacks, desserts, breakfasts, sides, drinks, etc) or 'all' (showing all recipes).
+
+// still need to add: 
+// color scheme/images
+// recipe citations/sources
+// review code
