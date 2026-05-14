@@ -19,15 +19,17 @@ const SORT_ORDERS = {
   difficulty:      { easy: 0, moderate: 1, difficult: 2 },
   priceLevel:      { cheap: 0, mid: 1, expensive: 2 },
   timeRequirement: { short: 0, medium: 1, long: 2 },
+  // caloriesPerServing is numeric — no mapping needed; handled in sort logic
 }
 
 const PRIORITY_TO_BADGE = {
-  cheapest:    (r) => r.priceLevel      ? { label: r.priceLevel,      type: 'price'      } : null,
-  quickest:    (r) => r.timeRequirement ? { label: r.timeRequirement, type: 'time'       } : null,
-  easiest:     (r) => r.difficulty      ? { label: r.difficulty,      type: 'difficulty' } : null,
-  exploration: (r) => r.cuisine         ? { label: r.cuisine,         type: 'cuisine'    } : null,
-  frequency:   (r) => r.mealprepIdeal === 'yes' ? { label: 'Meal Prep ✓', type: 'mealprep' } : null,
+  cheapest:    (r) => r.priceLevel         ? { label: r.priceLevel,                      type: 'price'      } : null,
+  quickest:    (r) => r.timeRequirement    ? { label: r.timeRequirement,                 type: 'time'       } : null,
+  easiest:     (r) => r.difficulty         ? { label: r.difficulty,                      type: 'difficulty' } : null,
+  exploration: (r) => r.cuisine            ? { label: r.cuisine,                         type: 'cuisine'    } : null,
+  frequency:   (r) => r.mealprepIdeal === 'yes' ? { label: 'Meal Prep ✓',               type: 'mealprep'   } : null,
   'low-waste': ()  => null,
+  healthy:     (r) => r.caloriesPerServing ? { label: `${r.caloriesPerServing} cal`,     type: 'calories'   } : null,
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -40,9 +42,10 @@ function orderedDays(shopDay) {
 
 function defaultSortFromPriorities(ranked) {
   const top = ranked?.[0]
-  if (top === 'cheapest') return { field: 'priceLevel',      dir: 'asc' }
-  if (top === 'easiest')  return { field: 'difficulty',      dir: 'asc' }
-  if (top === 'quickest') return { field: 'timeRequirement', dir: 'asc' }
+  if (top === 'cheapest') return { field: 'priceLevel',         dir: 'asc' }
+  if (top === 'easiest')  return { field: 'difficulty',         dir: 'asc' }
+  if (top === 'quickest') return { field: 'timeRequirement',    dir: 'asc' }
+  if (top === 'healthy')  return { field: 'caloriesPerServing', dir: 'asc' }
   return null
 }
 
@@ -125,6 +128,9 @@ function RecipeViewModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
             {scaled.servings && (
               <div className="modal-info-servings">
                 🍽 {scaled.servings} {scaled.servings === 1 ? 'serving' : 'servings'}
+                {recipe.caloriesPerServing && (
+                  <span className="modal-info-calories">~{recipe.caloriesPerServing} cal/serving</span>
+                )}
               </div>
             )}
           </div>
@@ -767,8 +773,9 @@ export default function MealPlanning() {
     if (sortBy) {
       const order = SORT_ORDERS[sortBy]
       list.sort((a, b) => {
-        const av = order[a[sortBy]] ?? 0
-        const bv = order[b[sortBy]] ?? 0
+        // Numeric fields (e.g. caloriesPerServing) are sorted directly
+        const av = order ? (order[a[sortBy]] ?? 999) : (a[sortBy] ?? 999)
+        const bv = order ? (order[b[sortBy]] ?? 999) : (b[sortBy] ?? 999)
         return sortDir === 'asc' ? av - bv : bv - av
       })
     } else {
@@ -1091,9 +1098,10 @@ export default function MealPlanning() {
               <div className="filter-row">
                 <span className="filter-label">Sort by:</span>
                 {[
-                  { field: 'difficulty',      label: 'Difficulty' },
-                  { field: 'priceLevel',      label: 'Price' },
-                  { field: 'timeRequirement', label: 'Time' },
+                  { field: 'difficulty',         label: 'Difficulty' },
+                  { field: 'priceLevel',         label: 'Price' },
+                  { field: 'timeRequirement',    label: 'Time' },
+                  { field: 'caloriesPerServing', label: 'Calories' },
                 ].map(({ field, label }) => (
                   <button
                     key={field}

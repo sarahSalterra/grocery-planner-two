@@ -130,6 +130,11 @@ export const PRIORITIES = [
     label: "Low Waste",
     desc: "Use up ingredients and avoid clutter or spoilage",
   },
+  {
+    id: "healthy",
+    label: "Healthiness",
+    desc: "Prefer lighter, lower-calorie meals",
+  },
 ]
 
 export const DEFAULT_PRIORITIES_RANKED = PRIORITIES.map((p) => p.id)

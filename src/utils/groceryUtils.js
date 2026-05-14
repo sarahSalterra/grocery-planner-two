@@ -19,7 +19,7 @@ import { DEPARTMENTS }       from '../db/data/filterOptions'
 import { getAllergyOmitIds, DIETARY_MODE_FIELD } from './dietaryUtils'
 import { scaleRecipe, parseQtyStr } from './recipeUtils'
 
-const DEPT_LABELS = {
+export const DEPT_LABELS = {
   produce:   'Produce',
   pantry:    'Pantry',
   deli:      'Deli',
@@ -111,6 +111,47 @@ function _buildGroceryList(preferences, recipesMap, ingredientsMap, goodsMap) {
         return
       }
 
+      // ── Recipe-as-ingredient: expand sub-recipe inline ──────────────────────
+      if (recipesMap[ing.ingredientId]) {
+        const subRecipe = recipesMap[ing.ingredientId]
+        const fraction  = parseQtyStr(ing.quantity) // e.g. 0.5 = half a batch
+        const subScaled = scaleRecipe(subRecipe, recipeSize)
+        const subOmit   = getAllergyOmitIds(subRecipe, ingredientsMap, allergyList)
+
+        ;(subScaled.ingredients ?? []).forEach((subIng) => {
+          if (confirmed.has(subIng.ingredientId)) return
+          if (subOmit.has(subIng.ingredientId))   return
+
+          const subData    = ingredientsMap[subIng.ingredientId]
+          const subDietRaw = dietaryField && subData ? subData[dietaryField] : null
+          const subDietSub = (subDietRaw && subDietRaw !== 'n/a' && subDietRaw !== 'none')
+            ? subDietRaw
+            : null
+
+          const subDisplayName = subDietSub ?? subData?.name ?? subIng.ingredientId
+          const subSlug = subDietSub
+            ? subDietSub.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+            : null
+          const subKey = subSlug
+            ? `ing_${subSlug}_${subIng.unit}`
+            : `ing_${subIng.ingredientId}_${subIng.unit}`
+
+          if (!ingAgg[subKey]) {
+            ingAgg[subKey] = {
+              key:        subKey,
+              id:         subSlug ?? subIng.ingredientId,
+              name:       subDisplayName,
+              department: subData?.department ?? 'pantry',
+              qty:        0,
+              unit:       subIng.unit,
+              atLeast:    false,
+            }
+          }
+          ingAgg[subKey].qty += parseQtyStr(subIng.quantity) * fraction
+        })
+        return
+      }
+
       const data = ingredientsMap[ing.ingredientId]
       const dietaryRaw = dietaryField && data ? data[dietaryField] : null
       const dietarySub = (dietaryRaw && dietaryRaw !== 'n/a' && dietaryRaw !== 'none')
@@ -145,7 +186,12 @@ function _buildGroceryList(preferences, recipesMap, ingredientsMap, goodsMap) {
   const standaloneGoods = []
 
   for (const goodId of restockIds) {
+    // Fall back to ingredientsMap for IDs that were stored from an ingredient
+    // name-match before the fix that auto-registers them as household goods.
     const good = goodsMap[goodId]
+      ?? (ingredientsMap[goodId]
+        ? { id: goodId, name: ingredientsMap[goodId].name, department: ingredientsMap[goodId].department }
+        : null)
     if (!good) continue
 
     if (isWholesale) {

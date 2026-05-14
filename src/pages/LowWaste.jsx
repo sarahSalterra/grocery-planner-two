@@ -74,7 +74,7 @@ export default function LowWaste() {
     if (selectedIngredientIds.size === 0) return []
     return recipes.filter((recipe) => {
       if (allergyList.length && isRecipeAllergyExcluded(recipe, ingredientsMap, allergyList)) return false
-      return recipe.ingredients.some((ing) => selectedIngredientIds.has(ing.ingredientId))
+      return (recipe.ingredients ?? []).some((ing) => selectedIngredientIds.has(ing.ingredientId))
     })
   }, [recipes, ingredientsMap, allergyList, selectedIngredientIds])
 

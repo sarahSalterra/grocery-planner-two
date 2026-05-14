@@ -46,8 +46,9 @@ const DEFAULT_RECIPES = [
     timeRequirement: "medium",
     multiTasking: "possible",
     mealprepIdeal: "yes",
-    shortcutReplaces: "fresh chicken, roasted → rotisserie chicken; homemade green sauce → store-bought tomatillo salsa",
+    shortcutReplaces: "fresh chicken → rotisserie chicken; homemade green sauce → store-bought tomatillo salsa",
     servings: 4,
+    caloriesPerServing: 520,
     timeToComplete: [
       { phase: "prep", minutes: 40 },
       { phase: "bake", minutes: 25 },
@@ -96,8 +97,9 @@ const DEFAULT_RECIPES = [
     timeRequirement: "medium",
     multiTasking: "possible",
     mealprepIdeal: "yes",
-    shortcutReplaces: "fresh chicken, roasted → rotisserie chicken; homemade red sauce → store-bought red enchilada sauce",
+    shortcutReplaces: "fresh chicken → rotisserie chicken; homemade red sauce → store-bought red enchilada sauce",
     servings: 4,
+    caloriesPerServing: 510,
     timeToComplete: [
       { phase: "prep", minutes: 40 },
       { phase: "bake", minutes: 25 },
@@ -146,8 +148,9 @@ const DEFAULT_RECIPES = [
     timeRequirement: "medium",
     multiTasking: "possible",
     mealprepIdeal: "yes",
-    shortcutReplaces: "fresh chicken, roasted → rotisserie chicken",
+    shortcutReplaces: "fresh chicken → rotisserie chicken",
     servings: 4,
+    caloriesPerServing: 580,
     timeToComplete: [
       { phase: "prep", minutes: 40 },
       { phase: "bake", minutes: 25 },
@@ -197,16 +200,17 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "no",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 480,
     timeToComplete: [
       { phase: "prep", minutes: 15 },
       { phase: "cook", minutes: 15 },
     ],
 
     ingredients: [
-      { ingredientId: "chicken-breast",     quantity: "3",   unit: "lb",     shortcutSubstitute: "none" },
+      { ingredientId: "chicken-breast",     quantity: "2",   unit: "lb",     shortcutSubstitute: "none" },
       { ingredientId: "cremini-mushrooms",          quantity: "1",   unit: "cup",    shortcutSubstitute: "none" },
-      { ingredientId: "red-bell-pepper",    quantity: "1.5", unit: "whole",  shortcutSubstitute: "none" },
-      { ingredientId: "green-bell-pepper",  quantity: "1.5", unit: "whole",  shortcutSubstitute: "none" },
+      { ingredientId: "red-bell-pepper",    quantity: "1", unit: "whole",  shortcutSubstitute: "none" },
+      { ingredientId: "green-bell-pepper",  quantity: "1", unit: "whole",  shortcutSubstitute: "none" },
       { ingredientId: "brown-onion",              quantity: "0.5", unit: "whole",  shortcutSubstitute: "none" },
       { ingredientId: "sour-cream",         quantity: "1",   unit: "cup",    shortcutSubstitute: "none" },
       { ingredientId: "guerrero-tortillas", quantity: "10",  unit: "whole",  shortcutSubstitute: "none" },
@@ -246,6 +250,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 8,
+    caloriesPerServing: 430,
     timeToComplete: [
       { phase: "prep", minutes: 15 },
       { phase: "cook", minutes: 360 },
@@ -293,6 +298,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "no",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 460,
     timeToComplete: [
       { phase: "prep",     minutes: 15 },
       { phase: "marinate", minutes: 30 },
@@ -349,6 +355,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: "homemade taco spice blend → taco seasoning packet",
     servings: 4,
+    caloriesPerServing: 450,
     timeToComplete: [
       { phase: "prep", minutes: 5 },
       { phase: "cook", minutes: 15 },
@@ -385,6 +392,111 @@ const DEFAULT_RECIPES = [
     ],
   },
 
+    // ── Chicken Tortilla Soup ────────────────────────────────────────────────────────────
+
+  {
+    id: "chicken-tortilla-soup",
+    name: "Chicken Tortilla Soup",
+    cuisine: "Mexican",
+    dishType: "main",
+    difficulty: "easy",
+    priceLevel: "cheap",
+    timeRequirement: "short",
+    multiTasking: "possible",
+    mealprepIdeal: "yes",
+    shortcutReplaces: "fresh chicken → rotisserie chicken",
+    servings: 4,
+    caloriesPerServing: 380,
+    timeToComplete: [
+      { phase: "prep", minutes: 5 },
+      { phase: "cook", minutes: 25 },
+    ],
+
+    ingredients: [
+      { ingredientId: "chicken-breast",        quantity: "2",   unit: "lb",     shortcutSubstitute: "rotisserie-chicken" },
+      { ingredientId: "brown-onion",        quantity: "0.5",   unit: "whole",    shortcutSubstitute: "none" },
+      { ingredientId: "garlic",        quantity: "3",   unit: "clove",    shortcutSubstitute: "none" },
+      { ingredientId: "jalapeno",        quantity: "1",   unit: "whole",    shortcutSubstitute: "none" },
+      { ingredientId: "orange-bell-pepper",        quantity: "1",   unit: "whole",    shortcutSubstitute: "none" },
+      { ingredientId: "diced-tomato",        quantity: "7",   unit: "oz",    shortcutSubstitute: "none" },
+      { ingredientId: "black-beans",        quantity: "7",   unit: "oz",    shortcutSubstitute: "none" },
+      { ingredientId: "pinto-beans",        quantity: "7",   unit: "oz",    shortcutSubstitute: "frozen-corn" },
+      { ingredientId: "fresh-corn",        quantity: "4",   unit: "cobb",    shortcutSubstitute: "none" },
+      { ingredientId: "505-green-chili",        quantity: "2",   unit: "tbsp",    shortcutSubstitute: "none" },
+      { ingredientId: "chicken-stock",        quantity: "4",   unit: "cup",    shortcutSubstitute: "none" },
+      { ingredientId: "chili-powder",       quantity: "1",   unit: "tbsp",   shortcutSubstitute: "taco-seasoning-packet" },
+      { ingredientId: "ground-cumin",              quantity: "1.5", unit: "tsp",    shortcutSubstitute: "omit" },
+      { ingredientId: "paprika",            quantity: "1",   unit: "tsp",    shortcutSubstitute: "omit" },
+      { ingredientId: "cayenne",            quantity: "0.25",unit: "tsp",    shortcutSubstitute: "omit" },
+      { ingredientId: "salt",              quantity: "0.5", unit: "tsp",    shortcutSubstitute: "omit" },
+      { ingredientId: "cilantro",           quantity: "1",   unit: "cup",    shortcutSubstitute: "none" },
+      { ingredientId: "lime",              quantity: "1",   unit: "whole",  shortcutSubstitute: "none" },
+      { ingredientId: "tortilla-chips",     quantity: "1",   unit: "cup",    shortcutSubstitute: "none" },
+      { ingredientId: "avocado",            quantity: "1",   unit: "whole",  shortcutSubstitute: "guacamole-storebought" },
+      { ingredientId: "sour-cream",         quantity: "1", unit: "cup",    shortcutSubstitute: "none" },
+      { ingredientId: "cheddar-cheese",     quantity: "1", unit: "cup",    shortcutSubstitute: "none" },
+    ],
+
+    steps: [
+      { name: "Cook chicken",      text: "Coat a skillet with oil and heat on the stove to medium-high heat. Trim the raw chicken of excess fat and skin. Add the chicken to the skillet, as well as the corn (in separate batches if necessary) and cook until browned on both sides, seasoning with salt and pepper. Cook for about 5 minutes per side and remove from heat. Shred the meat once cooled and cut the corn from the cobbs.", shortcutText: "Shred the meat from a store-bought rotisserie chicken and set aside." },
+      { name: "Sauté vegetables",            text: "Sauté the onion, garlic, jalapeno, and orange bell pepper in a pot over medium heat until softened (about 5 minutes), then add the diced tomato, drained and rinsed black beans, drained pinto beans, green chili, and corn.", shortcutText: "no-shortcut" },
+      { name: "Simmer & toppings",             text: "Add the shredded chicken, chicken stock, chili powder, cumin, paprika, cayenne, and salt to taste. Simmer for 15-20 minutes, stirring occasionally and adding the sour cream and grated cheese (if desired) after the first 10 minutes. Serve with tortilla chips, cilantro, avocado, and lime if desired.", shortcutText: "no-shortcut" },
+    ],
+
+    recommendedSides: ["guacamole-snack"],
+    suggestedExtras: [
+      { itemId: "guerrero-tortillas", quantity: "1", unit: "cup" },
+    ],
+  },
+
+      // ── Pork Green Chili ────────────────────────────────────────────────────────────
+
+      {
+        id: "pork-green-chili",
+        name: "Pork Green Chili",
+        cuisine: "Mexican",
+        dishType: "main",
+        difficulty: "easy",
+        priceLevel: "medium",
+        timeRequirement: "short",
+        multiTasking: "possible",
+        mealprepIdeal: "yes",
+        shortcutReplaces: "fresh pork shoulder roast → pre-cooked pulled pork",
+        servings: 4,
+        caloriesPerServing: 420,
+        timeToComplete: [
+          { phase: "prep", minutes: 5 },
+          { phase: "cook", minutes: 25 },
+        ],
+    
+        ingredients: [
+          { ingredientId: "pork-shoulder",        quantity: "2",   unit: "lb",     shortcutSubstitute: "pulled-pork" },
+          { ingredientId: "olive-oil",        quantity: "2",   unit: "tbsp",    shortcutSubstitute: "none" },
+          { ingredientId: "chicken-stock",        quantity: "1",   unit: "cup",    shortcutSubstitute: "none" },
+          { ingredientId: "brown-onion",        quantity: "0.5",   unit: "whole",    shortcutSubstitute: "none" },
+          { ingredientId: "garlic",        quantity: "3",   unit: "clove",    shortcutSubstitute: "none" },
+          { ingredientId: "pinto-beans",        quantity: "7",   unit: "oz",    shortcutSubstitute: "frozen-corn" },
+          { ingredientId: "505-green-chili-sauce",        quantity: "3",   unit: "oz",    shortcutSubstitute: "none" },
+          { ingredientId: "salt",              quantity: "0.5", unit: "tsp",    shortcutSubstitute: "omit" },
+          { ingredientId: "cilantro",           quantity: "1",   unit: "cup",    shortcutSubstitute: "none" },
+          { ingredientId: "lime",              quantity: "1",   unit: "whole",  shortcutSubstitute: "none" },
+          { ingredientId: "guerrero-tortillas",     quantity: "1",   unit: "cup",    shortcutSubstitute: "none" },
+          { ingredientId: "avocado",            quantity: "1",   unit: "whole",  shortcutSubstitute: "guacamole-storebought" },
+          { ingredientId: "sour-cream",         quantity: "1", unit: "cup",    shortcutSubstitute: "none" },
+          { ingredientId: "cheddar-cheese",     quantity: "1", unit: "cup",    shortcutSubstitute: "none" },
+        ],
+    
+        steps: [
+          { name: "Cook pork",        text: "Pour the olive oil into a slow cooker. Rub the salt and minced garlic onto the pork, and place the pork into the slow cooker. Pour the chicken stock and diced onion into the slow cooker. Cover and cook on high for 5-6 hours until the pork is tender. Pull the pork apart with two forks, and return to the juices, adding the green chili and drained pinto beans.", shortcutText: "Separate the meat from a store-bought pulled pork, and combine it in a soup pot with the green chili, drained pinto beans, diced onion, garlic, and salt to taste." },
+          { name: "Heat and serve",            text: "Bring the chili to a gentle simmer to ensure the green chili is thoroughly warmed, then serve with tortillas and any other desired toppings (avocado, cilantro, lime, sour cream, or cheese).", shortcutText: "no-shortcut" },
+        ],
+    
+        recommendedSides: ["elote", "spanish-rice", "guacamole-snack", "red-salsa"],
+        suggestedExtras: [
+          { itemId: "refried-beans", quantity: "1", unit: "cup" },
+        ],
+      },
+
   // ── Spanish Rice ──────────────────────────────────────────────────────────
   {
     id: "spanish-rice",
@@ -398,6 +510,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 220,
     timeToComplete: [
       { phase: "prep", minutes: 5 },
       { phase: "cook", minutes: 20 },
@@ -431,13 +544,14 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "no",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 180,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 10 },
     ],
 
     ingredients: [
-      { ingredientId: "fresh-corn",               quantity: "4",   unit: "cob",  shortcutSubstitute: "frozen-corn" },
+      { ingredientId: "fresh-corn",               quantity: "4",   unit: "cobb",  shortcutSubstitute: "frozen-corn" },
       { ingredientId: "salted-butter",             quantity: "2",   unit: "tbsp",   shortcutSubstitute: "none" },
       { ingredientId: "tajin-mayo",         quantity: "0.5",unit: "tbsp",    shortcutSubstitute: "none" },
       { ingredientId: "queso-fresco",       quantity: "3", unit: "tbsp",    shortcutSubstitute: "none" },
@@ -469,6 +583,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "no",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 150,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
     ],
@@ -504,6 +619,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "no",
     shortcutReplaces: null,
     servings: 6,
+    caloriesPerServing: 35,
     timeToComplete: [
       { phase: "prep",  minutes: 10 },
       { phase: "chill", minutes: 15 },
@@ -540,6 +656,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "no",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 420,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 15 },
@@ -582,6 +699,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: "homemade tomato sauce with herbs → jarred spaghetti sauce",
     servings: 4,
+    caloriesPerServing: 580,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
@@ -630,6 +748,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 620,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
@@ -673,6 +792,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: "fresh chicken, roasted → rotisserie chicken",
     servings: 4,
+    caloriesPerServing: 560,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
@@ -720,6 +840,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 8,
+    caloriesPerServing: 650,
     timeToComplete: [
       { phase: "prep", minutes: 40 },
       { phase: "bake", minutes: 35 },
@@ -769,6 +890,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "no",
     shortcutReplaces: "fresh chicken, roasted → rotisserie chicken; homemade Alfredo sauce → jarred Alfredo sauce",
     servings: 4,
+    caloriesPerServing: 700,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
@@ -814,6 +936,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 580,
     timeToComplete: [
       { phase: "prep", minutes: 20 },
       { phase: "bake", minutes: 25 },
@@ -859,6 +982,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: "fresh chicken, roasted → rotisserie chicken",
     servings: 4,
+    caloriesPerServing: 640,
     timeToComplete: [
       { phase: "prep", minutes: 40 },
       { phase: "cook", minutes: 30 },
@@ -896,6 +1020,47 @@ const DEFAULT_RECIPES = [
     ],
   },
 
+  // ── Green Bean Casserole ─────────────────────────────────────────────
+  {
+    id: "green-bean-casserole",
+    name: "Green Bean Casserole",
+    cuisine: "American",
+    dishType: "side",
+    difficulty: "easy",
+    priceLevel: "cheap",
+    timeRequirement: "medium",
+    multiTasking: "unlikely",
+    mealprepIdeal: "yes",
+    shortcutReplaces: "fresh green beans → frozen green beans; homemade alfredo sauce → store-bought alfredo sauce",
+    servings: 4,
+    caloriesPerServing: 190,
+    timeToComplete: [
+      { phase: "prep", minutes: 40 },
+      { phase: "cook", minutes: 30 },
+    ],
+
+    ingredients: [
+      { ingredientId: "fresh-green-beans",     quantity: "1", unit: "lb",  shortcutSubstitute: "frozen green beans" },
+      { ingredientId: "parmesan-cheese",    quantity: "1",   unit: "cup",    shortcutSubstitute: "omit" },
+      { ingredientId: "garlic",             quantity: "3",   unit: "clove",  shortcutSubstitute: "omit" },
+      { ingredientId: "baby-bella-mushrooms",    quantity: "1",   unit: "cup",    shortcutSubstitute: "none" },
+      { ingredientId: "heavy-whipping-cream",quantity: "0.5",unit: "cup",    shortcutSubstitute: "jarred-alfredo-sauce" },
+      { ingredientId: "salted-butter",             quantity: "4",   unit: "tbsp",   shortcutSubstitute: "omit" },
+      { ingredientId: "all-purpose-flour",              quantity: "2",   unit: "tbsp",   shortcutSubstitute: "omit" },
+      { ingredientId: "salt",                quantity: "1",   unit: "tsp",    shortcutSubstitute: "none" },
+      { ingredientId: "black-pepper",              quantity: "0.5", unit: "tsp",    shortcutSubstitute: "none" },
+      { ingredientId: "crispy-onions",              quantity: "1",   unit: "cup",    shortcutSubstitute: "none" },
+    ],
+
+    steps: [
+      { name: "Cook green beans",        text: "Fill a pot half to 3/4 full of water and bring to a boil (or use a steamer basket). Boil or steam the green beans until tender (about 5 minutes). Drain and put into a casserole or baking dish.", shortcutText: "Thaw frozen green beans if desired, otherwise add 5 minutes to the casserole bake time. Put the green beans into a casserole or baking dish." },
+      { name: "Mushroom alfredo sauce",        text: "Melt butter in a saucepan over medium heat. Sauté minced garlic briefly in the butter, then whisk in the flour. Slowly add cream and parmesan cheese and simmer until thickened, stirring frequently until melted. Add salt and pepper to taste, and mix in the mushrooms. Then pour the sauce over the green beans and toss gently to coat evenly. Top with the crispy onions.", shortcutText: "Pour the jarred alfredo sauce over the green beans, add the mushrooms, and toss gently to coat evenly, seasoning with salt and black pepper if desired. Top with the crispy onions." },
+      { name: "Bake",      text: "Bake at 375°F for 20–25 minutes until bubbly and the onions are golden brown. Remove from oven and let rest for 5 minutes before serving.", shortcutText: "no-shortcut" },
+    ],
+
+    recommendedSides: [],
+  },
+
   // ── Chicken Minestrone ────────────────────────────────────────────────────
   {
     id: "minestrone",
@@ -909,6 +1074,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: "fresh chicken, roasted → rotisserie chicken",
     servings: 6,
+    caloriesPerServing: 260,
     timeToComplete: [
       { phase: "prep", minutes: 15 },
       { phase: "cook", minutes: 20 },
@@ -956,6 +1122,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 6,
+    caloriesPerServing: 380,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 25 },
@@ -1006,6 +1173,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 8,
+    caloriesPerServing: 520,
     timeToComplete: [
       { phase: "prep", minutes: 15 },
       { phase: "bake", minutes: 55 },
@@ -1053,6 +1221,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 480,
     timeToComplete: [
       { phase: "prep", minutes: 15 },
       { phase: "cook", minutes: 150 },
@@ -1098,6 +1267,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: "homemade taco spice blend → taco seasoning packet",
     servings: 4,
+    caloriesPerServing: 420,
     timeToComplete: [
       { phase: "prep", minutes: 25 },
       { phase: "bake", minutes: 20 },
@@ -1146,6 +1316,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 490,
     timeToComplete: [
       { phase: "prep", minutes: 5 },
       { phase: "cook", minutes: 15 },
@@ -1187,6 +1358,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "no",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 520,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
@@ -1227,6 +1399,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "no",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 450,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 10 },
@@ -1272,6 +1445,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 400,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
@@ -1318,6 +1492,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: "fresh chicken, roasted → rotisserie chicken",
     servings: 4,
+    caloriesPerServing: 580,
     timeToComplete: [
       { phase: "prep", minutes: 40 },
       { phase: "bake", minutes: 35 },
@@ -1364,6 +1539,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "no",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 540,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
@@ -1406,6 +1582,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: "fresh chicken, roasted → rotisserie chicken",
     servings: 6,
+    caloriesPerServing: 460,
     timeToComplete: [
       { phase: "prep", minutes: 20 },
       { phase: "cook", minutes: 45 },
@@ -1464,6 +1641,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: "fresh chicken, roasted → rotisserie chicken",
     servings: 6,
+    caloriesPerServing: 310,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 25 },
@@ -1507,6 +1685,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 6,
+    caloriesPerServing: 380,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 30 },
@@ -1552,6 +1731,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: "fresh chicken, roasted → rotisserie chicken",
     servings: 4,
+    caloriesPerServing: 440,
     timeToComplete: [
       { phase: "prep", minutes: 20 },
       { phase: "cook", minutes: 45 },
@@ -1596,6 +1776,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 6,
+    caloriesPerServing: 290,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 30 },
@@ -1644,6 +1825,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 250,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
@@ -1668,6 +1850,131 @@ const DEFAULT_RECIPES = [
     recommendedSides: [],
   },
 
+  // ── Sweet Potato Casserole ───────────────────────────────────────────────────────
+  {
+    id: "sweet-potato-casserole",
+    name: "Sweet Potato Casserole",
+    cuisine: "American",
+    dishType: "side",
+    difficulty: "moderate",
+    priceLevel: "cheap",
+    timeRequirement: "medium",
+    multiTasking: "possible",
+    mealprepIdeal: "yes",
+    shortcutReplaces: null,
+    servings: 4,
+    caloriesPerServing: 320,
+    timeToComplete: [
+      { phase: "prep", minutes: 10 },
+      { phase: "cook", minutes: 20 },
+    ],
+
+    ingredients: [
+      { ingredientId: "sweet-potatoes",           quantity: "4",   unit: "whole",  shortcutSubstitute: "canned sweet potatoes" },
+      { ingredientId: "brown-sugar",        quantity: "0.25",unit: "cup",    shortcutSubstitute: "none" },
+      { ingredientId: "whole-milk",              quantity: "0.5", unit: "cup",    shortcutSubstitute: "omit" },
+      { ingredientId: "pecans",         quantity: "0.5", unit: "cup",    shortcutSubstitute: "none" },
+      { ingredientId: "salt",                quantity: "1",   unit: "tsp",    shortcutSubstitute: "none" },
+      { ingredientId: "black-pepper",              quantity: "0.5", unit: "tsp",    shortcutSubstitute: "none" },
+      { ingredientId: "salted-butter",             quantity: "8",   unit: "tbsp",   shortcutSubstitute: "none" },
+      { ingredientId: "marshmallows",         quantity: "1", unit: "cup",    shortcutSubstitute: "none" },
+    ],
+
+    steps: [
+      { name: "Boil sweet potatoes",     text: "Peel and cube sweet potatoes. Boil in salted water until fork-tender, about 15–20 minutes, then drain.", shortcutText: "If using canned sweet potatoes, drain and rinse them. Otherwise, peel (if desired) and cube the sweet potatoes. Boil in salted water until fork-tender, about 15–20 minutes, then drain." },
+      { name: "Mash sweet potatoes",              text: "Mash with salt, pepper, butter, milk, salt, and black pepper if desired, until smooth and creamy. Transfer to a greased casserole or baking dish.", shortcutText: "Leave the sweet potatoes cubed rather than mashing them, and transfer to a greased casserole or baking dish, pouring melted butter over the top as evenly as possible." },
+      { name: "Toppings and bake",        text: "Sprinkle the brown sugar, pecans, and marshmallows (if desired) over the sweet potatoes, and bake at 375°F for 20–25 minutes until bubbly and golden, then serve.", shortcutText: "no-shortcut" },
+    ],
+
+    recommendedSides: [],
+  },
+
+  // ── Loaded Baked Potato Salad ───────────────────────────────────────────────────────
+  {
+    id: "loaded-baked-potato-salad",
+    name: "Loaded Baked Potato Salad",
+    cuisine: "American",
+    dishType: "side",
+    difficulty: "easy",
+    priceLevel: "cheap",
+    timeRequirement: "short",
+    multiTasking: "unlikely",
+    mealprepIdeal: "yes",
+    shortcutReplaces: null,
+    servings: 4,
+    caloriesPerServing: 340,
+    timeToComplete: [
+      { phase: "prep", minutes: 25 },
+      { phase: "cook", minutes: 10 },
+    ],
+
+    ingredients: [
+      { ingredientId: "red-potatoes",           quantity: "4",   unit: "whole",  shortcutSubstitute: "none" },
+      { ingredientId: "bacon",             quantity: "0.5",   unit: "lb",   shortcutSubstitute: "none" },
+      { ingredientId: "celery",              quantity: "1", unit: "stalk",    shortcutSubstitute: "none" },
+      { ingredientId: "red-onion",              quantity: "0.25", unit: "whole",    shortcutSubstitute: "none" },
+      { ingredientId: "eggs",              quantity: "4", unit: "whole",    shortcutSubstitute: "none" },
+      { ingredientId: "green-onions",              quantity: "0.25", unit: "bunch",    shortcutSubstitute: "none" },
+      { ingredientId: "mayonnaise",              quantity: "0.5", unit: "cup",    shortcutSubstitute: "none" },
+      { ingredientId: "sour-cream",         quantity: "0.5", unit: "cup",    shortcutSubstitute: "omit" },
+      { ingredientId: "cheddar-cheese",     quantity: "0.5", unit: "cup",    shortcutSubstitute: "none" },
+      { ingredientId: "apple-cider-vinegar",quantity: "1",   unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "poupon-mustard",     quantity: "1",   unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "paprika",            quantity: "0.5", unit: "tsp",    shortcutSubstitute: "none" },
+      { ingredientId: "cayenne",            quantity: "0.25", unit: "tsp",    shortcutSubstitute: "none" },
+      { ingredientId: "salt",                quantity: "1",   unit: "tsp",    shortcutSubstitute: "none" },
+      { ingredientId: "black-pepper",              quantity: "0.5", unit: "tsp",    shortcutSubstitute: "none" },
+    ],
+
+    steps: [
+      { name: "Cook bacon",        text: "Cook bacon until crispy (you may use a skillet on medium-high heat or bake in the oven at 400°F for 15–20 minutes). Cook the potatoes and eggs while waiting for the bacon, but keep a close eye on the bacon to not let it burn. Once cooled, chop the bacon and set aside.", shortcutText: "no-shortcut" },
+      { name: "Boil potatoes and eggs",     text: "Cube the potatoes (peeling only if desired). Fill a pot with water and bring to a boil. Hard-boil the eggs (about 10 minutes), then transfer to an ice bath or bowl of cold water to cool. Boil the potatoes in salted water until soft, about 15 minutes, then dain and allow to cool.", shortcutText: "no-shortcut" },
+      { name: "Combine",              text: "Chop the celery, red onion, and green onion, and peel and chop the eggs. In a large bowl, mix the mayonnaise, sour cream, apple cider vinegar, poupon mustard, paprika, cayenne, salt, and pepper until well combined. Gently mix in the eggs, bacon, celery, red onion, grated cheese, and chopped potatoes until combined, then serve", shortcutText: "no-shortcut" },
+    ],
+
+    recommendedSides: [],
+  },
+
+// ── Cornbread Stuffing ────────────────────────────────────────────────────────
+{
+  id: "cornbread-stuffing",
+  name: "Cornbread Stuffing",
+  cuisine: "American",
+  dishType: "side",
+  difficulty: "moderate",
+  priceLevel: "mid",
+  timeRequirement: "long",
+  multiTasking: "possible",
+  mealprepIdeal: "yes",
+  shortcutReplaces: "skip the stale process for cornbread",
+  servings: 6,
+  caloriesPerServing: 280,
+  timeToComplete: [
+    { phase: "prep", minutes: 240 },
+    { phase: "bake", minutes: 25 },
+  ],
+
+  ingredients: [
+    { ingredientId: "cornbread-cake",           quantity: "0.5", unit: "whole",    shortcutSubstitute: "cornbread-mix" },
+    { ingredientId: "celery",              quantity: "1", unit: "stalk",    shortcutSubstitute: "none" },
+    { ingredientId: "onion",              quantity: "0.25", unit: "whole",    shortcutSubstitute: "none" },
+    { ingredientId: "garlic",              quantity: "3", unit: "clove",    shortcutSubstitute: "none" },
+    { ingredientId: "chicken-stock",              quantity: "3", unit: "cup",    shortcutSubstitute: "none" },
+    { ingredientId: "sweet-italian-sausage",              quantity: "0.5", unit: "lb",    shortcutSubstitute: "none" },
+    { ingredientId: "pecans",              quantity: "0.25",unit: "cup",  shortcutSubstitute: "none" },
+    { ingredientId: "dried-cranberries",      quantity: "2",   unit: "tbsp",   shortcutSubstitute: "none" },
+    { ingredientId: "dried-thyme",      quantity: "1",   unit: "tsp",   shortcutSubstitute: "none" },
+  ],
+
+  steps: [
+    { name: "Prepare cornbread",           text: "Make the cornbread according to the recipe instructions, chop it into pieces, and allow it to sit out and become slightly stale (about 4-6 hours, depending on humidity) while the other ingredients are prepared. Transfer the stale cornbread into a greased casserole or baking dish.", shortcutText: "Chop the cornbread into pieces and put it into a greased casserole or baking dish." },
+    { name: "Sauté sausage and vegetables",           text: "In a large skillet over medium heat, add the diced onion, minced garlic, and chopped celery, and italian sausage, breaking up the sausage and cooking until browned and the vegetables are softened, seasoning with thyme.", shortcutText: "no-shortcut" },
+    { name: "Combine & bake",    text: "Fold the sausage/vegetable mixture and the cranberries and nuts into the stale cornbread. Pour the chicken stock evenly over the mixture, and bake at 375°F for 20–25 minutes until heated thoroughly and golden on top, then serve.", shortcutText: "Bake the chopped cornbread at 375°F for 15-20 minutes, turning it occasionally to dry it out as evenly as possible. Remove from oven, and fold the sausage/vegetable mixture and the cranberries and nuts. Pour the chicken stock evenly over the mixture, and bake at 375°F for 20–25 minutes until heated thoroughly and golden on top, then serve." },
+  ],
+
+  recommendedSides: [],
+},
+
   // ── Cornbread Cake ────────────────────────────────────────────────────────
   {
     id: "cornbread-cake",
@@ -1681,27 +1988,28 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 6,
+    caloriesPerServing: 240,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "bake", minutes: 25 },
     ],
 
     ingredients: [
-      { ingredientId: "cornmeal",           quantity: "0.5", unit: "cup",    shortcutSubstitute: "none" },
-      { ingredientId: "all-purpose-flour",              quantity: "1.5", unit: "cup",    shortcutSubstitute: "none" },
-      { ingredientId: "granulated-sugar",              quantity: "0.5",unit: "cup",  shortcutSubstitute: "none" },
-      { ingredientId: "baking-powder",      quantity: "1",   unit: "tbsp",   shortcutSubstitute: "none" },
-      { ingredientId: "vegetable-oil",      quantity: "0.33",unit: "cup",    shortcutSubstitute: "none" },
-      { ingredientId: "salted-butter",             quantity: "3",   unit: "tbsp",   shortcutSubstitute: "none" },
-      { ingredientId: "honey",              quantity: "1",   unit: "tbsp",   shortcutSubstitute: "none" },
+      { ingredientId: "cornmeal",           quantity: "0.5", unit: "cup",    shortcutSubstitute: "cornbread-mix" },
+      { ingredientId: "all-purpose-flour",              quantity: "1.5", unit: "cup",    shortcutSubstitute: "omit" },
+      { ingredientId: "granulated-sugar",              quantity: "0.5",unit: "cup",  shortcutSubstitute: "omit" },
+      { ingredientId: "baking-powder",      quantity: "1",   unit: "tbsp",   shortcutSubstitute: "omit" },
+      { ingredientId: "vegetable-oil",      quantity: "0.33",unit: "cup",    shortcutSubstitute: "omit" },
+      { ingredientId: "salted-butter",             quantity: "3",   unit: "tbsp",   shortcutSubstitute: "omit" },
+      { ingredientId: "honey",              quantity: "1",   unit: "tbsp",   shortcutSubstitute: "omit" },
       { ingredientId: "eggs",              quantity: "2",   unit: "whole",  shortcutSubstitute: "none" },
       { ingredientId: "whole-milk",              quantity: "1.25",unit: "cup",    shortcutSubstitute: "none" },
     ],
 
     steps: [
-      { name: "Mix dry",           text: "Whisk together cornmeal, flour, sugar, and baking powder in a small bowl.", shortcutText: "no-shortcut" },
-      { name: "Mix wet",           text: "In a larger bowl, whisk together oil, melted butter, honey, eggs, and milk.", shortcutText: "no-shortcut" },
-      { name: "Combine & bake",    text: "Fold the dry mixture into the wet mixture with a spatula until just combined. Pour into a greased 9x9 pan. Bake at 400°F for 20–25 minutes until a toothpick comes out clean.", shortcutText: "no-shortcut" },
+      { name: "Mix dry",           text: "Whisk together cornmeal, flour, sugar, and baking powder in a small bowl.", shortcutText: "Mix the cornbread mix with eggs and milk, according to package instructions." },
+      { name: "Mix wet",           text: "In a larger bowl, whisk together oil, melted butter, honey, eggs, and milk.", shortcutText: "" },
+      { name: "Combine & bake",    text: "Fold the dry mixture into the wet mixture with a spatula until just combined. Pour into a greased 9x9 pan or into greased or lined muffin tins. Bake at 400°F for 20–25 minutes until a toothpick comes out clean.", shortcutText: "Pour the cornbread batter into a greased 9x9 pan or into greased or lined muffin tins. Bake according to package instructions." },
     ],
 
     recommendedSides: [],
@@ -1720,6 +2028,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "no",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 120,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
@@ -1759,6 +2068,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "no",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 130,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
     ],
@@ -1797,6 +2107,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "no",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 180,
     timeToComplete: [
       { phase: "prep", minutes: 5 },
     ],
@@ -1829,6 +2140,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 24,
+    caloriesPerServing: 180,
     batchSize: 12,
     timeToComplete: [
       { phase: "prep", minutes: 15 },
@@ -1868,6 +2180,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 12,
+    caloriesPerServing: 390,
     timeToComplete: [
       { phase: "prep", minutes: 50 },
       { phase: "rise", minutes: 150 },
@@ -1915,6 +2228,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "no",
     shortcutReplaces: null,
     servings: 12,
+    caloriesPerServing: 290,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
@@ -1952,6 +2266,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 16,
+    caloriesPerServing: 310,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "bake", minutes: 25 },
@@ -1988,6 +2303,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 24,
+    caloriesPerServing: 160,
     batchSize: 12,
     timeToComplete: [
       { phase: "prep", minutes: 15 },
@@ -2027,6 +2343,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 24,
+    caloriesPerServing: 140,
     batchSize: 12,
     timeToComplete: [
       { phase: "prep", minutes: 15 },
@@ -2068,6 +2385,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 12,
+    caloriesPerServing: 280,
     timeToComplete: [
       { phase: "prep", minutes: 15 },
       { phase: "bake", minutes: 22 },
@@ -2107,6 +2425,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 12,
+    caloriesPerServing: 320,
     timeToComplete: [
       { phase: "prep", minutes: 15 },
       { phase: "bake", minutes: 22 },
@@ -2153,6 +2472,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 12,
+    caloriesPerServing: 270,
     timeToComplete: [
       { phase: "prep", minutes: 15 },
       { phase: "bake", minutes: 22 },
@@ -2196,6 +2516,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 8,
+    caloriesPerServing: 230,
     timeToComplete: [
       { phase: "prep", minutes: 15 },
       { phase: "bake", minutes: 60 },
@@ -2237,6 +2558,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: "fresh chicken, roasted → rotisserie chicken; homemade masala sauce → store-bought tikka masala sauce",
     servings: 4,
+    caloriesPerServing: 490,
     timeToComplete: [
       { phase: "prep",     minutes: 15 },
       { phase: "marinate", minutes: 60 },
@@ -2290,6 +2612,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 280,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 25 },
@@ -2329,6 +2652,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 310,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
@@ -2371,6 +2695,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: "fresh chicken, roasted → rotisserie chicken",
     servings: 4,
+    caloriesPerServing: 420,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 25 },
@@ -2418,6 +2743,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 460,
     timeToComplete: [
       { phase: "prep", minutes: 20 },
       { phase: "cook", minutes: 25 },
@@ -2482,6 +2808,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "no",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 380,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
@@ -2538,6 +2865,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 340,
     timeToComplete: [
       { phase: "prep", minutes: 25 },
       { phase: "cook", minutes: 330 },
@@ -2586,6 +2914,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 420,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 45 },
@@ -2637,6 +2966,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 500,
     timeToComplete: [
       { phase: "prep", minutes: 5 },
       { phase: "cook", minutes: 25 },
@@ -2691,6 +3021,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "no",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 550,
     timeToComplete: [
       { phase: "prep",     minutes: 15 },
       { phase: "marinate", minutes: 30 },
@@ -2747,6 +3078,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: "homemade red curry paste → store-bought Thai red curry paste",
     servings: 4,
+    caloriesPerServing: 480,
     timeToComplete: [
       { phase: "prep", minutes: 25 },
       { phase: "cook", minutes: 45 },
@@ -2802,6 +3134,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: "homemade green curry paste → store-bought Thai green curry paste",
     servings: 4,
+    caloriesPerServing: 460,
     timeToComplete: [
       { phase: "prep", minutes: 25 },
       { phase: "cook", minutes: 45 },
@@ -2858,6 +3191,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 380,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
@@ -2911,6 +3245,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "no",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 220,
     timeToComplete: [
       { phase: "prep", minutes: 15 },
     ],
@@ -2946,6 +3281,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "no",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 180,
     timeToComplete: [
       { phase: "prep", minutes: 15 },
     ],
@@ -2998,6 +3334,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 520,
     timeToComplete: [
       { phase: "prep", minutes: 30 },
       { phase: "cook", minutes: 40 },
@@ -3059,6 +3396,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "no",
     shortcutReplaces: null,
     servings: 4,
+    caloriesPerServing: 280,
     timeToComplete: [
       { phase: "prep", minutes: 10 },
     ],
@@ -3100,6 +3438,7 @@ const DEFAULT_RECIPES = [
     mealprepIdeal: "yes",
     shortcutReplaces: null,
     servings: 12,
+    caloriesPerServing: 160,
     timeToComplete: [
       { phase: "prep", minutes: 25 },
       { phase: "rise", minutes: 60 },
@@ -3127,6 +3466,794 @@ const DEFAULT_RECIPES = [
     ],
 
     recommendedSides: ["spaghetti-bolognese"],
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // JAMAICAN
+  // ══════════════════════════════════════════════════════════════════════════════
+
+  // ── Jamaican Black Pepper Shrimp & Chicken ────────────────────────────────
+  {
+    id: "jamaican-pepper-shrimp",
+    name: "Jamaican Shrimp & Chicken",
+    cuisine: "Jamaican",
+    dishType: "main",
+    difficulty: "moderate",
+    priceLevel: "mid",
+    timeRequirement: "medium",
+    multiTasking: "unlikely",
+    mealprepIdeal: "yes",
+    shortcutReplaces: "raw chicken thighs → rotisserie chicken",
+    servings: 4,
+    caloriesPerServing: 310,
+    timeToComplete: [
+      { phase: "prep",    minutes: 15 },
+      { phase: "marinate",minutes: 30 },
+      { phase: "cook",    minutes: 20 },
+    ],
+
+    ingredients: [
+      { ingredientId: "large-shrimp",      quantity: "1",   unit: "lb",    shortcutSubstitute: "none" },
+      { ingredientId: "chicken-thighs",    quantity: "1",   unit: "lb",    shortcutSubstitute: "rotisserie-chicken" },
+      { ingredientId: "jerk-seasoning",    quantity: "2",   unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "black-pepper",      quantity: "1",   unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "allspice",          quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "garlic",            quantity: "4",   unit: "clove", shortcutSubstitute: "none" },
+      { ingredientId: "ginger-root",       quantity: "1",   unit: "tbsp",  shortcutSubstitute: "ginger-paste" },
+      { ingredientId: "brown-onion",       quantity: "0.5", unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "jalapeno",          quantity: "1",   unit: "whole", shortcutSubstitute: "omit" },
+      { ingredientId: "molasses",         quantity: "2",   unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "apple-cider-vinegar", quantity: "2",   unit: "tsp",  shortcutSubstitute: "none" },
+      { ingredientId: "brown-sugar",       quantity: "0.25",   unit: "cup",  shortcutSubstitute: "none" },
+      { ingredientId: "worcestershire-sauce", quantity: "2",   unit: "tsp",  shortcutSubstitute: "none" },
+      { ingredientId: "chili-powder", quantity: "1",   unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "salted-butter",     quantity: "3",   unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "dried-thyme",       quantity: "1",   unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "olive-oil",         quantity: "2",   unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "salt",              quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "rice",              quantity: "1",   unit: "cup",   shortcutSubstitute: "none" },
+    ],
+
+    steps: [
+      { name: "Marinate chicken",         text: "Combine jerk seasoning, black pepper, allspice, minced garlic, and grated ginger. Divide in half. Toss the chicken thighs with one half of the marinade, cover, and refrigerate for at least 30 minutes.", shortcutText: "Peel the meat from a store-bought rotisserie chicken, tear or cut into chunks and set aside." },
+      { name: "Cook rice",                 text: "While chicken is marinating, wash the rice cover with water in a pot to about 1 inch above the rice and bring to a boil, then reduce heat and simmer until the rice is cooked through (or use a rice cooker).", shortcutText: "no-shortcut" },
+      { name: "Cook chicken",             text: "In a large skillet with olive oil over medium-high heat, cook the marinated chicken thighs 5–6 minutes per side until cooked through and slightly charred. Remove, allow to rest briefly, then slice.", shortcutText: "" },
+      { name: "Sauté shrimp & sauce",text: "In the same pan, melt the butter over medium-high heat. Sauté chopped onion and minced jalapeño if using 2–3 minutes until softened. Toss in the shrimp along with the remaining seasoning mixture, the molasses, apple cider vinegar, brown sugar, worcestershire sauce, thyme, and chili powder. Cook and stir, 2–3 minutes until the shrimp are pink and just curled.", shortcutText: "no-shortcut" },
+      { name: "Combine & serve",          text: "Return the sliced chicken to the pan and toss everything together over high heat for 1 minute. Add salt and pepper to taste, fluff the rice, and serve over the rice.", shortcutText: "no-shortcut" },
+    ],
+
+    recommendedSides: ["jamaican-black-beans", "mango-pineapple-salsa"],
+    suggestedExtras: [
+      { itemId: "rice", quantity: "1", unit: "bag" },
+    ],
+  },
+
+  // ── Jamaican Black Beans ──────────────────────────────────────────────────
+  {
+    id: "jamaican-black-beans",
+    name: "Jamaican Black Beans",
+    cuisine: "Jamaican",
+    dishType: "side",
+    difficulty: "easy",
+    priceLevel: "cheap",
+    timeRequirement: "short",
+    multiTasking: "possible",
+    mealprepIdeal: "yes",
+    shortcutReplaces: null,
+    servings: 4,
+    caloriesPerServing: 240,
+    timeToComplete: [
+      { phase: "prep", minutes: 5 },
+      { phase: "cook", minutes: 20 },
+    ],
+
+    ingredients: [
+      { ingredientId: "black-beans",   quantity: "2",   unit: "can",   shortcutSubstitute: "none" },
+      { ingredientId: "coconut-milk",  quantity: "0.5", unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "brown-onion",   quantity: "0.25",unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "garlic",        quantity: "3",   unit: "clove", shortcutSubstitute: "none" },
+      { ingredientId: "dried-thyme",   quantity: "1",   unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "allspice",      quantity: "0.25",unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "olive-oil",     quantity: "1",   unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "salt",          quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "black-pepper",  quantity: "0.25",unit: "tsp",   shortcutSubstitute: "none" },
+    ],
+
+    steps: [
+      { name: "Sauté aromatics", text: "In a saucepan over medium heat, sauté diced onion and minced garlic in olive oil until softened, about 3 minutes.", shortcutText: "no-shortcut" },
+      { name: "Simmer beans",    text: "Drain and rinse the black beans, then add them to the pan along with the coconut milk, thyme, allspice, salt, and pepper. Stir to combine and simmer uncovered over medium-low heat 12–15 minutes, stirring occasionally, until the sauce thickens and coats the beans. Taste and adjust seasoning, then serve.", shortcutText: "no-shortcut" },
+    ],
+
+    recommendedSides: [],
+  },
+
+  // ── Mango Pineapple Salsa ─────────────────────────────────────────────────
+  {
+    id: "mango-pineapple-salsa",
+    name: "Mango Pineapple Salsa",
+    cuisine: "Mexican",
+    dishType: "side",
+    difficulty: "easy",
+    priceLevel: "cheap",
+    timeRequirement: "short",
+    multiTasking: "unlikely",
+    mealprepIdeal: "yes",
+    shortcutReplaces: "fresh mango and pineapple → canned mango and pineapple",
+    servings: 4,
+    caloriesPerServing: 60,
+    timeToComplete: [
+      { phase: "prep", minutes: 15 },
+      { phase: "rest", minutes: 15 },
+    ],
+
+    ingredients: [
+      { ingredientId: "mango",      quantity: "1",   unit: "whole", shortcutSubstitute: "canned-mango" },
+      { ingredientId: "pineapple",  quantity: "0.5", unit: "whole", shortcutSubstitute: "canned-pineapple" },
+      { ingredientId: "red-onion",  quantity: "0.25",unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "jalapeno",   quantity: "0.5", unit: "whole", shortcutSubstitute: "omit" },
+      { ingredientId: "cilantro",   quantity: "0.25",unit: "bunch", shortcutSubstitute: "none" },
+      { ingredientId: "lime",       quantity: "1",   unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "salt",       quantity: "0.25",unit: "tsp",   shortcutSubstitute: "none" },
+    ],
+
+    steps: [
+      { name: "Dice & combine", text: "Peel and dice the mango and pineapple into small cubes. Finely dice the red onion and jalapeño. Chop the cilantro. Combine everything in a bowl and squeeze the lime juice over the top. Season with salt and toss to combine.", shortcutText: "Drain and roughly chop the canned pineapple and mango. Finely dice the red onion and jalapeño if using. Chop the cilantro. Combine everything in a bowl and squeeze the lime juice over the top. Season with salt and toss to combine." },
+      { name: "Rest & serve",   text: "Allow the salsa to rest for at least 15 minutes for the flavors to meld before serving. Taste and adjust lime juice and salt as needed.", shortcutText: "no-shortcut" },
+    ],
+
+    recommendedSides: [],
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // MEDITERRANEAN / MIDDLE EASTERN
+  // ══════════════════════════════════════════════════════════════════════════════
+
+  // ── Hummus ───────────────────────────────────────────────────────────────────
+  {
+    id: "hummus",
+    name: "Hummus",
+    cuisine: "Mediterranean",
+    dishType: "side",
+    difficulty: "easy",
+    priceLevel: "cheap",
+    timeRequirement: "short",
+    multiTasking: "unlikely",
+    mealprepIdeal: "yes",
+    shortcutReplaces: null,
+    servings: 6,
+    caloriesPerServing: 140,
+    timeToComplete: [
+      { phase: "prep", minutes: 10 },
+    ],
+
+    ingredients: [
+      { ingredientId: "chickpeas",    quantity: "2",   unit: "can",   shortcutSubstitute: "none" },
+      { ingredientId: "tahini",       quantity: "0.25",unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "lemon",        quantity: "1",   unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "garlic",       quantity: "2",   unit: "clove", shortcutSubstitute: "none" },
+      { ingredientId: "olive-oil",    quantity: "3",   unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "ground-cumin", quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "salt",         quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "paprika",      quantity: "0.25",unit: "tsp",   shortcutSubstitute: "none" },
+    ],
+
+    steps: [
+      { name: "Blend",       text: "Drain and rinse the chickpeas, reserving a few tablespoons of the liquid from the can. Add the chickpeas, tahini, juice of 1 lemon, minced garlic, olive oil, cumin, and salt to a food processor or blender. Blend until smooth, adding reserved chickpea liquid 1 tablespoon at a time as needed to reach the desired consistency.", shortcutText: "no-shortcut" },
+      { name: "Season & serve",text: "Taste and adjust lemon, salt, and garlic. Transfer to a serving dish, drizzle with olive oil, and dust with paprika if desired.", shortcutText: "no-shortcut" },
+    ],
+
+    recommendedSides: [],
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // CAJUN / SOUTHERN
+  // ══════════════════════════════════════════════════════════════════════════════
+
+  // ── Cajun Beans and Rice ──────────────────────────────────────────────────
+  {
+    id: "cajun-beans-and-rice",
+    name: "Cajun Beans and Rice",
+    cuisine: "American",
+    dishType: "side",
+    difficulty: "easy",
+    priceLevel: "cheap",
+    timeRequirement: "medium",
+    multiTasking: "possible",
+    mealprepIdeal: "yes",
+    shortcutReplaces: null,
+    servings: 4,
+    caloriesPerServing: 380,
+    timeToComplete: [
+      { phase: "prep", minutes: 10 },
+      { phase: "cook", minutes: 30 },
+    ],
+
+    ingredients: [
+      { ingredientId: "red-beans",         quantity: "2",   unit: "can",   shortcutSubstitute: "none" },
+      { ingredientId: "rice",              quantity: "1",   unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "garlic",            quantity: "3",   unit: "clove", shortcutSubstitute: "none" },
+      { ingredientId: "cajun-seasoning",   quantity: "2",   unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "paprika",    quantity: "1",   unit: "tsp",   shortcutSubstitute: "paprika" },
+      { ingredientId: "dried-thyme",       quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "bay-leaves",        quantity: "2",   unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "chicken-stock",     quantity: "1",   unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "olive-oil",         quantity: "1",   unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "salt",              quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "black-pepper",      quantity: "0.25",unit: "tsp",   shortcutSubstitute: "none" },
+    ],
+
+    steps: [
+      { name: "Combine",    text: "Drain and rinse the red beans, then add to the pot along with the chicken stock, bay leaves, and sausage. Add the minced garlic, cajun seasoning, smoked paprika, and thyme and stir.", shortcutText: "no-shortcut" },
+      { name: "Simmer beans",         text: "Simmer over medium-low heat for 15–20 minutes, stirring occasionally, until the sauce thickens. Remove bay leaves. Mash a few beans against the side of the pot to help thicken the sauce further.", shortcutText: "no-shortcut" },
+      { name: "Cook rice & serve",    text: "While the beans simmer, add rice and enough water to cover by about 1 inch to a pot or use a rice cooker. Bring to a boil, cover, reduce heat, and simmer 18–20 minutes. Fluff the rice and serve the beans over or mixed into the rice.", shortcutText: "no-shortcut" },
+    ],
+
+    recommendedSides: [],
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // AMERICAN
+  // ══════════════════════════════════════════════════════════════════════════════
+
+  // ── Chicken Strips ────────────────────────────────────────────────────────
+  {
+    id: "chicken-strips",
+    name: "Chicken Strips",
+    cuisine: "American",
+    dishType: "main",
+    difficulty: "moderate",
+    priceLevel: "cheap",
+    timeRequirement: "medium",
+    multiTasking: "unlikely",
+    mealprepIdeal: "yes",
+    shortcutReplaces: null,
+    servings: 4,
+    caloriesPerServing: 340,
+    timeToComplete: [
+      { phase: "prep", minutes: 15 },
+      { phase: "fry",  minutes: 20 },
+    ],
+
+    ingredients: [
+      { ingredientId: "chicken-tenderloins", quantity: "1.5", unit: "lb",    shortcutSubstitute: "none" },
+      { ingredientId: "all-purpose-flour",   quantity: "1",   unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "panko-crumbs",               quantity: "1",   unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "eggs",                quantity: "2",   unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "cajun-seasoning",     quantity: "1.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "garlic-powder",       quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "smoked-paprika",      quantity: "0.5", unit: "tsp",   shortcutSubstitute: "paprika" },
+      { ingredientId: "salt",                quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "black-pepper",        quantity: "0.25",unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "canola-oil",          quantity: "2",   unit: "cup",   shortcutSubstitute: "none" },
+    ],
+
+    steps: [
+      { name: "Set up breading station", text: "Set up three shallow dishes: (1) flour mixed with salt, pepper, and half the cajun seasoning; (2) beaten eggs; (3) panko mixed with the remaining cajun seasoning, garlic powder, and smoked paprika.", shortcutText: "no-shortcut" },
+      { name: "Bread chicken",           text: "Pat chicken tenderloins dry. Dredge each piece in the seasoned flour, shaking off excess. Dip in the beaten egg, then press firmly into the panko mixture to coat all sides. Set aside on a plate.", shortcutText: "no-shortcut" },
+      { name: "Fry",                     text: "Heat canola oil in a deep skillet or pot to 350°F (175°C). Fry chicken strips in batches for 4–5 minutes per side until deep golden brown and cooked through (internal temp 165°F). Do not crowd the pan. Drain on a wire rack or paper towels, then serve with any preferred sauce and sides.", shortcutText: "no-shortcut" },
+    ],
+
+    recommendedSides: ["cajun-beans-and-rice", "mac-and-cheese", "mashed-potatoes"],
+    suggestedExtras: [
+      { itemId: "french-fries", quantity: "1", unit: "bag" },
+    ],
+  },
+
+  // ── Chicken Parmesan ──────────────────────────────────────────────────────
+  {
+    id: "chicken-parmesan",
+    name: "Chicken Parmesan",
+    cuisine: "Italian",
+    dishType: "main",
+    difficulty: "moderate",
+    priceLevel: "mid",
+    timeRequirement: "medium",
+    multiTasking: "possible",
+    mealprepIdeal: "yes",
+    shortcutReplaces: "homemade tomato sauce → store-bought spaghetti sauce",
+    servings: 4,
+    caloriesPerServing: 580,
+    timeToComplete: [
+      { phase: "prep", minutes: 20 },
+      { phase: "cook", minutes: 25 },
+    ],
+
+    ingredients: [
+      { ingredientId: "chicken-breast",     quantity: "2",   unit: "lb",    shortcutSubstitute: "none" },
+      { ingredientId: "all-purpose-flour",  quantity: "0.5", unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "eggs",               quantity: "2",   unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "panko",              quantity: "1",   unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "parmesan-cheese",    quantity: "0.5", unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "mozzarella-cheese",  quantity: "1.5", unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "tomato-sauce",       quantity: "14",  unit: "oz",    shortcutSubstitute: "jarred-spaghetti-sauce" },
+      { ingredientId: "tomato-paste",       quantity: "2",   unit: "oz",    shortcutSubstitute: "omit" },
+      { ingredientId: "garlic",             quantity: "3",   unit: "clove", shortcutSubstitute: "none" },
+      { ingredientId: "dried-oregano",  quantity: "1",   unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "dried-basil",        quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "olive-oil",          quantity: "3",   unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "salt",               quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "black-pepper",       quantity: "0.25",unit: "tsp",   shortcutSubstitute: "none" },
+    ],
+
+    steps: [
+      { name: "Pound & bread chicken",  text: "Slice chicken breasts in half lengthwise to make thinner cutlets and pound to an even thickness. Season with salt and pepper. Set up three dishes: flour, beaten eggs, and panko mixed with half the parmesan and the oregano. Dredge each cutlet in flour, dip in egg, then press firmly into the panko-parmesan mixture.", shortcutText: "no-shortcut" },
+      { name: "Pan-fry cutlets",        text: "In a skillet with olive oil over medium-high heat, pan-fry the breaded chicken 3–4 minutes per side until golden brown. Work in batches if needed. Remove from heat and transfer to a baking dish.", shortcutText: "no-shortcut" },
+      { name: "Make sauce",             text: "In a small saucepan, sauté minced garlic in a little olive oil 1 minute. Add tomato paste and stir 1 minute, then add tomato sauce, dried basil, and a pinch of salt. Simmer 5–8 minutes.", shortcutText: "Open the jarred spaghetti sauce and heat in a small saucepan over medium-low heat." },
+      { name: "Top & bake",             text: "Spoon tomato sauce over each chicken cutlet in the skillet. Layer the remaining parmesan and then the mozzarella on top. Bake at 400°F for 15 minutes until the cheese is melted, bubbly, and golden. Let rest 5 minutes before serving.", shortcutText: "no-shortcut" },
+    ],
+
+    recommendedSides: ["caesar-salad"],
+    suggestedExtras: [
+      { itemId: "angel-hair", quantity: "1", unit: "pkg" },
+      { itemId: "french-bread",     quantity: "1", unit: "loaf" },
+    ],
+  },
+
+  // ── Tomato Bisque ─────────────────────────────────────────────────────────
+  {
+    id: "tomato-bisque",
+    name: "Tomato Bisque",
+    cuisine: "American",
+    dishType: "side",
+    difficulty: "easy",
+    priceLevel: "cheap",
+    timeRequirement: "short",
+    multiTasking: "possible",
+    mealprepIdeal: "yes",
+    shortcutReplaces: null,
+    servings: 4,
+    caloriesPerServing: 280,
+    timeToComplete: [
+      { phase: "prep", minutes: 10 },
+      { phase: "cook", minutes: 25 },
+    ],
+
+    ingredients: [
+      { ingredientId: "diced-tomatoes",       quantity: "14",   unit: "oz",   shortcutSubstitute: "none" },
+      { ingredientId: "tomato-paste",         quantity: "3",   unit: "oz",    shortcutSubstitute: "none" },
+      { ingredientId: "heavy-whipping-cream", quantity: "0.5", unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "brown-onion",          quantity: "0.5", unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "garlic",               quantity: "3",   unit: "clove", shortcutSubstitute: "none" },
+      { ingredientId: "salted-butter",        quantity: "2",   unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "chicken-stock",        quantity: "0.5", unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "dried-basil",          quantity: "1",   unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "salt",                 quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+    ],
+
+    steps: [
+      { name: "Sauté aromatics",  text: "Melt butter in a pot over medium heat. Sauté diced onion and minced garlic until softened and translucent, about 5 minutes.", shortcutText: "no-shortcut" },
+      { name: "Build the base",   text: "Stir in tomato paste and cook 2 minutes. Add the diced tomatoes (with juices), chicken stock, dried basil, and salt (if using chicken bouillon not chicken broth, a half cup of milk may be added to thin the soup after the simmer step). Bring to a simmer and cook uncovered for 15 minutes.", shortcutText: "no-shortcut" },
+      { name: "Blend & finish",   text: "Use an immersion blender (or carefully transfer to a blender in batches) and blend until smooth. Return to the pot over low heat and stir in the heavy cream. Simmer gently 3–5 minutes, taste, and adjust seasoning. Serve with crusty bread or a sandwich if desired.", shortcutText: "no-shortcut" },
+    ],
+
+    recommendedSides: [],
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // MEXICAN
+  // ══════════════════════════════════════════════════════════════════════════════
+
+  // ── Beer-Battered Fish Tacos ──────────────────────────────────────────────
+  {
+    id: "beer-battered-fish-tacos",
+    name: "Beer-Battered Fish Tacos",
+    cuisine: "Mexican",
+    dishType: "main",
+    difficulty: "moderate",
+    priceLevel: "mid",
+    timeRequirement: "medium",
+    multiTasking: "possible",
+    mealprepIdeal: "no",
+    shortcutReplaces: null,
+    servings: 4,
+    caloriesPerServing: 490,
+    timeToComplete: [
+      { phase: "prep", minutes: 20 },
+      { phase: "fry",  minutes: 20 },
+    ],
+
+    ingredients: [
+      { ingredientId: "cod",              quantity: "1.5", unit: "lb",    shortcutSubstitute: "none" },
+      { ingredientId: "beer",             quantity: "1",   unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "all-purpose-flour",quantity: "1",   unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "cornstarch",       quantity: "0.25",unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "cajun-seasoning",  quantity: "1.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "garlic-powder",    quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "green-cabbage",     quantity: "0.25",   unit: "head",   shortcutSubstitute: "coleslaw-mix" },
+      { ingredientId: "red-cabbage",     quantity: "0.25",   unit: "head",   shortcutSubstitute: "omit" },
+      { ingredientId: "tajin mayo",       quantity: "4",   unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "lime",             quantity: "2",   unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "jalapeno",         quantity: "0.5", unit: "whole", shortcutSubstitute: "omit" },
+      { ingredientId: "cilantro",         quantity: "0.5", unit: "bunch", shortcutSubstitute: "none" },
+      { ingredientId: "guerrero-tortillas",quantity: "1",  unit: "pkg",   shortcutSubstitute: "none" },
+      { ingredientId: "canola-oil",       quantity: "2",   unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "sour-cream",       quantity: "0.5", unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "queso fresco",      quantity: "0.5", unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "salt",             quantity: "0.75",unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "black-pepper",     quantity: "0.25",unit: "tsp",   shortcutSubstitute: "none" },
+    ],
+
+    steps: [
+      { name: "Make slaw",        text: "In a bowl, toss the cabbage or coleslaw mix with mayo, juice of 1 lime, finely diced jalapeño if using, and a pinch of salt. Refrigerate until ready to serve.", shortcutText: "no-shortcut" },
+      { name: "Make batter",      text: "In a large bowl, whisk together the flour, cornstarch, cajun seasoning, garlic powder, and a pinch of salt. Slowly whisk in cold beer or soda until a smooth, slightly thick batter forms (similar consistency to pancake batter). Do not overmix.", shortcutText: "no-shortcut" },
+      { name: "Fry fish",         text: "Cut the fish into strips about 3 inches long and 1 inch wide. Pat dry with paper towels. Heat canola oil in a deep skillet or pot to 375°F (190°C). Dip fish strips in the batter letting excess drip off, then fry in batches 3–4 minutes until golden brown and crispy. Drain on a wire rack.", shortcutText: "no-shortcut" },
+      { name: "Assemble tacos",   text: "Warm the tortillas. Build each taco with a few pieces of battered fish, a generous spoonful of slaw, fresh cilantro, and a squeeze of fresh lime. Serve with queso fresco and sour cream if desired and other preferred sides or toppings.", shortcutText: "no-shortcut" },
+    ],
+
+    recommendedSides: ["mango-pineapple-salsa", "elote", "spanish-rice", "guacamole-snack"],
+    suggestedExtras: [
+      { itemId: "refried-beans", quantity: "1", unit: "can" },
+    ],
+  },
+
+  // ── Flautas ───────────────────────────────────────────────────────────────
+  {
+    id: "flautas",
+    name: "Flautas",
+    cuisine: "Mexican",
+    dishType: "main",
+    difficulty: "moderate",
+    priceLevel: "cheap",
+    timeRequirement: "medium",
+    multiTasking: "possible",
+    mealprepIdeal: "yes",
+    shortcutReplaces: "raw chicken breast → rotisserie chicken",
+    servings: 4,
+    caloriesPerServing: 460,
+    timeToComplete: [
+      { phase: "prep", minutes: 20 },
+      { phase: "fry",  minutes: 20 },
+    ],
+
+    ingredients: [
+      { ingredientId: "chicken-breast",    quantity: "1.5", unit: "lb",    shortcutSubstitute: "rotisserie-chicken" },
+      { ingredientId: "cream-cheese",      quantity: "4",   unit: "oz",    shortcutSubstitute: "none" },
+      { ingredientId: "cheddar-cheese",    quantity: "0.5", unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "guerrero-tortillas",quantity: "1",   unit: "pkg",   shortcutSubstitute: "none" },
+      { ingredientId: "garlic",            quantity: "3",   unit: "clove", shortcutSubstitute: "none" },
+      { ingredientId: "ground-cumin",      quantity: "1",   unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "chili-powder",      quantity: "1",   unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "salt",              quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "black-pepper",      quantity: "0.25",unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "canola-oil",        quantity: "2",   unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "sour-cream",        quantity: "0.5", unit: "cup",   shortcutSubstitute: "omit" },
+      { ingredientId: "cilantro",          quantity: "0.25",unit: "bunch", shortcutSubstitute: "none" },
+      { ingredientId: "lime",              quantity: "1",   unit: "whole", shortcutSubstitute: "none" },
+    ],
+
+    steps: [
+      { name: "Cook & shred chicken", text: "Season chicken breasts with salt, pepper, cumin, and chili powder. Cook in a skillet with a little oil over medium-high heat, 5–6 minutes per side, until cooked through. Remove and shred with two forks.", shortcutText: "Peel the meat from a store-bought rotisserie chicken and shred it with two forks." },
+      { name: "Make filling",         text: "In a bowl, mix the warm shredded chicken with the softened cream cheese, shredded cheddar, minced garlic, cumin, chili powder, and salt until well combined.", shortcutText: "no-shortcut" },
+      { name: "Roll flautas",         text: "Using room-temperature tortillas, add a strip of filling down the center of each tortilla and roll tightly. Secure with a toothpick or place seam-side down.", shortcutText: "no-shortcut" },
+      { name: "Fry",                  text: "Heat canola oil in a deep skillet to 350°F (175°C). Fry the rolled flautas seam-side down first in batches 2–3 minutes, turning once or twice, until golden brown and crispy all over. Drain on a wire rack or paper towels.", shortcutText: "no-shortcut" },
+      { name: "Serve",                text: "Remove toothpicks if used. Serve immediately topped with sour cream, a squeeze of lime, and fresh cilantro if desired, alongside any preferred sides or toppings.", shortcutText: "no-shortcut" },
+    ],
+
+    recommendedSides: ["mango-pineapple-salsa", "elote", "spanish-rice", "guacamole-snack"],
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // INDIAN
+  // ══════════════════════════════════════════════════════════════════════════════
+
+  // ── Butter Chicken ────────────────────────────────────────────────────────
+  {
+    id: "butter-chicken",
+    name: "Butter Chicken",
+    cuisine: "Indian",
+    dishType: "main",
+    difficulty: "moderate",
+    priceLevel: "cheap",
+    timeRequirement: "medium",
+    multiTasking: "possible",
+    mealprepIdeal: "yes",
+    shortcutReplaces: "chicken thighs → rotisserie chicken; homemade sauce → store-bought butter chicken sauce",
+    servings: 4,
+    caloriesPerServing: 520,
+    timeToComplete: [
+      { phase: "prep",    minutes: 15 },
+      { phase: "marinate",minutes: 60 },
+      { phase: "cook",    minutes: 20 },
+    ],
+
+    ingredients: [
+      { ingredientId: "chicken-thighs",       quantity: "1.5", unit: "lb",    shortcutSubstitute: "rotisserie-chicken" },
+      { ingredientId: "rice",                 quantity: "1",   unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "salted-butter",        quantity: "4",   unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "brown-onion",          quantity: "0.5", unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "garlic",               quantity: "4",   unit: "clove", shortcutSubstitute: "none" },
+      { ingredientId: "ginger-root",          quantity: "1",   unit: "tbsp",  shortcutSubstitute: "ginger-paste" },
+      { ingredientId: "tomato-sauce",         quantity: "14",  unit: "oz",    shortcutSubstitute: "butter-chicken-sauce" },
+      { ingredientId: "tomato-paste",         quantity: "2",   unit: "oz",    shortcutSubstitute: "omit" },
+      { ingredientId: "heavy-whipping-cream", quantity: "0.5", unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "yogurt",               quantity: "0.5", unit: "cup",   shortcutSubstitute: "omit" },
+      { ingredientId: "garam-masala",         quantity: "2",   unit: "tsp",   shortcutSubstitute: "omit" },
+      { ingredientId: "curry-powder",         quantity: "1",   unit: "tsp",   shortcutSubstitute: "omit" },
+      { ingredientId: "turmeric",             quantity: "0.5", unit: "tsp",   shortcutSubstitute: "omit" },
+      { ingredientId: "ground-cumin",         quantity: "1",   unit: "tsp",   shortcutSubstitute: "omit" },
+      { ingredientId: "ground-coriander",     quantity: "1",   unit: "tsp",   shortcutSubstitute: "omit" },
+      { ingredientId: "cardamom",             quantity: "0.25",unit: "tsp",   shortcutSubstitute: "omit" },
+      { ingredientId: "fenugreek",            quantity: "0.5", unit: "tsp",   shortcutSubstitute: "omit" },
+      { ingredientId: "chili-powder",         quantity: "0.5", unit: "tsp",   shortcutSubstitute: "omit" },
+      { ingredientId: "salt",                 quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "cilantro",             quantity: "0.5", unit: "bunch", shortcutSubstitute: "none" },
+    ],
+
+    steps: [
+      { name: "Marinate & cook chicken", text: "Combine the yogurt, garam masala, turmeric, cumin, coriander, cardamom, chili powder, and half the minced garlic and ginger. Toss the chicken thighs in the marinade and refrigerate at least 1 hour. In a large skillet with a little butter over medium-high heat, cook the marinated chicken 5–6 minutes per side until cooked through and golden. Remove and cut into chunks.", shortcutText: "Peel the meat from a store-bought rotisserie chicken, tear or cut into chunks and set aside." },
+      { name: "Cook rice",               text: "Add rice and enough water to cover by about 1 inch to a pot or use a rice cooker. Bring to a boil, cover, reduce heat, and simmer 18–20 minutes.", shortcutText: "no-shortcut" },
+      { name: "Make sauce",              text: "In the same skillet, melt the remaining butter over medium heat. Sauté diced onion until golden, about 6 minutes. Add the remaining garlic and ginger and stir 1 minute. Add tomato paste, stir 2 minutes, then add tomato sauce, fenugreek, and a pinch of salt. Simmer 10 minutes, then blend until smooth using an immersion blender.", shortcutText: "Heat the store-bought butter chicken sauce in a saucepan over medium-low heat." },
+      { name: "Finish & serve",          text: "Stir the heavy cream and chicken into the sauce and simmer gently 5 minutes. Fluff the rice and serve the butter chicken over rice garnished with fresh cilantro if desired.", shortcutText: "no-shortcut" },
+    ],
+
+    recommendedSides: ["daal", "chana-masala"],
+    suggestedExtras: [
+      { itemId: "dawn-paratha", quantity: "0.25", unit: "pkg" },
+      { itemId: "naan",         quantity: "0.5",  unit: "pkg" },
+    ],
+  },
+
+  // ── Lamb Vindaloo ─────────────────────────────────────────────────────────
+  {
+    id: "lamb-vindaloo",
+    name: "Lamb Vindaloo",
+    cuisine: "Indian",
+    dishType: "main",
+    difficulty: "moderate",
+    priceLevel: "mid",
+    timeRequirement: "long",
+    multiTasking: "possible",
+    mealprepIdeal: "yes",
+    shortcutReplaces: null,
+    servings: 4,
+    caloriesPerServing: 510,
+    timeToComplete: [
+      { phase: "marinate", minutes: 120 },
+      { phase: "prep",     minutes: 15 },
+      { phase: "braise",   minutes: 60 },
+    ],
+
+    ingredients: [
+      { ingredientId: "lamb-shoulder",    quantity: "2",   unit: "lb",    shortcutSubstitute: "none" },
+      { ingredientId: "russet-potatoes",  quantity: "2",   unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "rice",             quantity: "1",   unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "brown-onion",      quantity: "1",   unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "garlic",           quantity: "5",   unit: "clove", shortcutSubstitute: "none" },
+      { ingredientId: "ginger-root",      quantity: "1.5", unit: "tbsp",  shortcutSubstitute: "ginger-paste" },
+      { ingredientId: "tomato-sauce",     quantity: "7",   unit: "oz",    shortcutSubstitute: "none" },
+      { ingredientId: "tomato-paste",     quantity: "2",   unit: "oz",    shortcutSubstitute: "none" },
+      { ingredientId: "white-wine-vinegar",quantity: "3",  unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "ground-cumin",     quantity: "1.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "ground-coriander", quantity: "1",   unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "turmeric",         quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "cayenne",          quantity: "1",   unit: "tsp",   shortcutSubstitute: "chili-powder" },
+      { ingredientId: "garam-masala",     quantity: "1",   unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "ground-cinnamon",  quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "ground-cloves",    quantity: "0.25",unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "ground-ginger",    quantity: "0.5", unit: "tsp",   shortcutSubstitute: "omit" },
+      { ingredientId: "chili-flakes",     quantity: "0.5", unit: "tsp",   shortcutSubstitute: "omit" },
+      { ingredientId: "cardamom",         quantity: "0.25",unit: "tsp",   shortcutSubstitute: "omit" },
+      { ingredientId: "olive-oil",        quantity: "3",   unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "salt",             quantity: "1",   unit: "tsp",   shortcutSubstitute: "none" },
+    ],
+
+    steps: [
+      { name: "Marinate lamb",     text: "Cut the lamb shoulder into 1.5-inch cubes. Mix together half the cumin, coriander, turmeric, cayenne, garam masala, cinnamon, cloves, ground ginger, cardamom, 2 tablespoons vinegar, and the salt. Coat the lamb cubes thoroughly, cover, and marinate in the refrigerator for at least 2 hours.", shortcutText: "no-shortcut" },
+      { name: "Brown lamb",        text: "In a heavy pot or Dutch oven over medium-high heat, heat olive oil and brown the marinated lamb in batches on all sides, 2–3 minutes per batch. Remove and set aside.", shortcutText: "no-shortcut" },
+      { name: "Build sauce",       text: "In the same pot over medium heat, sauté diced onion until deep golden brown, about 10 minutes. Add minced garlic and grated ginger and cook 2 more minutes. Stir in tomato paste 2 minutes, then add tomato sauce, the remaining spices, remaining vinegar, and chili flakes. Stir well and cook 5 minutes. If a smoother consistency is desired, blend the sauce using an immersion blender or food processor.", shortcutText: "no-shortcut" },
+      { name: "Braise",            text: "Return the browned lamb to the pot. Peel and chop the potatoes and add them to the pot, add 1 cup of water, stir to combine, and bring to a simmer. Cover and cook over low heat for 50–60 minutes until the lamb is very tender and the sauce has thickened. Stir occasionally and add a splash more water if needed.", shortcutText: "no-shortcut" },
+      { name: "Cook rice",               text: "While the vindaloo finishes, add rice and enough water to cover by about 1 inch to a pot or use a rice cooker. Bring to a boil, cover, reduce heat, and simmer 18–20 minutes. Taste the vindaloo and adjust salt, heat, and vinegar. Fluff the rice and serve the vindaloo over it.", shortcutText: "no-shortcut" },
+    ],
+
+    recommendedSides: ["daal", "chana-masala"],
+    suggestedExtras: [
+      { itemId: "dawn-paratha", quantity: "0.25", unit: "pkg" },
+      { itemId: "naan",         quantity: "0.5",  unit: "pkg" },
+    ],
+  },
+
+  // ── Egg Curry (Burmese-Inspired) ──────────────────────────────────────────
+  {
+    id: "egg-curry",
+    name: "Egg Curry",
+    cuisine: "Indian",
+    dishType: "main",
+    difficulty: "easy",
+    priceLevel: "cheap",
+    timeRequirement: "short",
+    multiTasking: "possible",
+    mealprepIdeal: "yes",
+    shortcutReplaces: null,
+    servings: 4,
+    caloriesPerServing: 340,
+    timeToComplete: [
+      { phase: "prep", minutes: 10 },
+      { phase: "cook", minutes: 25 },
+    ],
+
+    ingredients: [
+      { ingredientId: "eggs",             quantity: "8",   unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "rice",             quantity: "1",   unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "brown-onion",      quantity: "1",   unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "garlic",           quantity: "4",   unit: "clove", shortcutSubstitute: "none" },
+      { ingredientId: "ginger-root",      quantity: "1",   unit: "tbsp",  shortcutSubstitute: "ginger-paste" },
+      { ingredientId: "diced-tomatoes",   quantity: "1",   unit: "can",   shortcutSubstitute: "none" },
+      { ingredientId: "tomato-paste",     quantity: "2",   unit: "oz",    shortcutSubstitute: "none" },
+      { ingredientId: "coconut-milk",     quantity: "0.5", unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "curry-powder",     quantity: "2",   unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "turmeric",         quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "garam-masala",     quantity: "1",   unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "ground-cumin",     quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "fish-sauce",       quantity: "1",   unit: "tbsp",  shortcutSubstitute: "soy-sauce" },
+      { ingredientId: "green-onions",     quantity: "2",   unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "cilantro",         quantity: "0.5", unit: "bunch", shortcutSubstitute: "none" },
+      { ingredientId: "olive-oil",        quantity: "3",   unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "salt",             quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+    ],
+
+    steps: [
+      { name: "Hard boil eggs",    text: "Place eggs in a pot, cover with cold water, bring to a boil, then cover and remove from heat. Let sit 10–11 minutes, then transfer to an ice bath to cool. Peel and set aside.", shortcutText: "no-shortcut" },
+      { name: "Fry eggs",          text: "Shallow-fry the peeled hard-boiled eggs in 2 tablespoons of olive oil over medium-high heat, turning occasionally, until golden and blistered on all sides, about 4 minutes. Remove and score each egg with a few shallow cuts to allow the sauce to penetrate.", shortcutText: "no-shortcut" },
+      { name: "Make curry sauce",  text: "In the same pan, sauté finely diced onion in remaining oil until deeply golden, about 8 minutes. Add minced garlic and grated ginger and cook 2 minutes. Stir in tomato paste 2 minutes, then add diced tomatoes, curry powder, turmeric, garam masala, cumin, fish sauce, and a pinch of salt. Simmer 8–10 minutes until the sauce darkens and thickens.", shortcutText: "no-shortcut" },
+      { name: "Cook rice",               text: "Add rice and enough water to cover by about 1 inch to a pot or use a rice cooker. Bring to a boil, cover, reduce heat, and simmer 18–20 minutes.", shortcutText: "no-shortcut" },
+      { name: "Add coconut milk",  text: "Stir in the coconut milk and bring to a gentle simmer. Add the fried eggs to the curry sauce and spoon the sauce over them. Simmer together 5 minutes so the eggs absorb the flavors. Fluff the rice and serve the egg curry over it, garnished with fresh cilantro and chopped green onions if desired.", shortcutText: "no-shortcut" },
+    ],
+
+    recommendedSides: ["daal", "chana-masala"],
+    suggestedExtras: [
+      { itemId: "dawn-paratha", quantity: "0.25", unit: "pkg" },
+      { itemId: "naan",         quantity: "0.5",  unit: "pkg" },
+    ],
+  },
+
+  // ══════════════════════════════════════════════════════════════════════════════
+  // CHINESE
+  // ══════════════════════════════════════════════════════════════════════════════
+
+  // ── Sweet and Sour Chicken ────────────────────────────────────────────────
+  {
+    id: "sweet-and-sour-chicken",
+    name: "Sweet and Sour Chicken",
+    cuisine: "Chinese",
+    dishType: "main",
+    difficulty: "moderate",
+    priceLevel: "cheap",
+    timeRequirement: "medium",
+    multiTasking: "possible",
+    mealprepIdeal: "yes",
+    shortcutReplaces: "homemade sauce → store-bought sweet and sour sauce",
+    servings: 4,
+    caloriesPerServing: 490,
+    timeToComplete: [
+      { phase: "prep", minutes: 15 },
+      { phase: "fry",  minutes: 20 },
+    ],
+
+    ingredients: [
+      { ingredientId: "chicken-breast",      quantity: "1.5", unit: "lb",    shortcutSubstitute: "none" },
+      { ingredientId: "all-purpose-flour",   quantity: "0.5", unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "cornstarch",          quantity: "6",unit: "tbsp",   shortcutSubstitute: "none" },
+      { ingredientId: "eggs",                quantity: "2",   unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "pineapple-juice",     quantity: "1", unit: "cup",   shortcutSubstitute: "sweet-and-sour-sauce" },
+      { ingredientId: "ketchup",             quantity: "3", unit: "tbsp",   shortcutSubstitute: "omit" },
+      { ingredientId: "grantulated-sugar",         quantity: "0.75", unit: "cup",   shortcutSubstitute: "omit" },
+      { ingredientId: "rice-vinegar",        quantity: "0.33", unit: "cup",   shortcutSubstitute: "omit" },
+      { ingredientId: "pineapple",           quantity: "1",   unit: "cup",   shortcutSubstitute: "canned-pineapple" },
+      { ingredientId: "red-bell-pepper",     quantity: "1",   unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "green-bell-pepper",   quantity: "1",   unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "brown-onion",         quantity: "0.5", unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "garlic",              quantity: "2",   unit: "clove", shortcutSubstitute: "none" },
+      { ingredientId: "ginger-root",         quantity: "1",   unit: "tsp",   shortcutSubstitute: "ginger-paste" },
+      { ingredientId: "soy-sauce",           quantity: "2",   unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "canola-oil",          quantity: "2",   unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "salt",                quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+    ],
+
+    steps: [
+      { name: "Batter & fry chicken", text: "Cut chicken into 1-inch cubes. Mix flour, 2/3 of the cornstarch, and salt in one bowl and beat eggs in another. Dip chicken pieces in egg then dredge in the flour-cornstarch mix. Heat canola oil to 375°F (190°C) and fry chicken in batches 4–5 minutes until golden and cooked through. Drain on a wire rack.", shortcutText: "no-shortcut" },
+      { name: "Make sauce",           text: "In a small saucepan, combine the pineapple juice, ketchup, sugar, rice vinegar, and soy sauce. Bring to a boil, then reduce heat to a simmer. Whisk the remaining cornstarch with a splash of water into a slurry. Add the slurry to the sauce and stir until thickened.", shortcutText: "Open the store-bought sweet and sour sauce and heat in a small saucepan over medium-low heat." },
+      { name: "Stir-fry vegetables",  text: "In a wok or skillet with a little canola oil over high heat, stir-fry the diced onion, bell peppers, pineapple, minced garlic, and grated ginger 2–3 minutes until crisp-tender.", shortcutText: "no-shortcut" },
+      { name: "Combine & serve",      text: "Add the fried chicken to the vegetables. Pour the warm sweet and sour sauce over everything and toss to coat over high heat for 1–2 minutes. Serve immediately with any preferred sides.", shortcutText: "no-shortcut" },
+    ],
+
+    recommendedSides: ["chow-mein", "shrimp-fried-rice"],
+    suggestedExtras: [
+      { itemId: "rice", quantity: "1", unit: "cup" },
+    ],
+  },
+
+  // ── Orange Chicken ────────────────────────────────────────────────
+  {
+    id: "orange-chicken",
+    name: "Orange Chicken",
+    cuisine: "Chinese",
+    dishType: "main",
+    difficulty: "moderate",
+    priceLevel: "cheap",
+    timeRequirement: "medium",
+    multiTasking: "possible",
+    mealprepIdeal: "yes",
+    shortcutReplaces: "homemade sauce → store-bought orange chicken sauce",
+    servings: 4,
+    caloriesPerServing: 520,
+    timeToComplete: [
+      { phase: "prep", minutes: 15 },
+      { phase: "fry",  minutes: 20 },
+    ],
+
+    ingredients: [
+      { ingredientId: "chicken-breast",      quantity: "1.5", unit: "lb",    shortcutSubstitute: "none" },
+      { ingredientId: "all-purpose-flour",   quantity: "0.5", unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "cornstarch",          quantity: "6",unit: "tbsp",   shortcutSubstitute: "none" },
+      { ingredientId: "eggs",                quantity: "2",   unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "orange-juice",     quantity: "1", unit: "cup",   shortcutSubstitute: "orange-chicken-sauce" },
+      { ingredientId: "brown-sugar",         quantity: "0.75", unit: "cup",   shortcutSubstitute: "omit" },
+      { ingredientId: "rice-vinegar",        quantity: "0.33", unit: "cup",   shortcutSubstitute: "omit" },
+      { ingredientId: "broccoli",     quantity: "1",   unit: "crown", shortcutSubstitute: "none" },
+      { ingredientId: "brown-onion",         quantity: "0.5", unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "garlic",              quantity: "2",   unit: "clove", shortcutSubstitute: "none" },
+      { ingredientId: "ginger-root",         quantity: "1",   unit: "tsp",   shortcutSubstitute: "ginger-paste" },
+      { ingredientId: "soy-sauce",           quantity: "2",   unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "canola-oil",          quantity: "2",   unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "salt",                quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
+    ],
+
+    steps: [
+      { name: "Batter & fry chicken", text: "Cut chicken into 1-inch cubes. Mix flour, 2/3 of the cornstarch, and salt in one bowl and beat eggs in another. Dip chicken pieces in egg then dredge in the flour-cornstarch mix. Heat canola oil to 375°F (190°C) and fry chicken in batches 4–5 minutes until golden and cooked through. Drain on a wire rack.", shortcutText: "no-shortcut" },
+      { name: "Make sauce",           text: "In a small saucepan, combine the orange juice, brown sugar, rice vinegar, and soy sauce. Bring to a boil, then reduce heat to a simmer. Whisk the remaining cornstarch with a splash of water into a slurry. Add the slurry to the sauce and stir until thickened.", shortcutText: "Open the store-bought orange chicken sauce and heat in a small saucepan over medium-low heat." },
+      { name: "Stir-fry vegetables",  text: "In a wok or skillet with a little canola oil over high heat, stir-fry the diced onion, broccoli, minced garlic, and grated ginger 2–3 minutes until crisp-tender.", shortcutText: "no-shortcut" },
+      { name: "Combine & serve",      text: "Add the fried chicken to the vegetables. Pour the warm orange sauce over everything and toss to coat over high heat for 1–2 minutes. Serve immediately with any preferred sides.", shortcutText: "no-shortcut" },
+    ],
+
+    recommendedSides: ["chow-mein", "shrimp-fried-rice"],
+    suggestedExtras: [
+      { itemId: "rice", quantity: "1", unit: "cup" },
+    ],
+  },
+
+  // ── Chow Mein ─────────────────────────────────────────────────────────────
+  {
+    id: "chow-mein",
+    name: "Chow Mein",
+    cuisine: "Chinese",
+    dishType: "side",
+    difficulty: "easy",
+    priceLevel: "cheap",
+    timeRequirement: "short",
+    multiTasking: "unlikely",
+    mealprepIdeal: "yes",
+    shortcutReplaces: null,
+    servings: 4,
+    caloriesPerServing: 440,
+    timeToComplete: [
+      { phase: "prep", minutes: 10 },
+      { phase: "cook", minutes: 15 },
+    ],
+
+    ingredients: [
+      { ingredientId: "chow-mein-noodles", quantity: "1",   unit: "pkg",   shortcutSubstitute: "none" },
+      { ingredientId: "cabbage",           quantity: "2",   unit: "cup",   shortcutSubstitute: "coleslaw-mix" },
+      { ingredientId: "carrots",           quantity: "2",   unit: "whole", shortcutSubstitute: "omit" },
+      { ingredientId: "green-onions",      quantity: "3",   unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "bean-sprouts",      quantity: "1",   unit: "cup",   shortcutSubstitute: "omit" },
+      { ingredientId: "garlic",            quantity: "3",   unit: "clove", shortcutSubstitute: "none" },
+      { ingredientId: "ginger-root",       quantity: "1",   unit: "tsp",   shortcutSubstitute: "ginger-paste" },
+      { ingredientId: "soy-sauce",         quantity: "3",   unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "msg",               quantity: "0.5",   unit: "tsp",  shortcutSubstitute: "none" },
+      { ingredientId: "oyster-sauce",      quantity: "2",   unit: "tbsp",  shortcutSubstitute: "omit" },
+      { ingredientId: "hoisin-sauce",      quantity: "1",   unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "sesame-oil",        quantity: "1",   unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "canola-oil",        quantity: "2",   unit: "tbsp",  shortcutSubstitute: "none" },
+    ],
+
+    steps: [
+      { name: "Cook noodles",       text: "In a pot half full of water, boil and cook the chow mein noodles according to package instructions until just tender. Drain, rinse with cold water, and toss with a drizzle of sesame oil to prevent sticking.", shortcutText: "no-shortcut" },
+      { name: "Stir-fry vegetables",text: "Heat canola oil in a wok or large skillet over high heat until shimmering. Add shredded cabbage and carrots (if using), minced garlic, and grated ginger. Stir-fry 2–3 minutes until the cabbage begins to wilt.", shortcutText: "no-shortcut" },
+      { name: "Add noodles",        text: "Add the cooked noodles to the wok along with the soy sauce, oyster sauce, hoisin sauce, and MSG. Toss everything together over high heat for 2 minutes until the noodles are well coated and beginning to caramelize slightly.", shortcutText: "no-shortcut" },
+      { name: "Finish & serve",     text: "Add the bean sprouts (if using) in the last 30 seconds and toss briefly. Remove from heat, drizzle with a little extra sesame oil, and garnish with sliced green onions. Serve immediately.", shortcutText: "no-shortcut" },
+    ],
+
+    recommendedSides: [],
   },
 
 ]

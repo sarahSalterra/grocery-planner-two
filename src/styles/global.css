@@ -905,6 +905,7 @@ a { color: inherit; text-decoration: none; }
 .recipe-badge--cuisine    { background: #fff3e0; color: #e65100; }
 .recipe-badge--mealprep   { background: #e0f7fa; color: #00695c; }
 .recipe-badge--shortcut   { background: #fff8e1; color: #f57f17; font-weight: 700; }
+.recipe-badge--calories   { background: #f1f8e9; color: #558b2f; }
 
 .recipe-card__edit-btn {
   font-size: 0.8rem;
@@ -2267,6 +2268,19 @@ a { color: inherit; text-decoration: none; }
   white-space: nowrap;
   flex-shrink: 0;
   padding-top: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-info-calories {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #558b2f;
+  background: #f1f8e9;
+  border: 1px solid #c5e1a5;
+  border-radius: 10px;
+  padding: 1px 7px;
 }
 
 .modal-shortcut-note {
@@ -2883,7 +2897,7 @@ a { color: inherit; text-decoration: none; }
 
 .shop-item {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
   padding: 11px 4px;
   border-bottom: 1px solid var(--color-border);
@@ -2930,11 +2944,95 @@ a { color: inherit; text-decoration: none; }
 
 /* ─── Item text ──────────────────────────────────────────────────────────────── */
 
+.shop-item__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.shop-item__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.shop-item__right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
 .shop-item__name {
   flex: 1;
   font-size: 0.92rem;
   font-weight: 500;
   color: var(--color-text);
+}
+
+/* ─── Substitution toggle button ── */
+
+.shop-sub-btn {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 99px;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.12s, background 0.12s, color 0.12s;
+  flex-shrink: 0;
+}
+
+.shop-sub-btn:hover,
+.shop-sub-btn--open {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+/* ─── Substitution expanded list ── */
+
+.shop-sub-list {
+  margin-top: 6px;
+  padding: 8px 10px;
+  background: var(--color-bg);
+  border-left: 3px solid var(--color-primary-light);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.shop-sub-list__label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
+}
+
+.shop-sub-list__items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.shop-sub-list__item {
+  font-size: 0.85rem;
+  color: var(--color-text);
+}
+
+.shop-sub-list__item::before {
+  content: '→ ';
+  color: var(--color-primary);
+  font-weight: 600;
 }
 
 .shop-item__qty {
@@ -2952,6 +3050,89 @@ a { color: inherit; text-decoration: none; }
   color: var(--color-accent);
   border-color: #f5dfc4;
   background: #fff8f0;
+}
+
+/* ─── Shop — Add-item search bar ────────────────────────────────────────────── */
+
+.shop-add-bar {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+.shop-add-input-wrap {
+  position: relative;
+  flex: 1;
+}
+
+.shop-add-input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.shop-add-input:focus {
+  border-color: var(--color-primary);
+}
+
+.shop-add-suggestions {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+}
+
+.shop-add-suggestion {
+  padding: 9px 14px;
+  font-size: 0.88rem;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.shop-add-suggestion:hover {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+/* ─── Shop — Extra-item remove button ───────────────────────────────────────── */
+
+.shop-item__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-left: 6px;
+  font-size: 0.65rem;
+  color: var(--color-text-soft);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.shop-item__remove:hover {
+  color: #c0392b;
+  border-color: #c0392b;
+  background: #fdf0ef;
 }
 
 /* ─── Cook Page ──────────────────────────────────────────────────────────────── */
@@ -3963,6 +4144,154 @@ a { color: inherit; text-decoration: none; }
 
 .onboarding-allergy-tags {
   margin-bottom: 10px;
+}
+
+/* ── Onboarding Checklist (Pages 6 & 7) ───────────────────────────────────── */
+
+.onboarding-checklist__toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.onboarding-checklist__toggle-btn {
+  font-size: 0.78rem;
+  color: var(--color-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.onboarding-checklist {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.onboarding-checklist__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  cursor: pointer;
+  font-size: 0.84rem;
+  text-align: left;
+  transition: border-color 0.15s, background 0.15s;
+  line-height: 1.3;
+}
+
+.onboarding-checklist__item:hover {
+  border-color: var(--color-primary-light);
+}
+
+.onboarding-checklist__item--checked {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.onboarding-checklist__box {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  flex-shrink: 0;
+  color: white;
+  background: transparent;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.onboarding-checklist__item--checked .onboarding-checklist__box {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.onboarding-checklist__name {
+  flex: 1;
+}
+
+.onboarding-custom-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.onboarding-custom-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.onboarding-custom-tag__remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-primary);
+  padding: 0;
+  font-size: 0.75rem;
+  opacity: 0.6;
+  line-height: 1;
+}
+
+.onboarding-custom-tag__remove:hover {
+  opacity: 1;
+}
+
+.onboarding-custom-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.onboarding-custom-row .onboarding-input {
+  flex: 1;
+}
+
+.onboarding-suggestions {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  right: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 100;
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.onboarding-suggestion {
+  padding: 9px 12px;
+  font-size: 0.88rem;
+  cursor: pointer;
+  color: var(--color-text);
+}
+
+.onboarding-suggestion:hover {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
 }
 
 /* ─── Allergy filter notice (in recipe list pages) ───────────────────────── */

@@ -1,5 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import Home from './pages/Home'
+import Onboarding from './pages/Onboarding'
+import LowWaste from './pages/LowWaste'
+import MealPlanning from './pages/MealPlanning'
+import RestockList from './pages/RestockList'
+import Shop from './pages/Shop'
+import Cook from './pages/Cook'
+import RecipeLibrary from './pages/RecipeLibrary'
+import RecipeForm from './pages/RecipeForm'
+import InventoryLibrary from './pages/InventoryLibrary'
+import { getPreferences } from './db/preferencesDB'
+import { checkDailyNotifications, checkScheduledNotifications } from './notifications/notificationService'
 
 // ── Error Boundary ─────────────────────────────────────────────────────────────
 class ErrorBoundary extends React.Component {
@@ -36,19 +48,6 @@ class ErrorBoundary extends React.Component {
     return this.props.children
   }
 }
-import Home from './pages/Home'
-import Onboarding from './pages/Onboarding'
-import LowWaste from './pages/LowWaste'
-import MealPlanning from './pages/MealPlanning'
-import RestockList from './pages/RestockList'
-import Shop from './pages/Shop'
-import Cook from './pages/Cook'
-import RecipeLibrary from './pages/RecipeLibrary'
-import RecipeForm from './pages/RecipeForm'
-import InventoryLibrary from './pages/InventoryLibrary'
-import { getPreferences } from './db/preferencesDB'
-import { checkDailyNotifications, checkScheduledNotifications } from './notifications/notificationService'
-
 export default function App() {
   const [hasOnboarded, setHasOnboarded] = useState(null)
 

@@ -94,8 +94,8 @@ function CookRecipeModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
 
   const hasAnyShortcut =
     recipe.shortcutReplaces ||
-    recipe.steps.some((s) => s.shortcutText && s.shortcutText !== 'no-shortcut') ||
-    recipe.ingredients.some((i) => i.shortcutSubstitute && i.shortcutSubstitute !== 'none')
+    (recipe.steps ?? []).some((s) => s.shortcutText && s.shortcutText !== 'no-shortcut') ||
+    (recipe.ingredients ?? []).some((i) => i.shortcutSubstitute && i.shortcutSubstitute !== 'none')
 
   // Time summary
   const timePhases   = recipe.timeToComplete ?? []
@@ -111,7 +111,7 @@ function CookRecipeModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
     })
   }
 
-  const allStepsDone = stepsChecked.size === recipe.steps.length
+  const allStepsDone = stepsChecked.size === (recipe.steps ?? []).length
 
   return (
     <div className="modal-overlay" onClick={onCancel}>

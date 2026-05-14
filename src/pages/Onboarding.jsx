@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { completeOnboarding } from '../db/preferencesDB'
+import { getHouseholdGoods, saveHouseholdGoods } from '../db/householdGoodsDB'
+import { getIngredients, saveIngredients } from '../db/ingredientsDB'
 import {
   HOUSEHOLD_SIZES,
   PRIORITIES,
@@ -9,8 +11,12 @@ import {
   getRecommendations,
 } from '../db/data/userPreferenceModes.js'
 import { DIETARY_MODE_LABELS } from '../utils/dietaryUtils'
+import {
+  STARTER_HOUSEHOLD_GOODS,
+  STARTER_PANTRY_INGREDIENTS,
+} from '../db/data/onboardingStarters.js'
 
-const TOTAL_PAGES = 5
+const TOTAL_PAGES = 7
 
 const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
@@ -504,6 +510,202 @@ function PageFive({ data, onChange }) {
   )
 }
 
+// ─── Shared Checklist Component ──────────────────────────────────────────────
+
+const MAX_CHECKLIST_SUGGESTIONS = 6
+
+function OnboardingChecklist({ items, selectedIds, onChange, customNames, onCustomChange, customPlaceholder, suggestionPool = [] }) {
+  const [input, setInput]             = useState('')
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  const inputRef = useRef(null)
+
+  const allSelected = items.every((item) => selectedIds.includes(item.id))
+
+  function toggleItem(id) {
+    const next = selectedIds.includes(id)
+      ? selectedIds.filter((x) => x !== id)
+      : [...selectedIds, id]
+    onChange(next)
+  }
+
+  function toggleAll() {
+    onChange(allSelected ? [] : items.map((i) => i.id))
+  }
+
+  const suggestions = useMemo(() => {
+    const q = input.trim().toLowerCase()
+    if (!q || !suggestionPool.length) return []
+    const alreadyCustom = new Set(customNames.map((n) => n.toLowerCase()))
+    return suggestionPool
+      .filter((item) =>
+        item.name.toLowerCase().includes(q) &&
+        !alreadyCustom.has(item.name.toLowerCase())
+      )
+      .slice(0, MAX_CHECKLIST_SUGGESTIONS)
+  }, [input, suggestionPool, customNames])
+
+  function commitValue(val) {
+    const trimmed = val.trim()
+    if (!trimmed) return
+    const already = customNames.some((n) => n.toLowerCase() === trimmed.toLowerCase())
+    if (!already) onCustomChange([...customNames, trimmed])
+    setInput('')
+    setShowSuggestions(false)
+    inputRef.current?.focus()
+  }
+
+  function removeCustom(name) {
+    onCustomChange(customNames.filter((n) => n !== name))
+  }
+
+  function handleKeyDown(e) {
+    if (e.key === 'Enter') { e.preventDefault(); commitValue(input) }
+    if (e.key === 'Escape') setShowSuggestions(false)
+  }
+
+  return (
+    <div>
+      <div className="onboarding-checklist__toggle-row">
+        <span className="onboarding-hint">{selectedIds.length} of {items.length} selected</span>
+        <button className="onboarding-checklist__toggle-btn" onClick={toggleAll}>
+          {allSelected ? 'Deselect all' : 'Select all'}
+        </button>
+      </div>
+
+      <div className="onboarding-checklist">
+        {items.map((item) => {
+          const checked = selectedIds.includes(item.id)
+          return (
+            <button
+              key={item.id}
+              className={`onboarding-checklist__item ${checked ? 'onboarding-checklist__item--checked' : ''}`}
+              onClick={() => toggleItem(item.id)}
+            >
+              <span className="onboarding-checklist__box">{checked ? '✓' : ''}</span>
+              <span className="onboarding-checklist__name">{item.name}</span>
+            </button>
+          )
+        })}
+      </div>
+
+      {customNames.length > 0 && (
+        <div className="onboarding-custom-tags">
+          {customNames.map((name) => (
+            <span key={name} className="onboarding-custom-tag">
+              {name}
+              <button
+                className="onboarding-custom-tag__remove"
+                onClick={() => removeCustom(name)}
+                title={`Remove ${name}`}
+              >
+                ✕
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
+
+      <div className="onboarding-custom-row" style={{ position: 'relative' }}>
+        <div style={{ position: 'relative', flex: 1 }}>
+          <input
+            ref={inputRef}
+            className="onboarding-input"
+            type="text"
+            placeholder={customPlaceholder}
+            value={input}
+            onChange={(e) => { setInput(e.target.value); setShowSuggestions(true) }}
+            onKeyDown={handleKeyDown}
+            onFocus={() => setShowSuggestions(true)}
+            onBlur={() => setTimeout(() => setShowSuggestions(false), 160)}
+            autoComplete="off"
+          />
+          {showSuggestions && suggestions.length > 0 && (
+            <ul className="onboarding-suggestions" role="listbox">
+              {suggestions.map((item) => (
+                <li
+                  key={item.id}
+                  className="onboarding-suggestion"
+                  role="option"
+                  onMouseDown={() => commitValue(item.name)}
+                >
+                  {item.name}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <button
+          className="btn btn--primary"
+          onClick={() => commitValue(input)}
+          disabled={!input.trim()}
+        >
+          Add
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// ─── Page 6: Household Inventory ──────────────────────────────────────────────
+
+const STARTER_GOOD_IDS = new Set(STARTER_HOUSEHOLD_GOODS.map((g) => g.id))
+
+function PageSix({ data, onChange }) {
+  const suggestionPool = useMemo(() => {
+    return getHouseholdGoods().filter((g) => !STARTER_GOOD_IDS.has(g.id))
+  }, [])
+
+  return (
+    <div className="onboarding-step">
+      <h2 className="onboarding-step__title">What household items do you keep stocked?</h2>
+      <p className="onboarding-step__subtitle">
+        Uncheck anything you don't keep on hand. These will form your personal restock list.
+        You can add or remove items later in Inventory Settings.
+      </p>
+
+      <OnboardingChecklist
+        items={STARTER_HOUSEHOLD_GOODS}
+        selectedIds={data.selectedHouseholdGoodIds}
+        onChange={(ids) => onChange('selectedHouseholdGoodIds', ids)}
+        customNames={data.customHouseholdGoodNames}
+        onCustomChange={(names) => onChange('customHouseholdGoodNames', names)}
+        customPlaceholder="Add an item not listed above…"
+        suggestionPool={suggestionPool}
+      />
+    </div>
+  )
+}
+
+// ─── Page 7: Common Pantry Ingredients ────────────────────────────────────────
+
+const STARTER_INGREDIENT_IDS = new Set(STARTER_PANTRY_INGREDIENTS.map((i) => i.id))
+
+function PageSeven({ data, onChange }) {
+  const suggestionPool = useMemo(() => {
+    return getIngredients().filter((i) => !STARTER_INGREDIENT_IDS.has(i.id))
+  }, [])
+
+  return (
+    <div className="onboarding-step">
+      <h2 className="onboarding-step__title">What ingredients do you usually have on hand?</h2>
+      <p className="onboarding-step__subtitle">
+        Checked items won't be added to your grocery list automatically — the app assumes you
+        already have them. Uncheck anything you don't regularly keep stocked.
+      </p>
+
+      <OnboardingChecklist
+        items={STARTER_PANTRY_INGREDIENTS}
+        selectedIds={data.pantryIngredientIds}
+        onChange={(ids) => onChange('pantryIngredientIds', ids)}
+        customNames={data.customPantryIngredientNames}
+        onCustomChange={(names) => onChange('customPantryIngredientNames', names)}
+        customPlaceholder="Add an ingredient not listed above…"
+        suggestionPool={suggestionPool}
+      />
+    </div>
+  )
+}
+
 // ─── Onboarding Wizard Shell ──────────────────────────────────────────────────
 
 export default function Onboarding({ onComplete }) {
@@ -527,6 +729,12 @@ export default function Onboarding({ onComplete }) {
     shopDay2: null,
     shopCycleRef: null,
     wholesale: false,
+    // Page 6 — household inventory
+    selectedHouseholdGoodIds: STARTER_HOUSEHOLD_GOODS.map((g) => g.id),
+    customHouseholdGoodNames: [],
+    // Page 7 — pantry staples
+    pantryIngredientIds: STARTER_PANTRY_INGREDIENTS.map((i) => i.id),
+    customPantryIngredientNames: [],
   })
 
   function handleChange(key, value) {
@@ -554,7 +762,75 @@ export default function Onboarding({ onComplete }) {
   }
 
   function handleSave() {
-    completeOnboarding(formData)
+    const allDefaultGoods    = getHouseholdGoods()
+    const existingIngredients = getIngredients()
+
+    // ── Household goods ────────────────────────────────────────────────────────
+    const selectedGoods = allDefaultGoods.filter((g) =>
+      formData.selectedHouseholdGoodIds.includes(g.id)
+    )
+
+    // For custom-named goods, look up in ingredients first (food items carry the
+    // correct grocery department there), then in goods, then fall back to new.
+    const customGoods = formData.customHouseholdGoodNames.map((name, i) => {
+      const ingMatch = existingIngredients.find(
+        (ing) => ing.name.toLowerCase() === name.toLowerCase()
+      )
+      if (ingMatch) return { id: ingMatch.id, name: ingMatch.name, department: ingMatch.department }
+
+      const goodMatch = allDefaultGoods.find(
+        (g) => g.name.toLowerCase() === name.toLowerCase()
+      )
+      if (goodMatch) return goodMatch
+
+      return { id: `good-custom-${Date.now()}-${i}`, name, department: 'household' }
+    })
+    saveHouseholdGoods([...selectedGoods, ...customGoods])
+
+    // ── Pantry ingredients ─────────────────────────────────────────────────────
+    // Reuse existing records when the name matches — preserves proper department
+    // and all substitution data. Only create new records for truly new items.
+    const customIngredients = formData.customPantryIngredientNames.map((name, i) => {
+      const existing = existingIngredients.find(
+        (ing) => ing.name.toLowerCase() === name.toLowerCase()
+      )
+      if (existing) return existing
+
+      return {
+        id: `pantry-custom-${Date.now()}-${i}`,
+        name,
+        department: 'pantry',
+        vegSubstitute: 'n/a', veganSubstitute: 'n/a', glutenSubstitute: 'n/a',
+        dairySubstitute: 'n/a', fishSubstitute: 'n/a', allergySubstitute: 'none',
+        strictSubstitute: 'none', regularSubstitute: 'none',
+        lenientSubstitute: 'none', otherSubstitute: 'none',
+      }
+    })
+    const brandNewIngredients = customIngredients.filter(
+      (ci) => !existingIngredients.some((e) => e.id === ci.id)
+    )
+    if (brandNewIngredients.length > 0) {
+      saveIngredients([...existingIngredients, ...brandNewIngredients])
+    }
+
+    const allPantryIds = [
+      ...formData.pantryIngredientIds,
+      ...customIngredients.map((i) => i.id),
+    ]
+    const allHouseholdIds = [
+      ...formData.selectedHouseholdGoodIds,
+      ...customGoods.map((g) => g.id),
+    ]
+
+    const merged = {
+      ...formData,
+      householdInventory: allHouseholdIds,
+      commonIngredients: allPantryIds,
+      checkedAvailableIngredients: [
+        ...new Set([...(formData.checkedAvailableIngredients ?? []), ...allPantryIds]),
+      ],
+    }
+    completeOnboarding(merged)
     onComplete()
     navigate('/')
   }
@@ -583,6 +859,8 @@ export default function Onboarding({ onComplete }) {
           {page === 3 && <PageThree data={formData} onChange={handleChange} />}
           {page === 4 && <PageFour  data={formData} onChange={handleChange} />}
           {page === 5 && <PageFive  data={formData} onChange={handleChange} />}
+          {page === 6 && <PageSix   data={formData} onChange={handleChange} />}
+          {page === 7 && <PageSeven data={formData} onChange={handleChange} />}
         </div>
 
         {/* Footer navigation */}

@@ -60,12 +60,14 @@ export default function Home() {
   // the latest meal plan data saved by other pages.
   useEffect(() => {
     setPreferences(getPreferences())
+    const list = getRecipes()
+    setRecipesMap(Object.fromEntries(list.map((r) => [r.id, r])))
   }, [])
 
-  const recipesMap = useMemo(() => {
+  const [recipesMap, setRecipesMap] = useState(() => {
     const list = getRecipes()
     return Object.fromEntries(list.map((r) => [r.id, r]))
-  }, [])
+  })
 
   // Build the display data for WeekCalendar.
   // Planned mode: use mealsByDay (meals are assigned to specific days).

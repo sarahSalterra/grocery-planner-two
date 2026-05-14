@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getPreferences, savePreferences } from '../db/preferencesDB'
 import { getHouseholdGoods, addHouseholdGood } from '../db/householdGoodsDB'
@@ -133,9 +133,15 @@ function InventorySection({ title, description, items, onRemove, onAdd, datalist
 export default function InventoryLibrary() {
   const navigate = useNavigate()
 
-  const allGoods       = useMemo(getHouseholdGoods, [])
-  const allIngredients = useMemo(getIngredients, [])
-  const [prefs, setPrefs] = useState(getPreferences)
+  const [allGoods,       setAllGoods]       = useState(getHouseholdGoods)
+  const [allIngredients, setAllIngredients] = useState(getIngredients)
+  const [prefs,          setPrefs]          = useState(getPreferences)
+
+  useEffect(() => {
+    setAllGoods(getHouseholdGoods())
+    setAllIngredients(getIngredients())
+    setPrefs(getPreferences())
+  }, [])
 
   // Combined pool for household inventory (goods + ingredients)
   const householdPool = useMemo(
@@ -168,15 +174,22 @@ export default function InventoryLibrary() {
   }
 
   function addToHousehold(name, dept) {
+    // Check the full pool (goods + ingredients) for an existing match.
+    // Ingredients carry their grocery department (dairy, produce, frozen, etc.)
+    // so we always prefer that over the user-typed dept for food items.
     const existing = householdPool.find(
       (i) => i.name.toLowerCase() === name.toLowerCase()
     )
     let id
     if (existing) {
       id = existing.id
+      const isAlreadyGood = allGoods.some((g) => g.id === id)
+      if (!isAlreadyGood) {
+        addHouseholdGood({ id, name: existing.name, department: existing.department })
+      }
     } else {
       id = slugify(name)
-      addHouseholdGood({ id, name, department: dept })
+      addHouseholdGood({ id, name, department: dept || 'household' })
     }
     if (!householdIds.includes(id)) {
       updatePrefs({ householdInventory: [...householdIds, id] })

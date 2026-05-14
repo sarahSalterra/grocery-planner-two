@@ -1,41 +1,70 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import StepNav from '../components/StepNav'
 import MiniSettings from '../components/MiniSettings'
 import { getPreferences, savePreferences } from '../db/preferencesDB'
 import { getHouseholdGoods } from '../db/householdGoodsDB'
-import { DEPARTMENTS } from '../db/data/filterOptions'
+import { getIngredients } from '../db/ingredientsDB'
+import { DEPARTMENTS, ADDITIONAL_DEPARTMENTS } from '../db/data/filterOptions'
 import { buildGroceryList } from '../utils/groceryUtils'
 
 const DEPT_LABELS = {
-  produce:   'Produce',
-  pantry:    'Pantry',
-  deli:      'Deli',
-  bakery:    'Bakery',
-  spices:    'Spices',
-  baking:    'Baking',
-  butchery:  'Butcher',
-  frozen:    'Frozen',
-  dairy:     'Dairy',
-  snacks:    'Snacks',
-  drinks:    'Drinks',
-  household: 'Household',
-  hygiene:   'Hygiene',
-  pets:      'Pets',
+  produce:              'Produce',
+  pantry:               'Pantry',
+  deli:                 'Deli',
+  bakery:               'Bakery',
+  spices:               'Spices',
+  baking:               'Baking',
+  butchery:             'Butcher',
+  frozen:               'Frozen',
+  dairy:                'Dairy',
+  snacks:               'Snacks',
+  drinks:               'Drinks',
+  florist:              'Florist',
+  household:            'Household',
+  hygiene:              'Hygiene',
+  pets:                 'Pets',
+  baby:                 'Baby',
+  wholesale:            'Wholesale',
+  'international market': 'International Market',
 }
+
+const ALL_DEPARTMENTS = [...DEPARTMENTS, ...ADDITIONAL_DEPARTMENTS]
 
 export default function RestockList() {
   const navigate = useNavigate()
   const location = useLocation()
-  const [preferences, setPreferences] = useState(getPreferences)
-  const allGoods = useMemo(getHouseholdGoods, [])
+  const [preferences,    setPreferences]    = useState(getPreferences)
+  const [allGoods,       setAllGoods]       = useState(getHouseholdGoods)
+  const [allIngredients, setAllIngredients] = useState(getIngredients)
+
+  useEffect(() => {
+    setPreferences(getPreferences())
+    setAllGoods(getHouseholdGoods())
+    setAllIngredients(getIngredients())
+  }, [])
+
+  const ingredientsMap = useMemo(
+    () => Object.fromEntries(allIngredients.map((i) => [i.id, i])),
+    [allIngredients]
+  )
 
   // ── Derive: filter goods to only what's in the user's household inventory ──
-  const inventoryIds  = new Set(preferences.householdInventory ?? [])
-  const inventoryItems = useMemo(
-    () => allGoods.filter((g) => inventoryIds.has(g.id)),
-    [allGoods, preferences.householdInventory]
-  )
+  // For IDs that were stored from an ingredient match (before the fix that
+  // auto-registers them as goods), fall back to the ingredients map so
+  // existing saved data still renders correctly.
+  const inventoryIds   = new Set(preferences.householdInventory ?? [])
+  const inventoryItems = useMemo(() => {
+    return [...inventoryIds]
+      .map((id) => {
+        const good = allGoods.find((g) => g.id === id)
+        if (good) return good
+        const ing = ingredientsMap[id]
+        if (ing) return { id: ing.id, name: ing.name, department: ing.department }
+        return null
+      })
+      .filter(Boolean)
+  }, [allGoods, ingredientsMap, preferences.householdInventory])
 
   // ── Group items by department (maintaining DEPARTMENTS display order) ──────
   const departmentGroups = useMemo(() => {
@@ -45,7 +74,7 @@ export default function RestockList() {
       byDept[item.department].push(item)
     })
     // Return in the canonical department order, skipping empty departments
-    return DEPARTMENTS.filter((d) => byDept[d]?.length > 0).map((d) => ({
+    return ALL_DEPARTMENTS.filter((d) => byDept[d]?.length > 0).map((d) => ({
       dept:  d,
       label: DEPT_LABELS[d] ?? d.charAt(0).toUpperCase() + d.slice(1),
       items: byDept[d],

@@ -65,6 +65,7 @@ const blankForm = {
   mealprepIdeal: 'no',
   shortcutReplaces: '',
   servings: '',
+  caloriesPerServing: '',
   timeToComplete: [],
   ingredients: [],
   steps: [],
@@ -134,9 +135,10 @@ export default function RecipeForm() {
 
     return {
       ...existing,
-      shortcutReplaces: existing.shortcutReplaces ?? '',
-      servings:         existing.servings         ?? '',
-      timeToComplete:   existing.timeToComplete   ?? [],
+      shortcutReplaces:    existing.shortcutReplaces    ?? '',
+      servings:            existing.servings            ?? '',
+      caloriesPerServing:  existing.caloriesPerServing  ?? '',
+      timeToComplete:      existing.timeToComplete      ?? [],
       ingredients: ingredientsWithSub,
       recommendedSides: existing.recommendedSides ?? [],
     }
@@ -306,7 +308,8 @@ export default function RecipeForm() {
       multiTasking:    form.multiTasking,
       mealprepIdeal:   form.mealprepIdeal,
       shortcutReplaces: form.shortcutReplaces.trim() || null,
-      servings: form.servings !== '' ? Number(form.servings) : undefined,
+      servings:           form.servings           !== '' ? Number(form.servings)           : undefined,
+      caloriesPerServing: form.caloriesPerServing  !== '' ? Number(form.caloriesPerServing) : undefined,
       timeToComplete: form.timeToComplete
         .filter((p) => p.phase && p.minutes !== '')
         .map((p) => ({ phase: p.phase, minutes: Number(p.minutes) })),
@@ -421,6 +424,17 @@ export default function RecipeForm() {
               value={form.servings}
               onChange={(e) => setField('servings', e.target.value)}
               placeholder="e.g. 4"
+            />
+          </FormField>
+
+          <FormField label="Calories per Serving (optional)">
+            <input
+              className="form-input form-input--sm"
+              type="number"
+              min="0"
+              value={form.caloriesPerServing}
+              onChange={(e) => setField('caloriesPerServing', e.target.value)}
+              placeholder="e.g. 450"
             />
           </FormField>
 

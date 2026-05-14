@@ -2,6 +2,7 @@ import {
   deriveUserType,
   deriveRecipeSize,
   DEFAULT_PRIORITIES_RANKED,
+  PRIORITIES,
 } from './data/userPreferenceModes.js'
 
 const KEY = 'gp_preferences'
@@ -74,6 +75,8 @@ const DEFAULTS = {
   // items change so Shop always shows the current state.
   groceryListSections: [],
   shoppingChecked: [],
+  // Items manually added by the user on the Shop page. Persist until removed.
+  shopExtraItems: [],
 
   // ── Cook ─────────────────────────────────────────────────────────────────
   // Recipe IDs completed this week. Cleared when a new meal plan is started.
@@ -90,10 +93,25 @@ const DEFAULTS = {
   pendingMeals: [],
 }
 
+const ALL_PRIORITY_IDS = PRIORITIES.map((p) => p.id)
+
+// Append any priority IDs that were added after a user completed onboarding,
+// so new priorities always appear at the bottom of their existing ranking.
+function normalizePrioritiesRanked(ranked) {
+  const known = new Set(ranked)
+  const missing = ALL_PRIORITY_IDS.filter((id) => !known.has(id))
+  return missing.length ? [...ranked, ...missing] : ranked
+}
+
 export function getPreferences() {
   try {
     const stored = localStorage.getItem(KEY)
-    return stored ? { ...DEFAULTS, ...JSON.parse(stored) } : { ...DEFAULTS }
+    if (!stored) return { ...DEFAULTS }
+    const parsed = JSON.parse(stored)
+    if (parsed.prioritiesRanked) {
+      parsed.prioritiesRanked = normalizePrioritiesRanked(parsed.prioritiesRanked)
+    }
+    return { ...DEFAULTS, ...parsed }
   } catch {
     return { ...DEFAULTS }
   }
