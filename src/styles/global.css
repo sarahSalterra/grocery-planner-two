@@ -4221,6 +4221,22 @@ a { color: inherit; text-decoration: none; }
   flex: 1;
 }
 
+.onboarding-checklist__remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-primary);
+  padding: 0 0 0 4px;
+  font-size: 0.65rem;
+  opacity: 0.55;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.onboarding-checklist__remove:hover {
+  opacity: 1;
+}
+
 .onboarding-custom-tags {
   display: flex;
   flex-wrap: wrap;

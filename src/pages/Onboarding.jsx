@@ -586,24 +586,23 @@ function OnboardingChecklist({ items, selectedIds, onChange, customNames, onCust
             </button>
           )
         })}
+        {customNames.map((name) => (
+          <div
+            key={name}
+            className="onboarding-checklist__item onboarding-checklist__item--checked"
+          >
+            <span className="onboarding-checklist__box">✓</span>
+            <span className="onboarding-checklist__name">{name}</span>
+            <button
+              className="onboarding-checklist__remove"
+              onClick={() => removeCustom(name)}
+              title={`Remove ${name}`}
+            >
+              ✕
+            </button>
+          </div>
+        ))}
       </div>
-
-      {customNames.length > 0 && (
-        <div className="onboarding-custom-tags">
-          {customNames.map((name) => (
-            <span key={name} className="onboarding-custom-tag">
-              {name}
-              <button
-                className="onboarding-custom-tag__remove"
-                onClick={() => removeCustom(name)}
-                title={`Remove ${name}`}
-              >
-                ✕
-              </button>
-            </span>
-          ))}
-        </div>
-      )}
 
       <div className="onboarding-custom-row" style={{ position: 'relative' }}>
         <div style={{ position: 'relative', flex: 1 }}>
