@@ -2866,6 +2866,16 @@ a { color: inherit; text-decoration: none; }
   text-decoration: underline;
 }
 
+.shop-progress__reset--clear {
+  color: var(--color-danger, #c62828);
+}
+
+.shop-progress__actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
 /* ─── Department sections ────────────────────────────────────────────────────── */
 
 .shop-dept { margin-bottom: 22px; }

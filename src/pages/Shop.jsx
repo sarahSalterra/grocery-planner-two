@@ -35,7 +35,9 @@ export default function Shop() {
 
   // Use the stored snapshot if present; fall back to computing on the fly
   // (backward compat for users whose list was saved before this change).
+  // If the user explicitly cleared the list, surface an empty array.
   const sections = useMemo(() => {
+    if (preferences.shoppingListCleared) return []
     const stored = preferences.groceryListSections ?? []
     return stored.length > 0 ? stored : buildGroceryList(preferences)
   }, [preferences])
@@ -76,6 +78,32 @@ export default function Shop() {
   function resetChecked() {
     setChecked(new Set())
     const updated = { ...preferences, shoppingChecked: [] }
+    setPreferences(updated)
+    savePreferences(updated)
+  }
+
+  function clearList() {
+    setChecked(new Set())
+    setExtraItems([])
+    const updated = {
+      ...preferences,
+      shoppingListCleared: true,
+      shoppingChecked: [],
+      shopExtraItems: [],
+    }
+    setPreferences(updated)
+    savePreferences(updated)
+  }
+
+  function reloadList() {
+    setChecked(new Set())
+    setExtraItems([])
+    const updated = {
+      ...preferences,
+      shoppingListCleared: false,
+      shoppingChecked: [],
+      shopExtraItems: [],
+    }
     setPreferences(updated)
     savePreferences(updated)
   }
@@ -241,10 +269,25 @@ export default function Shop() {
         {totalItems === 0 ? (
           <div className="placeholder-block">
             <p>Your grocery list is empty.</p>
-            <p style={{ marginTop: 8, fontSize: '0.85rem' }}>
-              Select recipes in Meal Planning and / or items in the Restock List first,
-              or add items above.
-            </p>
+            {preferences.shoppingListCleared && (preferences.groceryListSections ?? []).length > 0 ? (
+              <>
+                <p style={{ marginTop: 8, fontSize: '0.85rem' }}>
+                  Your last list is saved — reload it anytime.
+                </p>
+                <button
+                  className="btn btn--secondary"
+                  style={{ marginTop: 12 }}
+                  onClick={reloadList}
+                >
+                  Reload List
+                </button>
+              </>
+            ) : (
+              <p style={{ marginTop: 8, fontSize: '0.85rem' }}>
+                Select recipes in Meal Planning and / or items in the Restock List first,
+                or add items above.
+              </p>
+            )}
           </div>
         ) : (
           <>
@@ -260,11 +303,20 @@ export default function Shop() {
                 <span className="shop-progress__label">
                   {allDone ? '✓ All done!' : `${checkedCount} of ${totalItems} items`}
                 </span>
-                {checkedCount > 0 && (
+                {allDone ? (
+                  <div className="shop-progress__actions">
+                    <button className="shop-progress__reset" onClick={reloadList}>
+                      Reload List
+                    </button>
+                    <button className="shop-progress__reset shop-progress__reset--clear" onClick={clearList}>
+                      Clear List
+                    </button>
+                  </div>
+                ) : checkedCount > 0 ? (
                   <button className="shop-progress__reset" onClick={resetChecked}>
                     Reset
                   </button>
-                )}
+                ) : null}
               </div>
             </div>
 

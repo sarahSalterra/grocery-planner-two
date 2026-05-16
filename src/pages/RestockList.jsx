@@ -109,7 +109,7 @@ export default function RestockList() {
         selectedRestockItems: [...next],
         restockWholesale,
       }
-      const updated = { ...base, groceryListSections: buildGroceryList(base) }
+      const updated = { ...base, groceryListSections: buildGroceryList(base), shoppingListCleared: false }
       savePreferences(updated)
       return next
     })
@@ -124,7 +124,7 @@ export default function RestockList() {
       selectedRestockItems: [...selected],
       restockWholesale: next,
     }
-    const updated = { ...base, groceryListSections: buildGroceryList(base) }
+    const updated = { ...base, groceryListSections: buildGroceryList(base), shoppingListCleared: false }
     setPreferences(updated)
     savePreferences(updated)
   }

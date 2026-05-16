@@ -595,6 +595,45 @@ const DEFAULT_RECIPES = [
     ],
   },
 
+  // ── Buttermilk Biscuits ──────────────────────────────────────────────────────────────
+  {
+    id: "buttermilk-biscuits",
+    name: "Buttermilk Biscuits",
+    cuisine: "American",
+    dishType: "side",
+    difficulty: "moderate",
+    priceLevel: "cheap",
+    timeRequirement: "medium",
+    multiTasking: "ideal",
+    mealprepIdeal: "no",
+    shortcutReplaces: "homemade buttermilk biscuits → store-bought biscuits",
+    servings: 8,
+    caloriesPerServing: 180,
+    timeToComplete: [
+      { phase: "prep", minutes: 30 },
+      { phase: "bake", minutes: 15 },
+    ],
+
+    ingredients: [
+      { ingredientId: "buttermilk",           quantity: "1",   unit: "cup",   shortcutSubstitute: "biscuit-dough" },
+      { ingredientId: "all-purpose-flour",          quantity: "2.5",   unit: "cup",     shortcutSubstitute: "omit" },
+      { ingredientId: "unsalted-butter",     quantity: "0.5", unit: "cup",    shortcutSubstitute: "omit" },
+      { ingredientId: "baking-powder",         quantity: "1", unit: "tbsp",    shortcutSubstitute: "omit" },
+      { ingredientId: "baking-soda",              quantity: "0.5",   unit: "tsp",   shortcutSubstitute: "omit" },
+      { ingredientId: "salt", quantity: "1",   unit: "tsp",   shortcutSubstitute: "omit" },
+      { ingredientId: "honey", quantity: "1",   unit: "tbsp",   shortcutSubstitute: "omit" },
+    ],
+
+    steps: [
+      {name: "Mix dry ingredients",     text: "In a food processor, blender, or large bowl, pulse or whisk the flour, baking powder, baking soda, and salt together until combined. Add the butter (cubed) and pulse or mix with a pastry cutter until the mixture resembles coarse crumbs.", shortcutText: "no-shortcut" },
+      { name: "Add wet ingredients",      text: "With the dry ingredients in a bowl, add the buttermilk and honey, folding together with a spatula or spoon, careful not to overmix (if the dough is part crumbly part sticky, that is fine).", shortcutText: "no-shortcut" },
+      { name: "Shape & cut",      text: "Turn the dough onto a floured surface and knead it together with generously floured hands (it will be sticky at first). Flatten it into a thick rectangle and tri-fold the dough, then turn it 90 degrees and tri-fold it again, flattening (or rolling with a rolling pin) as you go. Repeat the double tri-fold process two more times, and flatten the dough into a rectangle once again. Cut into 8 to 10 equal pieces with a biscuit cutter or a very thin cup, re-shaping the scraps if necessary until the dough is used. Place on a parchment-lined baking sheet, spacing 1 inch apart.", shortcutText: "no-shortcut" },
+      { name: "Bake & serve",      text: "If you have remaining buttermilk, brush a little on the tops of the biscuits. Bake at 425°F for 15-18 minutes until golden brown and cooked through, then serve.", shortcutText: "Place the biscuits on a baking sheet and bake at 425°F for 15-18 minutes until golden brown and cooked through." },
+    ],
+
+    recommendedSides: ["spaghetti-bolognese"],
+  },
+
   // ── Caesar Salad ──────────────────────────────────────────────────────────────
   {
     id: "caesar-salad",
@@ -3852,24 +3891,26 @@ const DEFAULT_RECIPES = [
     ],
 
     ingredients: [
-      { ingredientId: "almond-flour",         quantity: "1.75", unit: "cup",   shortcutSubstitute: "none" },
-      { ingredientId: "powdered-sugar",       quantity: "2.25", unit: "cup",   shortcutSubstitute: "none" },
-      { ingredientId: "eggs",                 quantity: "4",    unit: "whole", shortcutSubstitute: "none" },
-      { ingredientId: "granulated-sugar",     quantity: "0.5",  unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "almond-flour",         quantity: "1.5", unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "powdered-sugar",       quantity: "1", unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "eggs",                 quantity: "3",    unit: "whole", shortcutSubstitute: "none" },
+      { ingredientId: "granulated-sugar",     quantity: "0.75",  unit: "cup",   shortcutSubstitute: "none" },
       { ingredientId: "cream-of-tartar",      quantity: "0.25", unit: "tsp",   shortcutSubstitute: "none" },
-      { ingredientId: "vanilla-extract",      quantity: "0.5",  unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "vanilla-extract",      quantity: "1",  unit: "tsp",   shortcutSubstitute: "none" },
+      { ingredientId: "raspberry-extract",    quantity: "0.5",  unit: "tsp",   shortcutSubstitute: "omit" },
       { ingredientId: "salted-butter",        quantity: "0.5",  unit: "cup",   shortcutSubstitute: "none" },
       { ingredientId: "raspberry-jam",        quantity: "0.25", unit: "cup",   shortcutSubstitute: "none" },
-      { ingredientId: "heavy-whipping-cream", quantity: "2",    unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "fresh-raspberries", quantity: "2",    unit: "cup",  shortcutSubstitute: "none" },
     ],
 
     steps: [
-      { name: "Sift dry ingredients",      text: "Sift the almond flour and 1.75 cups of the powdered sugar together through a fine-mesh sieve into a large bowl, discarding any large almond pieces left behind. The mixture must be very fine — this is key to smooth, unblemished macaron shells.", shortcutText: "no-shortcut" },
-      { name: "Whip meringue",             text: "Separate 4 egg whites into a completely clean, grease-free bowl (fat will prevent the whites from whipping properly). Beat on medium speed until frothy, then add the cream of tartar. Increase to high and gradually add the granulated sugar one tablespoon at a time, beating until the meringue holds stiff, glossy peaks and the sugar is fully dissolved (rub a small amount between two fingers — it should feel smooth, not gritty).", shortcutText: "no-shortcut" },
-      { name: "Macaronage (fold batter)",  text: "Add the vanilla to the meringue and fold briefly. Pour the almond flour mixture over the meringue. Using a wide spatula, fold by pressing down the center and scraping around the edges of the bowl, rotating as you go. Fold until the batter flows like thick lava — lift the spatula: the batter should fall in a slow, thick ribbon that disappears back into the bowl within 10 seconds. This stage is critical: under-mixed batter will crack; over-mixed batter will spread too flat. Aim for 40–50 folds total.", shortcutText: "no-shortcut" },
-      { name: "Pipe & rest shells",        text: "Transfer batter to a piping bag fitted with a 1/2-inch round tip. Line two baking sheets with parchment or silicone mats. Pipe 1.5-inch circles spaced 1.5 inches apart. Firmly tap each tray on the counter 5–6 times to release any air bubbles, and pop surface bubbles with a toothpick. Let the piped shells sit uncovered at room temperature for 45–60 minutes until dry to the touch and a thin skin has formed — this skin is what creates the signature macaron 'feet' during baking.", shortcutText: "no-shortcut" },
-      { name: "Bake shells",               text: "Preheat the oven to 300°F. Bake one tray at a time on the center rack for 13–15 minutes. The shells are done when they can be cleanly lifted off the parchment without sticking. Do not open the oven during baking. Let cool completely on the tray before filling.", shortcutText: "no-shortcut" },
-      { name: "Make filling & sandwich",   text: "Beat the softened butter until fluffy. Add the remaining 0.5 cup powdered sugar, the raspberry jam, and the heavy cream and beat on high until smooth. Transfer to a piping bag. Pair cooled shells by size. Pipe a ring of buttercream around the edge of one shell from each pair, then add a small spoonful of raspberry jam in the center. Sandwich with the matching shell and press gently. Refrigerate assembled macarons for at least 1 hour — ideally overnight — for the flavors to meld and the shells to soften to that ideal chewy texture.", shortcutText: "no-shortcut" },
+      { name: "Sift dry ingredients",      text: "Sift the almond flour and 1.75 cups of the powdered sugar together through a fine-mesh sieve into a large bowl, discarding any pieces left behind (don't push them through). Transfer to a food processor or blender and pulse for 20 seconds, scrape down, then pulse 10 more seconds. Sift again back into the bowl, discarding any pieces left.", shortcutText: "no-shortcut" },
+      { name: "Whip meringue",             text: "Separate the egg whites into a completely clean, grease-free bowl (fat will prevent the whites from whipping properly). Beat on medium speed until frothy (about 30 seconds), then add the cream of tartar and continue to beat. Gradually add the granulated sugar one tablespoon at a time, and add half the vanilla and raspberry extract, as well as any desired food coloring (gel recommended only). Scraping down the bowl occasionally and beat until the meringue holds stiff, glossy peaks and the sugar is fully dissolved (about 6 minutes). ", shortcutText: "no-shortcut" },
+      { name: "Macaronage (fold batter)",  text: "Pour the almond flour mixture over the meringue in 3 separate additions. Using a wide spatula, fold by pressing down the center and scraping around the edges of the bowl, rotating as you go until thoroughly combined. Then, gently press the mixture against the side of the bowl with the spatula to remove all large air bubbles. When you no longer see large air bubbles against the side of the bowl, and the batter flows off the spatula, holding its shape when drizzled in a figure-eight, stop folding.", shortcutText: "no-shortcut" },
+      { name: "Pipe & rest shells",        text: "Transfer batter to a piping bag fitted with a 1/2-inch round tip. Line two baking sheets with parchment or silicone mats. Pipe 1.5-inch circles spaced 1.5 inches apart (or you may make them larger, but the batch size will be smaller). Gently tap each tray on the counter a few times to release any trapped air bubbles, or pop surface bubbles with a toothpick. Let the piped shells sit uncovered at room temperature for 40-50 minutes until dry to the touch (appearance is no longer glossy) and a skin has formed on the surface of the cookies.", shortcutText: "no-shortcut" },
+      { name: "Bake shells",               text: "Preheat the oven to 270°F. Bake one tray at a time on the center rack for 18-20 minutes, rotating the pan halfway through. The shells are done when they can be cleanly lifted off the parchment without sticking (but allow them to fully cool before removing them from the sheet).", shortcutText: "no-shortcut" },
+      { name: "Make filling",   text: "In a saucepan, combine half the granulated sugar and 1 1/2 tbsp of water. Heat on low, stirring to dissolve the sugar, then increase heat and bring to a boil (stir occasionally while preparing the yolks). In a bowl with an electric mixer, beat the egg yolks until thick and foamy. Once the sugar syrup reaches 240°F, remove from heat and slowly drizzle the syrup into the bowl with the yolks (continuing to mix on medium-low speed until the bowl no longer feels warm, about 5 minutes). Add the butter one tablespoon at a time while continuing to mix, then the remaining vanilla and raspberry extract and additional food coloring (if desired). Continue to mix about 5 minutes until the texture is smooth and creamy.", shortcutText: "no-shortcut" },
+      { name: "Assemble",   text: "Add the remaining sugar to the room-temperature raspberry jam (if desired) and mix. Transfer the buttercream filling to a piping bag. Pair cooled shells by size. Pipe a ring of buttercream around the edge of one shell from each pair, then add a small spoonful of raspberry jam in the center. Add pieces of fresh raspberries if desired (or whole raspberries, if you made larger shells). Sandwich with the matching shell and press gently (you may use more buttercream if needed to glue the two halves together). Refrigerate assembled macarons for at least 1 hour (ideally overnight to strengthen the flavors and perfect the shell texture).", shortcutText: "no-shortcut" },
     ],
 
     recommendedSides: [],
@@ -3960,6 +4001,37 @@ const DEFAULT_RECIPES = [
       { name: "Season & chill",    text: "Season with salt, stir, and taste, adding more lime juice and/or salt until desired flavor is reached. Refrigerate for at least 15 minutes before serving.", shortcutText: "no-shortcut" },
     ],
 
+    recommendedSides: [],
+  },
+
+  // ── Rice Cereal Bars ───────────────────────────────────────────────────────────────
+  {
+    id: "rice-cereal-bar",
+    name: "Rice Cereal Bar",
+    cuisine: "American",
+    dishType: "dessert",
+    difficulty: "easy",
+    priceLevel: "cheap",
+    timeRequirement: "short",
+    multiTasking: "unlikely",
+    mealprepIdeal: "yes",
+    shortcutReplaces: null,
+    servings: 4,
+    caloriesPerServing: 130,
+    timeToComplete: [
+      { phase: "prep", minutes: 10 },
+      { phase: "chill", minutes: 15 },
+    ],
+    ingredients: [
+      { ingredientId: "rice-cereal",            quantity: "4",   unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "marshmallows",     quantity: "4", unit: "cup",    shortcutSubstitute: "none" },
+      { ingredientId: "salted-butter", quantity: "4",   unit: "tbsp",   shortcutSubstitute: "none" },
+      { ingredientId: "vanilla-extract",      quantity: "0.5",  unit: "tsp",   shortcutSubstitute: "none" },
+    ],
+    steps: [
+      { name: "Melt marshmallows", text: "Mix the marshmallows and butter in a saucepan on medium-low heat, stirring frequently until the marshmallows are melted, then stir in the vanilla and remove from heat.", shortcutText: "no-shortcut" },
+      { name: "Add cereal", text: "You may use rice cereal or any type of cereal (or a half-and-half ratio for best results) if desired. Mix cereal into the marshmallow mixture until thoroughly combined. Gently pack the mixture into a greased or lined baking dish (don't pack too tightly), then refridgerate or leave at room temperature until set (about 1 hour). Then cut and serve.", shortcutText: "no-shortcut" },
+    ],
     recommendedSides: [],
   },
 

@@ -804,6 +804,7 @@ export default function MealPlanning() {
       ...base,
       groceryListSections: sections,
       shoppingChecked: (preferences.shoppingChecked ?? []).filter((k) => validKeys.has(k)),
+      shoppingListCleared: false,
     }
     setPreferencesState(updated)
     savePreferences(updated)
@@ -959,6 +960,7 @@ export default function MealPlanning() {
       ...withCheck,
       groceryListSections: sections,
       shoppingChecked: (preferences.shoppingChecked ?? []).filter((k) => validKeys.has(k)),
+      shoppingListCleared: false,
     }
     setPreferencesState(updated)
     savePreferences(updated)
