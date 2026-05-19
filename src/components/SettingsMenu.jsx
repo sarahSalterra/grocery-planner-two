@@ -281,13 +281,16 @@ function EditShortcutView({ preferences, onUpdate }) {
 const DIETARY_MODES = Object.entries(DIETARY_MODE_LABELS).map(([id, label]) => ({ id, label }))
 
 function DietaryView({ preferences, onUpdate }) {
-  const currentMode     = preferences.dietaryMode ?? null
-  const allergyList     = preferences.allergyIngredients ?? []
+  const activeModes = preferences.dietaryModes ?? []
+  const allergyList = preferences.allergyIngredients ?? []
 
   const [allergyInput, setAllergyInput] = useState('')
 
-  function setMode(modeId) {
-    onUpdate({ dietaryMode: currentMode === modeId ? null : modeId })
+  function toggleMode(modeId) {
+    const next = activeModes.includes(modeId)
+      ? activeModes.filter((m) => m !== modeId)
+      : [...activeModes, modeId]
+    onUpdate({ dietaryModes: next })
   }
 
   function addAllergy() {
@@ -312,29 +315,33 @@ function DietaryView({ preferences, onUpdate }) {
   return (
     <div className="settings-subview__body">
 
-      {/* ── Dietary Mode ── */}
+      {/* ── Dietary Modes ── */}
       <p className="settings-subview__desc">
-        Select a dietary restriction. Recipes will show the appropriate ingredient
-        substitutes when viewing, and the selected mode is noted on recipe pages.
+        Select one or more dietary restrictions. Recipes will show the appropriate
+        ingredient substitutes, and your grocery list will automatically swap items.
       </p>
 
       <div className="settings-option-cards">
-        <button
-          className={`settings-option-card settings-option-card--row ${!currentMode ? 'settings-option-card--selected' : ''}`}
-          onClick={() => onUpdate({ dietaryMode: null })}
-        >
-          <span className="settings-option-card__label">None</span>
-          <span className="settings-option-card__desc">No dietary restriction</span>
-        </button>
         {DIETARY_MODES.map((mode) => (
           <button
             key={mode.id}
-            className={`settings-option-card settings-option-card--row ${currentMode === mode.id ? 'settings-option-card--selected' : ''}`}
-            onClick={() => setMode(mode.id)}
+            className={`settings-option-card settings-option-card--row ${activeModes.includes(mode.id) ? 'settings-option-card--selected' : ''}`}
+            onClick={() => toggleMode(mode.id)}
           >
             <span className="settings-option-card__label">{mode.label}</span>
+            {activeModes.includes(mode.id) && (
+              <span className="settings-option-card__check">✓</span>
+            )}
           </button>
         ))}
+        {activeModes.length > 0 && (
+          <button
+            className="settings-option-card settings-option-card--row settings-option-card--clear"
+            onClick={() => onUpdate({ dietaryModes: [] })}
+          >
+            <span className="settings-option-card__label">Clear all</span>
+          </button>
+        )}
       </div>
 
       {/* ── Allergy List ── */}
@@ -673,10 +680,14 @@ export default function SettingsMenu({ isOpen, onClose, preferences, onUpdate })
               <DrillRow label="Cooking Priority" onClick={() => setView('cookingPriority')} />
               <DrillRow
                 label={
-                  preferences.dietaryMode || preferences.allergyIngredients?.length
+                  (preferences.dietaryModes?.length || preferences.allergyIngredients?.length)
                     ? `Diet & Allergies ${[
-                        preferences.dietaryMode ? `(${DIETARY_MODE_LABELS[preferences.dietaryMode]})` : '',
-                        preferences.allergyIngredients?.length ? `(${preferences.allergyIngredients.length} allerg${preferences.allergyIngredients.length === 1 ? 'y' : 'ies'})` : '',
+                        preferences.dietaryModes?.length
+                          ? `(${preferences.dietaryModes.map((m) => DIETARY_MODE_LABELS[m]).join(', ')})`
+                          : '',
+                        preferences.allergyIngredients?.length
+                          ? `(${preferences.allergyIngredients.length} allerg${preferences.allergyIngredients.length === 1 ? 'y' : 'ies'})`
+                          : '',
                       ].filter(Boolean).join(' ')}`
                     : 'Diet & Allergies'
                 }

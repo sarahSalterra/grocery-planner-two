@@ -7,7 +7,7 @@ import { getRecipes } from '../db/recipesDB'
 import { getIngredients } from '../db/ingredientsDB'
 import { CUISINES } from '../db/data/filterOptions'
 import CookPromptModal from '../notifications/CookPromptModal'
-import { getAllergyOmitIds, DIETARY_MODE_FIELD, getStackedSubOptions } from '../utils/dietaryUtils'
+import { getAllergyOmitIds, getDietarySubstitutes, getStackedSubOptions, getShortcutFallbackSub, recipeNeedsAutoShortcut, isDietaryOmittedIngredient } from '../utils/dietaryUtils'
 import { scaleRecipe, formatMinutes, getTotalTime, getTotalActiveTime, convertToMetric } from '../utils/recipeUtils'
 import { GLOSSARY_MAP, GLOSSARY_TERMS_SORTED } from '../db/data/glossary'
 
@@ -27,9 +27,20 @@ const SORT_ORDERS = {
 function CookRecipeModal({ recipe, preferences, ingredientsMap, allergyOmitIds, onCancel, onComplete, browseMode, initialShortcut }) {
   const shortcutIsOn    = preferences.shortcutMode?.startsWith('on')    ?? false
   const shortcutVisible = preferences.shortcutMode?.includes('visible') ?? true
+  const shortcutAllowed = (preferences.shortcutMode ?? 'off-visible') !== 'off-hidden'
 
-  // If the meal was planned in shortcut mode, open already in shortcut mode
-  const [showShortcut,  setShowShortcut]  = useState(initialShortcut ?? shortcutIsOn)
+  // Auto-shortcut: open in shortcut mode if the recipe contains a dietary/
+  // allergy-incompatible ingredient that has a safe shortcut alternative.
+  // Skipped when shortcut mode is fully disabled ('off-hidden').
+  const autoShortcut    = shortcutAllowed
+    ? recipeNeedsAutoShortcut(
+        recipe, ingredientsMap,
+        preferences.dietaryModes ?? [],
+        preferences.allergyIngredients ?? [],
+      )
+    : false
+  // If the meal was planned in shortcut mode (or auto-shortcut applies), open already in shortcut mode
+  const [showShortcut,  setShowShortcut]  = useState((initialShortcut ?? shortcutIsOn) || autoShortcut)
   const [showSubs,      setShowSubs]      = useState(preferences.showSubstitutions ?? false)
   const [stepsChecked,  setStepsChecked]  = useState(new Set())
   const [activeTooltip, setActiveTooltip] = useState(null) // { term, definition } | null
@@ -84,7 +95,7 @@ function CookRecipeModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
 
   const subMode = preferences.substitutionMode ?? 'regular'
 
-  const dietaryField = preferences.dietaryMode ? DIETARY_MODE_FIELD[preferences.dietaryMode] : null
+  const dietaryModes = preferences.dietaryModes ?? []
 
   // Scale recipe to the user's household size preference
   const scaled = useMemo(
@@ -204,20 +215,32 @@ function CookRecipeModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
                 const dispUnit = metric ? metric.unit     : ing.unit
                 const scSub    = ing.shortcutSubstitute
                 const isOmit   = showShortcut && scSub === 'omit'
-                const hasSCSub = showShortcut && scSub && scSub !== 'none' && scSub !== 'omit'
+                const isAllergyOmit  = allergyOmitIds?.has(ing.ingredientId) ?? false
+                const dietarySubs    = getDietarySubstitutes(data, dietaryModes)
+                const dietarySub     = dietarySubs.length > 0 ? dietarySubs.join(' / ') : null
+
+                // Shortcut fallback: ingredient is dietary-incompatible or a critical
+                // allergen, but this recipe provides a safe shortcut alternative.
+                // Suppressed when shortcut mode is fully disabled ('off-hidden').
+                const allergyList    = preferences.allergyIngredients ?? []
+                const scFallback     = shortcutAllowed
+                  ? getShortcutFallbackSub(data, dietaryModes, allergyList, ing, ingredientsMap)
+                  : null
+
+                // Dietary omit: ingredient is incompatible and shortcut mode is
+                // disabled, so the ingredient is simply dropped from the recipe.
+                const isDietaryOmit  = !shortcutAllowed && isDietaryOmittedIngredient(data, dietaryModes)
+
+                // Only apply omit styling when there is no shortcut fallback to show instead
+                const effectiveOmit  = isOmit || (isAllergyOmit && !scFallback) || isDietaryOmit
+                // hasSCSub: suppress if scFallback is already showing the same shortcut
+                const hasSCSub = showShortcut && scSub && scSub !== 'none' && scSub !== 'omit' && !scFallback
+
                 const modeSubText = (() => {
                   if (!showSubs || !data) return null
-                  const opts = getStackedSubOptions(data, subMode)
+                  const dietarySet = new Set([...dietarySubs, ...(scFallback ? [scFallback] : [])])
+                  const opts = getStackedSubOptions(data, subMode).filter((s) => !dietarySet.has(s))
                   return opts.length > 0 ? opts.join(' / ') : null
-                })()
-                const isAllergyOmit  = allergyOmitIds?.has(ing.ingredientId) ?? false
-                const effectiveOmit  = isOmit || isAllergyOmit
-                const dietaryRaw     = dietaryField && data ? data[dietaryField] : null
-                const dietarySub     = (() => {
-                  if (!dietaryRaw) return null
-                  const arr = Array.isArray(dietaryRaw) ? dietaryRaw : [dietaryRaw]
-                  const filtered = arr.filter((s) => s && s !== 'none' && s !== 'n/a')
-                  return filtered.length > 0 ? filtered.join(' / ') : null
                 })()
 
                 return (
@@ -225,18 +248,26 @@ function CookRecipeModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
                     <span className="view-ing__qty">{dispQty} {dispUnit}</span>
                     <div className="view-ing__right">
                       <span className="view-ing__name">
-                        <span className={dietarySub && !effectiveOmit ? 'view-ing__name--struck' : ''}>
+                        <span className={(dietarySub || scFallback) && !effectiveOmit ? 'view-ing__name--struck' : ''}>
                           {data?.name ?? ing.ingredientId}
                         </span>
-                        {dietarySub && !effectiveOmit && (
+                        {dietarySub && !effectiveOmit && !scFallback && (
                           <span className="view-ing__dietary"> → {dietarySub}</span>
+                        )}
+                        {scFallback && !effectiveOmit && (
+                          <span className="view-ing__dietary view-ing__dietary--fallback">
+                            {' → '}{scFallback}
+                            {!showShortcut && (
+                              <span className="view-ing__fallback-note"> (safe alt · or omit)</span>
+                            )}
+                          </span>
                         )}
                         {hasSCSub && !dietarySub && !effectiveOmit && (
                           <span className="view-ing__sc"> → {scSub}</span>
                         )}
                         {effectiveOmit && (
                           <span className="view-ing__sc view-ing__sc--omit">
-                            {isAllergyOmit ? ' (allergy — omit)' : ' (omit)'}
+                            {isAllergyOmit ? ' (allergy — omit)' : isDietaryOmit ? ' (dietary — omit)' : ' (omit)'}
                           </span>
                         )}
                       </span>
@@ -680,9 +711,15 @@ export default function Cook() {
               /* ── Active meal list ── */
               <ul className="cook-meal-list">
                 {activeMeals.map((meal, idx) => {
-                  const recipe   = recipesMap[meal.recipeId]
+                  const recipe           = recipesMap[meal.recipeId]
                   if (!recipe) return null
-                  const isResume = resumeId === meal.recipeId
+                  const isResume          = resumeId === meal.recipeId
+                  const shortcutModeAllowed = (preferences.shortcutMode ?? 'off-visible') !== 'off-hidden'
+                  const effectiveShortcut = (meal.useShortcut ?? false) || (shortcutModeAllowed && recipeNeedsAutoShortcut(
+                    recipe, ingredientsMap,
+                    preferences.dietaryModes ?? [],
+                    preferences.allergyIngredients ?? [],
+                  ))
 
                   return (
                     <li key={`${meal.recipeId}_${idx}`} className="cook-meal-card">
@@ -694,7 +731,7 @@ export default function Cook() {
                           </span>
                         )}
                         <div className="cook-meal-card__badges">
-                          {meal.useShortcut && (
+                          {effectiveShortcut && (
                             <span className="recipe-badge recipe-badge--shortcut">⚡ Shortcut</span>
                           )}
                           <span className="recipe-badge recipe-badge--difficulty">{recipe.difficulty}</span>
@@ -703,7 +740,7 @@ export default function Cook() {
                       </div>
                       <button
                         className={`cook-meal-card__btn ${isResume ? 'cook-meal-card__btn--resume' : ''}`}
-                        onClick={() => openRecipe(meal.recipeId, meal.useShortcut ?? false)}
+                        onClick={() => openRecipe(meal.recipeId, effectiveShortcut)}
                       >
                         {isResume ? 'Continue' : 'Cook'}
                       </button>

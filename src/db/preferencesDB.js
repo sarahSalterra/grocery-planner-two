@@ -29,8 +29,8 @@ const DEFAULTS = {
   experienceMode: "experienced",     // beginner | experienced
 
   // ── Dietary restrictions ────────────────────────────────────────────────────
-  // dietaryMode: null | 'vegetarian' | 'vegan' | 'gluten-free' | 'dairy-free' | 'pescatarian'
-  dietaryMode: null,
+  // dietaryModes: string[] — active modes from 'vegetarian' | 'vegan' | 'gluten-free' | 'dairy-free' | 'pescatarian'
+  dietaryModes: [],
   // allergyIngredients: string[] — ingredient names the user is allergic to
   allergyIngredients: [],
 
@@ -110,6 +110,11 @@ export function getPreferences() {
     const parsed = JSON.parse(stored)
     if (parsed.prioritiesRanked) {
       parsed.prioritiesRanked = normalizePrioritiesRanked(parsed.prioritiesRanked)
+    }
+    // Migrate old single-value dietaryMode → dietaryModes array
+    if ('dietaryMode' in parsed && !('dietaryModes' in parsed)) {
+      parsed.dietaryModes = parsed.dietaryMode ? [parsed.dietaryMode] : []
+      delete parsed.dietaryMode
     }
     return { ...DEFAULTS, ...parsed }
   } catch {

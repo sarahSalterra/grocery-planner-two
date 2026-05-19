@@ -437,7 +437,7 @@ const DEFAULT_RECIPES = [
       { ingredientId: "canned-cherries",      quantity: "14",    unit: "oz",   shortcutSubstitute: "cherry-pie-filling" },
       { ingredientId: "cherry-brandy",                  quantity: "3",    unit: "tbsp",  shortcutSubstitute: "omit" },
       { ingredientId: "heavy-whipping-cream", quantity: "3",    unit: "cup",   shortcutSubstitute: "whipped-topping" },
-      { ingredientId: "powdered-sugar",       quantity: "0.25", unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "powdered-sugar",       quantity: "0.25", unit: "cup",   shortcutSubstitute: "omit" },
       { ingredientId: "chocolate-chips",      quantity: "1",    unit: "cup",   shortcutSubstitute: "none" },
     ],
 
@@ -446,8 +446,8 @@ const DEFAULT_RECIPES = [
       { name: "Bake cake layers",            text: "Divide the batter evenly between the two or three prepared pans. Bake 30–35 minutes, until a toothpick inserted in the center comes out clean. Cool in pans for 15 minutes, then turn out onto a wire rack and cool completely before leveling and assembling.", shortcutText: "no-shortcut" },
       { name: "Make cherry filling",         text: "Drain the cherries into a bowl, reserving 1 cup of the juice, and slice the cherries in half. In a small saucepan over medium heat, whisk the reserved juice with the cherry brandy. Bring to a gentle boil, whisking frequently, and cook until thickened, about 2 minutes. Remove from heat and let cool. Brush the syrup over the leveled cake layers.", shortcutText: "Use canned cherry pie filling from the can in place of the homemade filling, and spread it evenly over the cake layers (except the top layer)." },
       { name: "Make whipped cream frosting", text: "In a bowl, beat two thirds of the heavy whipping cream and the powdered sugar with an electric mixer on high speed until stiff peaks form. Keep refrigerated until assembly.", shortcutText: "" },
-      { name: "Make ganache", text: "Heat the remaining whipping cream in a saucepan over medium heat until a gentle simmer (don't overheat it). Put the chocolate chips in a bowl and pour the cream over them, gently mixing until the chocolate is melted and the ganache is smooth, then mix in the remaining vanilla.", shortcutText: "no-shortcut" },
-      { name: "Assemble & garnish",          text: "Place the first cake layer on a serving plate. If using 3 layers, spread about half the cherries evenly over the top, drizzle with more of the reduced syrup, then spread about a third of the whipped cream over the cherry layer. (if using two layers, spread most of the cherries and use a little less than half the whipped cream instead). Repeat the process for the second layer (if using 3 layers). Place the top layer of cake, frost with the remaining whipped cream, and top with the chocolate ganache, letting it drip a little bit down the sides of the cake. Top with a couple spoonfulls of cherries if desired and chill about 30 minutes before serving.", shortcutText: "Place the first cake layer on a serving plate. If using 3 layers, spread about half the cherry pie filling evenly over the top, then spread about a third of the whipped topping over the cherry layer. (if using two layers, spread most of the cherry filling and use a little less than half the whipped topping instead). Repeat the process for the second layer (if using 3 layers). Place the top layer of cake, frost with the remaining whipped topping, and top with the chocolate ganache, letting it drip a little bit down the sides of the cake. Top with a couple spoonfulls of cherry filling if desired and serve." },
+      { name: "Make ganache", text: "Heat the remaining whipping cream in a saucepan over medium heat until a gentle simmer (don't overheat it). Put the chocolate chips in a bowl and pour the cream over them, gently mixing until the chocolate is melted and the ganache is smooth, then mix in the remaining vanilla.", shortcutText: "Wait until after assembling and frosting the cake (the next step). Then, microwave the chocolate chips in a heat-safe bowl in the microwave, 15 seconds at a time, stirring each time until the chocolate is melted. Stir in a couple spoonfuls of the whipped topping (closer to room-temperature, not cold or frozen) if desired for creamier consistency. Pour the ganache on the cake while it is still smooth and pourable but not too warm to avoid melting the cake frosting." },
+      { name: "Assemble & garnish",          text: "Place the first cake layer on a serving plate. If using 3 layers, spread about half the cherries evenly over the top, drizzle with more of the reduced syrup, then spread about a third of the whipped cream over the cherry layer. (if using two layers, spread most of the cherries and use a little less than half the whipped cream instead). Repeat the process for the second layer (if using 3 layers). Place the top layer of cake, frost with the remaining whipped cream, and top with the chocolate ganache, letting it drip a little bit down the sides of the cake. Top with a couple spoonfulls of cherries if desired and chill about 30 minutes before serving.", shortcutText: "Place the first cake layer on a serving plate. If using 3 layers, spread about half the cherry pie filling evenly over the top, then spread about a third of the whipped topping over the cherry layer. (if using two layers, spread most of the cherry filling and use a little less than half the whipped topping instead). Repeat the process for the second layer (if using 3 layers). Place the top layer of cake, frost with the remaining whipped topping (reserving a couple spoonfuls for the ganache if desired), and top with the chocolate ganache, letting it drip a little bit down the sides of the cake. Top with a couple spoonfulls of cherry filling if desired and serve." },
     ],
 
     recommendedSides: [],
@@ -2215,7 +2215,7 @@ const DEFAULT_RECIPES = [
     timeRequirement: "short",
     multiTasking: "unlikely",
     mealprepIdeal: "no",
-    shortcutReplaces: "fresh chicken, roasted → rotisserie chicken; homemade Alfredo sauce → jarred Alfredo sauce",
+    shortcutReplaces: "fresh chicken, roasted → rotisserie chicken; homemade Alfredo sauce → store-bought Alfredo sauce",
     servings: 4,
     caloriesPerServing: 700,
     timeToComplete: [
@@ -2226,7 +2226,7 @@ const DEFAULT_RECIPES = [
     ingredients: [
       { ingredientId: "fettuccine-pasta",   quantity: "1",   unit: "pkg",    shortcutSubstitute: "none" },
       { ingredientId: "chicken-breast",     quantity: "1", unit: "lb",  shortcutSubstitute: "rotisserie-chicken" },
-      { ingredientId: "heavy-whipping-cream",quantity: "0.5",unit: "cup",    shortcutSubstitute: "jarred-alfredo-sauce" },
+      { ingredientId: "heavy-whipping-cream",quantity: "0.5",unit: "cup",    shortcutSubstitute: "alfredo-sauce" },
       { ingredientId: "salted-butter",             quantity: "8",   unit: "tbsp",   shortcutSubstitute: "omit" },
       { ingredientId: "all-purpose-flour",              quantity: "0.25",unit: "cup",    shortcutSubstitute: "omit" },
       { ingredientId: "parmesan-cheese",    quantity: "2",   unit: "cup",    shortcutSubstitute: "omit" },
@@ -2432,7 +2432,7 @@ const DEFAULT_RECIPES = [
       { ingredientId: "parmesan-cheese",    quantity: "1",   unit: "cup",    shortcutSubstitute: "omit" },
       { ingredientId: "garlic",             quantity: "3",   unit: "clove",  shortcutSubstitute: "omit" },
       { ingredientId: "baby-bella-mushrooms",    quantity: "1",   unit: "cup",    shortcutSubstitute: "none" },
-      { ingredientId: "heavy-whipping-cream",quantity: "0.5",unit: "cup",    shortcutSubstitute: "jarred-alfredo-sauce" },
+      { ingredientId: "heavy-whipping-cream",quantity: "0.5",unit: "cup",    shortcutSubstitute: "alfredo-sauce" },
       { ingredientId: "salted-butter",             quantity: "4",   unit: "tbsp",   shortcutSubstitute: "omit" },
       { ingredientId: "all-purpose-flour",              quantity: "2",   unit: "tbsp",   shortcutSubstitute: "omit" },
       { ingredientId: "salt",                quantity: "1",   unit: "tsp",    shortcutSubstitute: "none" },
@@ -3797,7 +3797,7 @@ const DEFAULT_RECIPES = [
       { ingredientId: "ground-cloves",      quantity: "0.125",   unit: "tsp",   shortcutSubstitute: "none" },
       { ingredientId: "eggs",      quantity: "2",   unit: "whole",   shortcutSubstitute: "none" },
       { ingredientId: "salt",      quantity: "0.5",   unit: "tsp",   shortcutSubstitute: "none" },
-      { ingredientId: "heavy-whipping-cream",      quantity: "1",   unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "heavy-whipping-cream",      quantity: "1",   unit: "cup",   shortcutSubstitute: "whipped-topping" },
 
     ],
 
@@ -4314,7 +4314,7 @@ const DEFAULT_RECIPES = [
     timeRequirement: "short",
     multiTasking: "possible",
     mealprepIdeal: "yes",
-    shortcutReplaces: "homemade tomato sauce with herbs → jarred spaghetti sauce",
+    shortcutReplaces: "homemade tomato sauce with herbs → store-bought spaghetti sauce",
     servings: 4,
     caloriesPerServing: 580,
     timeToComplete: [
@@ -4650,7 +4650,7 @@ const DEFAULT_RECIPES = [
       { ingredientId: "mascarpone",           quantity: "16",   unit: "oz",    shortcutSubstitute: "no-shortcut" },
       { ingredientId: "eggs",                 quantity: "4",    unit: "whole", shortcutSubstitute: "none" },
       { ingredientId: "granulated-sugar",     quantity: "0.75", unit: "cup",   shortcutSubstitute: "none" },
-      { ingredientId: "heavy-whipping-cream", quantity: "1",    unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "heavy-whipping-cream", quantity: "1",    unit: "cup",   shortcutSubstitute: "whipped-topping" },
       { ingredientId: "vanilla-extract",      quantity: "1",    unit: "tsp",   shortcutSubstitute: "none" },
       { ingredientId: "espresso-powder",      quantity: "3",    unit: "tbsp",  shortcutSubstitute: "none" },
       { ingredientId: "ladyfingers",          quantity: "24",   unit: "whole", shortcutSubstitute: "none" },
@@ -4658,9 +4658,9 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Make espresso soak",              text: "Dissolve the espresso powder in 1.5 cups of very hot water, stirring until fully combined. Pour into a shallow bowl wide enough to dip a ladyfinger. Set aside to cool to room temperature.", shortcutText: "no-shortcut" },
+      { name: "Make espresso soak",              text: "Dissolve the espresso powder in 1.5 cups of very hot water, stirring until fully combined. Pour into a shallow bowl wide enough to dip a ladyfinger (or slice of sponge cake). Set aside to cool to room temperature.", shortcutText: "no-shortcut" },
       { name: "Make zabaglione (egg cream)",     text: "Separate the egg yolks from the whites. Place the yolks and granulated sugar in a heatproof bowl set over a pot of barely simmering water, making sure the bowl does not touch the water. Whisk vigorously for 8–10 minutes until the mixture is pale, thick, and has nearly tripled in volume. Remove from heat and let cool 10 minutes, then whisk in the mascarpone until completely smooth.", shortcutText: "no-shortcut" },
-      { name: "Whip cream & fold",               text: "In a separate chilled bowl, beat the heavy whipping cream and vanilla with an electric mixer to soft peaks. Gently fold the whipped cream into the mascarpone-yolk mixture in two additions using a wide spatula until just incorporated, keeping the mixture light and airy.", shortcutText: "no-shortcut" },
+      { name: "Whip cream & fold",               text: "In a separate chilled bowl, beat the heavy whipping cream and vanilla with an electric mixer to soft peaks. Gently fold the whipped cream into the mascarpone-yolk mixture in two additions using a wide spatula until just incorporated, keeping the mixture light and airy.", shortcutText: "Fold the marscapone-yolk mixture into the whipped topping." },
       { name: "Layer & assemble",                text: "Working quickly, dip each ladyfinger into the espresso soak for 1–2 seconds per side (long enough to absorb liquid but not become too soggy). Arrange a single layer in a 9×13-inch baking dish. Spread half the mascarpone cream over the ladyfingers in an even layer. Repeat with a second layer of dipped ladyfingers and the remaining mascarpone cream.", shortcutText: "no-shortcut" },
       { name: "Chill & dust with cocoa",         text: "Cover the dish tightly with plastic wrap and refrigerate for at least 4 hours (overnight is recommended to strengthen the flavors). Just before serving, dust the entire surface generously with sifted cocoa powder.", shortcutText: "no-shortcut" },
     ],

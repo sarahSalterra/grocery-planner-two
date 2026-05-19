@@ -40,7 +40,6 @@ export const STARTER_HOUSEHOLD_GOODS = [
   { id: 'band-aids',           name: 'Band-Aids' },
   // Home
   { id: 'batteries',           name: 'Batteries' },
-  { id: 'light-bulbs',         name: 'Light Bulbs' },
 ]
 
 // ── Pantry Staples ────────────────────────────────────────────────────────────

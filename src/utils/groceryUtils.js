@@ -16,7 +16,7 @@ import { getRecipes }        from '../db/recipesDB'
 import { getIngredients }    from '../db/ingredientsDB'
 import { getHouseholdGoods } from '../db/householdGoodsDB'
 import { DEPARTMENTS }       from '../db/data/filterOptions'
-import { getAllergyOmitIds, DIETARY_MODE_FIELD } from './dietaryUtils'
+import { getAllergyOmitIds, getDietarySubstitute, getShortcutFallbackSub, recipeNeedsAutoShortcut, isDietaryFieldIncompatible, DIETARY_MODE_FIELD } from './dietaryUtils'
 import { scaleRecipe, parseQtyStr } from './recipeUtils'
 
 export const DEPT_LABELS = {
@@ -78,31 +78,61 @@ function _buildGroceryList(preferences, recipesMap, ingredientsMap, goodsMap) {
 
   // ── Aggregate recipe ingredient quantities per ingredientId + unit ─────────
   const allergyList  = preferences.allergyIngredients ?? []
-  const dietaryField = preferences.dietaryMode ? DIETARY_MODE_FIELD[preferences.dietaryMode] : null
+  const dietaryModes = preferences.dietaryModes ?? []
   const recipeSize   = preferences.recipeSize ?? 'single'
+  // Auto-shortcut substitutions are only applied when the shortcut feature is
+  // available to the user. When shortcut mode is fully disabled ('off-hidden'),
+  // incompatible ingredients are silently omitted rather than replaced with
+  // their safe shortcut alternative.
+  const shortcutAllowed = (preferences.shortcutMode ?? 'off-visible') !== 'off-hidden'
   const ingAgg = {}
 
   for (const { recipeId, useShortcut } of selectedMeals) {
     const recipe = recipesMap[recipeId]
     if (!recipe) continue
+
+    // Auto-shortcut: if any ingredient is dietary/allergy-incompatible but the
+    // recipe has a safe shortcut alternative, treat the whole recipe as if
+    // the user had enabled shortcut mode for it.
+    const effectiveShortcut = useShortcut || (shortcutAllowed && recipeNeedsAutoShortcut(recipe, ingredientsMap, dietaryModes, allergyList))
+
     const omitIds = getAllergyOmitIds(recipe, ingredientsMap, allergyList)
     const scaled  = scaleRecipe(recipe, recipeSize)
 
     ;(scaled.ingredients ?? []).forEach((ing) => {
       if (confirmed.has(ing.ingredientId)) return
-      if (omitIds.has(ing.ingredientId))   return
+
+      // ── Allergy omit: use recipe shortcut as safe alternative if available ──
+      if (omitIds.has(ing.ingredientId)) {
+        const ingData      = ingredientsMap[ing.ingredientId]
+        const safeName     = shortcutAllowed
+          ? getShortcutFallbackSub(ingData, dietaryModes, allergyList, ing, ingredientsMap)
+          : null
+        if (safeName) {
+          const scData = ingredientsMap[ing.shortcutSubstitute]
+          const scKey  = `sc_${safeName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`
+          if (!ingAgg[scKey]) {
+            ingAgg[scKey] = { key: scKey, id: scKey, name: safeName, department: scData?.department ?? 'pantry', qty: null, unit: null, atLeast: false }
+          }
+        }
+        return
+      }
 
       // ── Shortcut mode handling ─────────────────────────────────────────────
-      if (useShortcut && ing.shortcutSubstitute && ing.shortcutSubstitute !== 'none') {
+      if (effectiveShortcut && ing.shortcutSubstitute && ing.shortcutSubstitute !== 'none') {
         if (ing.shortcutSubstitute === 'omit') return
-        const subName = ing.shortcutSubstitute
-        const scKey   = `sc_${subName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`
+        const scId   = ing.shortcutSubstitute
+        const scData = ingredientsMap[scId]
+        // Apply dietary substitution to the shortcut ingredient itself
+        const scDietSub = getDietarySubstitute(scData, dietaryModes)
+        const subName   = scDietSub ?? scData?.name ?? scId
+        const scKey     = `sc_${subName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`
         if (!ingAgg[scKey]) {
           ingAgg[scKey] = {
             key:        scKey,
             id:         scKey,
             name:       subName,
-            department: 'pantry',
+            department: scData?.department ?? 'pantry',
             qty:        null,
             unit:       null,
             atLeast:    false,
@@ -123,18 +153,14 @@ function _buildGroceryList(preferences, recipesMap, ingredientsMap, goodsMap) {
           if (subOmit.has(subIng.ingredientId))   return
 
           const subData    = ingredientsMap[subIng.ingredientId]
-          const subDietRaw = dietaryField && subData ? subData[dietaryField] : null
-          const subDietSub = (subDietRaw && subDietRaw !== 'n/a' && subDietRaw !== 'none')
-            ? subDietRaw
-            : null
+          const subDietSub = getDietarySubstitute(subData, dietaryModes)
 
           const subDisplayName = subDietSub ?? subData?.name ?? subIng.ingredientId
           const subSlug = subDietSub
             ? subDietSub.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
             : null
-          const subKey = subSlug
-            ? `ing_${subSlug}_${subIng.unit}`
-            : `ing_${subIng.ingredientId}_${subIng.unit}`
+          const subKey     = subSlug ? `ing_${subSlug}` : `ing_${subIng.ingredientId}`
+          const subParsed  = parseQtyStr(subIng.quantity) * fraction
 
           if (!ingAgg[subKey]) {
             ingAgg[subKey] = {
@@ -142,29 +168,57 @@ function _buildGroceryList(preferences, recipesMap, ingredientsMap, goodsMap) {
               id:         subSlug ?? subIng.ingredientId,
               name:       subDisplayName,
               department: subData?.department ?? 'pantry',
-              qty:        0,
+              qty:        subParsed,
               unit:       subIng.unit,
               atLeast:    false,
             }
+          } else if (ingAgg[subKey].unit === subIng.unit) {
+            ingAgg[subKey].qty += subParsed
+          } else {
+            ingAgg[subKey].atLeast = true
           }
-          ingAgg[subKey].qty += parseQtyStr(subIng.quantity) * fraction
         })
         return
       }
 
       const data = ingredientsMap[ing.ingredientId]
-      const dietaryRaw = dietaryField && data ? data[dietaryField] : null
-      const dietarySub = (dietaryRaw && dietaryRaw !== 'n/a' && dietaryRaw !== 'none')
-        ? dietaryRaw
-        : null
+      const dietarySub = getDietarySubstitute(data, dietaryModes)
+
+      // ── Dietary-incompatible ingredient: omit or replace with safe shortcut ──
+      // When any active mode says this ingredient can't be used ("none"/"omit"),
+      // try to substitute with the diet-safe version of its recipe shortcut.
+      // If no safe shortcut exists, just omit the ingredient entirely.
+      if (!dietarySub && dietaryModes.length > 0 && data) {
+        const hasIncompatibleMode = dietaryModes.some((mode) => {
+          const field = DIETARY_MODE_FIELD[mode]
+          if (!field) return false
+          // isDietaryFieldIncompatible handles plain strings, arrays, and
+          // the 'shortcut-dietary' sentinel (e.g. ['omit', 'shortcut-dietary'])
+          return isDietaryFieldIncompatible(data[field])
+        })
+        if (hasIncompatibleMode) {
+          const safeName = shortcutAllowed
+            ? getShortcutFallbackSub(data, dietaryModes, allergyList, ing, ingredientsMap)
+            : null
+          if (safeName) {
+            const scData = ingredientsMap[ing.shortcutSubstitute]
+            const scKey  = `sc_${safeName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`
+            if (!ingAgg[scKey]) {
+              ingAgg[scKey] = { key: scKey, id: scKey, name: safeName, department: scData?.department ?? 'pantry', qty: null, unit: null, atLeast: false }
+            }
+          }
+          return // never add the original incompatible ingredient
+        }
+      }
 
       const displayName = dietarySub ?? data?.name ?? ing.ingredientId
-      const slugSub = dietarySub
+      const slugSub     = dietarySub
         ? dietarySub.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
         : null
-      const key = slugSub
-        ? `ing_${slugSub}_${ing.unit}`
-        : `ing_${ing.ingredientId}_${ing.unit}`
+      // Key by ingredient id only — same ingredient from multiple recipes with
+      // different units would otherwise produce duplicate list entries.
+      const key       = slugSub ? `ing_${slugSub}` : `ing_${ing.ingredientId}`
+      const parsedQty = parseQtyStr(ing.quantity)
 
       if (!ingAgg[key]) {
         ingAgg[key] = {
@@ -172,12 +226,16 @@ function _buildGroceryList(preferences, recipesMap, ingredientsMap, goodsMap) {
           id:         slugSub ?? ing.ingredientId,
           name:       displayName,
           department: data?.department ?? 'pantry',
-          qty:        0,
+          qty:        parsedQty,
           unit:       ing.unit,
           atLeast:    false,
         }
+      } else if (ingAgg[key].unit === ing.unit) {
+        ingAgg[key].qty += parsedQty
+      } else {
+        // Different unit — can't sum; flag so Shop shows "at least X unit"
+        ingAgg[key].atLeast = true
       }
-      ingAgg[key].qty += parseQtyStr(ing.quantity)
     })
   }
 

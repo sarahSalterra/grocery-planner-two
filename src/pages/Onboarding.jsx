@@ -303,8 +303,12 @@ function PageThree({ data, onChange }) {
 function PageFour({ data, onChange }) {
   const [allergyInput, setAllergyInput] = useState('')
 
-  function setMode(modeId) {
-    onChange('dietaryMode', data.dietaryMode === modeId ? null : modeId)
+  function toggleMode(modeId) {
+    const current = data.dietaryModes ?? []
+    const next = current.includes(modeId)
+      ? current.filter((m) => m !== modeId)
+      : [...current, modeId]
+    onChange('dietaryModes', next)
   }
 
   function addAllergy() {
@@ -335,26 +339,24 @@ function PageFour({ data, onChange }) {
         will be shown automatically when you view recipes.
       </p>
 
-      {/* Dietary Mode */}
+      {/* Dietary Modes */}
       <div className="onboarding-field">
-        <label className="onboarding-label">Dietary restriction</label>
+        <label className="onboarding-label">Dietary restrictions</label>
+        <p className="onboarding-hint">Select all that apply — you can change these anytime.</p>
         <div className="option-cards option-cards--col">
-          <button
-            className={`option-card option-card--row ${!data.dietaryMode ? 'option-card--selected' : ''}`}
-            onClick={() => onChange('dietaryMode', null)}
-          >
-            <span className="option-card__label">None</span>
-            <span className="option-card__desc">No dietary restriction</span>
-          </button>
-          {DIETARY_MODES.map((mode) => (
-            <button
-              key={mode.id}
-              className={`option-card option-card--row ${data.dietaryMode === mode.id ? 'option-card--selected' : ''}`}
-              onClick={() => setMode(mode.id)}
-            >
-              <span className="option-card__label">{mode.label}</span>
-            </button>
-          ))}
+          {DIETARY_MODES.map((mode) => {
+            const active = (data.dietaryModes ?? []).includes(mode.id)
+            return (
+              <button
+                key={mode.id}
+                className={`option-card option-card--row ${active ? 'option-card--selected' : ''}`}
+                onClick={() => toggleMode(mode.id)}
+              >
+                <span className="option-card__label">{mode.label}</span>
+                {active && <span className="option-card__check">✓</span>}
+              </button>
+            )
+          })}
         </div>
       </div>
 
@@ -721,7 +723,7 @@ export default function Onboarding({ onComplete }) {
     showLowWaste: false,
     experienceMode: 'experienced',
     metricUnits: false,
-    dietaryMode: null,
+    dietaryModes: [],
     allergyIngredients: [],
     shopSchedule: 'weekly',
     shopDay: null,

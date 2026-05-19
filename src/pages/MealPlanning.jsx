@@ -6,7 +6,7 @@ import { getPreferences, savePreferences } from '../db/preferencesDB'
 import { CUISINES } from '../db/data/filterOptions'
 import StepNav from '../components/StepNav'
 import MiniSettings from '../components/MiniSettings'
-import { isRecipeAllergyExcluded, getAllergyOmitIds, DIETARY_MODE_FIELD, DIETARY_MODE_LABELS, getStackedSubOptions } from '../utils/dietaryUtils'
+import { isRecipeAllergyExcluded, getAllergyOmitIds, getDietarySubstitutes, getShortcutFallbackSub, recipeNeedsAutoShortcut, isDietaryOmittedIngredient, DIETARY_MODE_LABELS, DIETARY_MODE_FIELD, getStackedSubOptions, isDietaryFieldIncompatible } from '../utils/dietaryUtils'
 import { convertToMetric, formatMinutes, getTotalTime, getTotalActiveTime, scaleRecipe, parseQtyStr } from '../utils/recipeUtils'
 import { buildGroceryList } from '../utils/groceryUtils'
 
@@ -54,8 +54,21 @@ function defaultSortFromPriorities(ranked) {
 function RecipeViewModal({ recipe, preferences, ingredientsMap, allergyOmitIds, onClose, onSelect }) {
   const shortcutIsOnByDefault = preferences.shortcutMode?.startsWith('on') ?? false
   const shortcutVisible       = preferences.shortcutMode?.includes('visible') ?? true
+  // Auto-shortcut is only applied when the shortcut feature is available to the
+  // user. When shortcut mode is fully disabled ('off-hidden'), fall back to
+  // normal dietary-omit / recipe-hidden logic instead.
+  const shortcutAllowed       = (preferences.shortcutMode ?? 'off-visible') !== 'off-hidden'
 
-  const [showShortcut, setShowShortcut] = useState(shortcutIsOnByDefault)
+  // Auto-shortcut: open in shortcut mode if the recipe contains an ingredient
+  // that is dietary/allergy-incompatible but has a safe shortcut alternative.
+  const autoShortcut  = shortcutAllowed
+    ? recipeNeedsAutoShortcut(
+        recipe, ingredientsMap,
+        preferences.dietaryModes ?? [],
+        preferences.allergyIngredients ?? [],
+      )
+    : false
+  const [showShortcut, setShowShortcut] = useState(shortcutIsOnByDefault || autoShortcut)
   const [showSubs, setShowSubs]         = useState(preferences.showSubstitutions ?? false)
 
   const hasStepShortcuts = recipe.steps.some(
@@ -68,7 +81,7 @@ function RecipeViewModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
 
   const subMode = preferences.substitutionMode ?? 'regular'
 
-  const dietaryField = preferences.dietaryMode ? DIETARY_MODE_FIELD[preferences.dietaryMode] : null
+  const dietaryModes = preferences.dietaryModes ?? []
 
   // Scale recipe to household size (same logic as Cook page)
   const scaled = useMemo(
@@ -183,22 +196,32 @@ function RecipeViewModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
                 const scSub          = ing.shortcutSubstitute
                 const isAllergyOmit  = allergyOmitIds?.has(ing.ingredientId) ?? false
                 const isShortcutOmit = showShortcut && scSub === 'omit'
-                const isOmit         = isAllergyOmit || isShortcutOmit
-                const hasSCSub       = !isOmit && showShortcut && scSub && scSub !== 'none' && scSub !== 'omit'
 
-                // Dietary substitute: normalise string or array to "A / B / C"
-                const dietaryRaw = dietaryField && data ? data[dietaryField] : null
-                const dietarySub = (() => {
-                  if (!dietaryRaw) return null
-                  const arr = Array.isArray(dietaryRaw) ? dietaryRaw : [dietaryRaw]
-                  const filtered = arr.filter((s) => s && s !== 'none' && s !== 'n/a')
-                  return filtered.length > 0 ? filtered.join(' / ') : null
-                })()
-                const showDietarySub = !!dietarySub && !isOmit
+                // Dietary substitutes: collect all unique subs from every active mode
+                const dietarySubs    = getDietarySubstitutes(data, dietaryModes)
+                const dietarySub     = dietarySubs.length > 0 ? dietarySubs.join(' / ') : null
+
+                // Shortcut fallback: ingredient is dietary-incompatible or a critical
+                // allergen, but this recipe provides a safe shortcut alternative.
+                // Suppressed when shortcut mode is fully disabled ('off-hidden').
+                const allergyList    = preferences.allergyIngredients ?? []
+                const scFallback     = shortcutAllowed
+                  ? getShortcutFallbackSub(data, dietaryModes, allergyList, ing, ingredientsMap)
+                  : null
+
+                // Dietary omit: ingredient is incompatible with the active diet and
+                // shortcut mode is disabled, so it is simply dropped from the recipe.
+                const isDietaryOmit  = !shortcutAllowed && isDietaryOmittedIngredient(data, dietaryModes)
+
+                // When a fallback exists, don't apply omit styling for the allergy case
+                const isOmit         = isShortcutOmit || (isAllergyOmit && !scFallback) || isDietaryOmit
+                const hasSCSub       = !isOmit && showShortcut && scSub && scSub !== 'none' && scSub !== 'omit' && !scFallback
+                const showDietarySub = !!dietarySub && !isOmit && !scFallback
 
                 const modeSubText = (() => {
                   if (!showSubs || !data) return null
-                  const opts = getStackedSubOptions(data, subMode)
+                  const dietarySet = new Set([...dietarySubs, ...(scFallback ? [scFallback] : [])])
+                  const opts = getStackedSubOptions(data, subMode).filter((s) => !dietarySet.has(s))
                   return opts.length > 0 ? opts.join(' / ') : null
                 })()
 
@@ -212,18 +235,26 @@ function RecipeViewModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
                     <span className="view-ing__qty">{dispQty} {dispUnit}</span>
                     <div className="view-ing__right">
                       <span className="view-ing__name">
-                        <span className={showDietarySub ? 'view-ing__name--struck' : ''}>
+                        <span className={(showDietarySub || scFallback) && !isOmit ? 'view-ing__name--struck' : ''}>
                           {data?.name ?? ing.ingredientId}
                         </span>
                         {showDietarySub && (
                           <span className="view-ing__dietary"> → {dietarySub}</span>
+                        )}
+                        {scFallback && !isOmit && (
+                          <span className="view-ing__dietary view-ing__dietary--fallback">
+                            {' → '}{scFallback}
+                            {!showShortcut && (
+                              <span className="view-ing__fallback-note"> (safe alt · or omit)</span>
+                            )}
+                          </span>
                         )}
                         {hasSCSub && !showDietarySub && (
                           <span className="view-ing__sc"> → {scSub}</span>
                         )}
                         {isOmit && (
                           <span className="view-ing__sc view-ing__sc--omit">
-                            {isAllergyOmit ? ' (allergy — omit)' : ' (omit)'}
+                            {isAllergyOmit ? ' (allergy — omit)' : isDietaryOmit ? ' (dietary — omit)' : ' (omit)'}
                           </span>
                         )}
                       </span>
@@ -382,12 +413,13 @@ function CheckIngredientsModal({ items, onComplete, onSkip }) {
 
           <ul className="check-ing-list">
             {items.map((item) => {
-              const isChecked = checked.has(item.ingredientId + '_' + item.unit)
+              const isChecked = checked.has(item.ingredientId)
+              const qtyStr    = item.qty % 1 === 0 ? item.qty : item.qty.toFixed(2)
               return (
                 <li
-                  key={item.ingredientId + '_' + item.unit}
+                  key={item.ingredientId}
                   className={`check-ing-item ${isChecked ? 'check-ing-item--checked' : ''}`}
-                  onClick={() => toggle(item.ingredientId + '_' + item.unit)}
+                  onClick={() => toggle(item.ingredientId)}
                 >
                   <span className={`check-ing-box ${isChecked ? 'check-ing-box--on' : ''}`}>
                     {isChecked ? '✓' : ''}
@@ -395,7 +427,7 @@ function CheckIngredientsModal({ items, onComplete, onSkip }) {
                   <div className="check-ing-info">
                     <span className="check-ing-name">{item.name}</span>
                     <span className="check-ing-qty">
-                      need: {item.qty % 1 === 0 ? item.qty : item.qty.toFixed(2)} {item.unit}
+                      need: {item.atLeast ? 'at least ' : ''}{qtyStr} {item.unit}
                     </span>
                   </div>
                 </li>
@@ -663,11 +695,19 @@ export default function MealPlanning() {
       newWeekMeals = [...newWeekMeals, ...pending]
     }
 
-    const updatedPrefs = {
+    const basePrefs = {
       ...prefs,
       pendingMeals: [],
       mealsByDay:   newByDay,
       weekMeals:    newWeekMeals,
+    }
+    // Rebuild the grocery list immediately so Shop reflects the correct state
+    // (including any use-up ingredient exclusions set by LowWaste).
+    const sections = buildGroceryList(basePrefs)
+    const updatedPrefs = {
+      ...basePrefs,
+      groceryListSections: sections,
+      shoppingListCleared: false,
     }
     savePreferences(updatedPrefs)
 
@@ -786,15 +826,15 @@ export default function MealPlanning() {
 
   // ── Persist helpers ───────────────────────────────────────────────────────
   function persistMeals(byDay, wk1, wk2) {
-    // Clear the pantry-check state — it's tied to a specific meal selection and
-    // becomes stale the moment meals change.  The grocery list is rebuilt fresh
-    // so any new recipe's ingredients always appear in the Shop list.
+    // Preserve checkedAvailableIngredients — it carries the exclusions set by
+    // LowWaste (use-up ingredients) and the pantry check step.  Both are
+    // deliberate user actions and should remain in effect until the user
+    // explicitly redoes the pantry check (which overwrites this field).
     const base = {
       ...preferences,
       mealsByDay:  byDay,
       weekMeals:   wk1,
       weekMeals2:  wk2,
-      checkedAvailableIngredients: [],
     }
     const sections = buildGroceryList(base)
     // Keep only shoppingChecked keys that still exist in the new list so the
@@ -891,10 +931,25 @@ export default function MealPlanning() {
   }
 
   // ── Compute common-ingredient pantry check items ───────────────────────────
-  // Returns items that (a) are needed by selected recipes and (b) are in commonIngredients.
+  // Returns items that (a) are needed by selected recipes and (b) are in
+  // commonIngredients, with dietary substitutions applied:
+  //   - If a recipe ingredient has a dietary substitute, the ORIGINAL is never
+  //     prompted (the user will not buy it). The SUBSTITUTE's ID is looked up by
+  //     name; if it is in commonIngredients that substitute is prompted instead.
+  //   - If the substitute is not in commonIngredients it goes straight to the
+  //     grocery list — no pantry prompt.
+  //   - Ingredients with no dietary substitute are handled as before.
   function computeCheckItems() {
     const common = new Set(preferences.commonIngredients ?? [])
     if (common.size === 0) return []
+
+    const dietaryModes = preferences.dietaryModes ?? []
+
+    // Name → id lookup so we can resolve substitute names to ingredient IDs
+    const nameToId = {}
+    for (const [id, ing] of Object.entries(ingredientsMap)) {
+      nameToId[ing.name.toLowerCase()] = id
+    }
 
     // Collect all selected meals with their per-recipe shortcut flag
     const selectedMeals = [] // [{ recipeId, useShortcut }]
@@ -914,24 +969,72 @@ export default function MealPlanning() {
 
     if (selectedMeals.length === 0) return []
 
-    // Aggregate needed quantities per ingredient+unit, respecting shortcut omissions
-    // and household-size scaling
+    // Aggregate needed quantities per ingredient+unit, respecting shortcut
+    // omissions, dietary substitutions, and household-size scaling
     const recipeSize = preferences.recipeSize ?? 'single'
-    const agg = {} // key: `${ingredientId}_${unit}`
+    const allergyListForCheck = preferences.allergyIngredients ?? []
+    const shortcutAllowed = (preferences.shortcutMode ?? 'off-visible') !== 'off-hidden'
+    const agg = {} // key: ingredientId
     for (const { recipeId, useShortcut } of selectedMeals) {
       const recipe = recipesMap[recipeId]
       if (!recipe) continue
+      // Respect auto-shortcut: if the recipe has a safe shortcut for a
+      // restricted ingredient, treat the whole recipe as shortcut mode.
+      const effectiveShortcut = useShortcut || (shortcutAllowed && recipeNeedsAutoShortcut(recipe, ingredientsMap, dietaryModes, allergyListForCheck))
       const scaled = scaleRecipe(recipe, recipeSize)
       scaled.ingredients.forEach((ing) => {
-        if (!common.has(ing.ingredientId)) return
-        // Shortcut mode: skip omitted or substituted ingredients
-        if (useShortcut && ing.shortcutSubstitute && ing.shortcutSubstitute !== 'none') return
-        const key = `${ing.ingredientId}_${ing.unit}`
-        if (!agg[key]) {
-          const data = ingredientsMap[ing.ingredientId]
-          agg[key] = { ingredientId: ing.ingredientId, name: data?.name ?? ing.ingredientId, qty: 0, unit: ing.unit }
+        // Shortcut mode: skip original ingredients that have a shortcut version
+        if (effectiveShortcut && ing.shortcutSubstitute && ing.shortcutSubstitute !== 'none') return
+
+        const data = ingredientsMap[ing.ingredientId]
+
+        const parsedQty = parseQtyStr(ing.quantity)
+
+        // ── Dietary substitution handling ─────────────────────────────────────
+        if (dietaryModes.length > 0) {
+          const subs = getDietarySubstitutes(data, dietaryModes)
+          if (subs.length > 0) {
+            // The original ingredient is being replaced — never prompt for it.
+            // Only prompt for the FIRST substitute that has an exact ID match in
+            // commonIngredients. Using the first prevents multiple pantry entries
+            // for the same original ingredient when several modes each suggest a
+            // different substitute.
+            for (const subName of subs) {
+              const subId = nameToId[subName.toLowerCase()]
+              if (!subId || !common.has(subId)) continue
+              const subData = ingredientsMap[subId]
+              if (!agg[subId]) {
+                agg[subId] = { ingredientId: subId, name: subData?.name ?? subName, qty: parsedQty, unit: ing.unit, atLeast: false }
+              } else if (agg[subId].unit === ing.unit) {
+                agg[subId].qty += parsedQty
+              } else {
+                agg[subId].atLeast = true
+              }
+              break // one substitute per original ingredient
+            }
+            return // Don't fall through to the original-ingredient check
+          }
+
+          // Any active mode declares this ingredient incompatible (omit/none) —
+          // it won't appear on the grocery list so don't include it in the pantry check.
+          const hasIncompatibleMode = dietaryModes.some((mode) => {
+            const field = DIETARY_MODE_FIELD[mode]
+            if (!field) return false
+            const v = data?.[field]
+            return isDietaryFieldIncompatible(v)
+          })
+          if (hasIncompatibleMode) return
         }
-        agg[key].qty += parseQtyStr(ing.quantity)
+
+        // ── No dietary substitution — check the original ingredient ───────────
+        if (!common.has(ing.ingredientId)) return
+        if (!agg[ing.ingredientId]) {
+          agg[ing.ingredientId] = { ingredientId: ing.ingredientId, name: data?.name ?? ing.ingredientId, qty: parsedQty, unit: ing.unit, atLeast: false }
+        } else if (agg[ing.ingredientId].unit === ing.unit) {
+          agg[ing.ingredientId].qty += parsedQty
+        } else {
+          agg[ing.ingredientId].atLeast = true
+        }
       })
     }
 
@@ -950,9 +1053,25 @@ export default function MealPlanning() {
 
   // ── Check modal complete ──────────────────────────────────────────────────
   function handleCheckComplete(checkedKeys) {
-    // checkedKeys are "ingredientId_unit" strings; extract unique ingredientIds
-    const checkedIngredientIds = [...new Set(checkedKeys.map((k) => k.split('_')[0]))]
-    const withCheck = { ...preferences, checkedAvailableIngredients: checkedIngredientIds }
+    // checkedKeys are ingredientId strings (ingredient IDs use hyphens, not underscores,
+    // so split('_')[0] safely returns the full ID even for multi-word IDs)
+    const checkedIngredientIds = new Set(checkedKeys.map((k) => k.split('_')[0]))
+
+    // The pantry-check modal only showed a scoped set of items (checkIngItems).
+    // We must NOT wipe unrelated exclusions (e.g. LowWaste use-up ingredients).
+    // Strategy: start from the existing set, then apply the modal's results only
+    // for IDs that were actually presented in the modal.
+    const pantryScope = new Set((checkIngItems ?? []).map((item) => item.ingredientId))
+    const merged = new Set(preferences.checkedAvailableIngredients ?? [])
+    for (const id of pantryScope) {
+      if (checkedIngredientIds.has(id)) {
+        merged.add(id)      // user confirmed they have it → exclude from list
+      } else {
+        merged.delete(id)   // user said they need it → include in list
+      }
+    }
+
+    const withCheck = { ...preferences, checkedAvailableIngredients: [...merged] }
     // Rebuild sections so confirmed-as-have ingredients are excluded from the list
     const sections = buildGroceryList(withCheck)
     const validKeys = new Set(sections.flatMap((s) => s.items.map((i) => i.key)))
