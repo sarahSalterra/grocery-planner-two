@@ -38,7 +38,46 @@ function HouseholdSizeView({ preferences, onUpdate }) {
 
 // ─── Sub-view: Cooking Priority ───────────────────────────────────────────────
 
+const PRIORITY_TIPS = {
+  'low-waste': {
+    title: 'Optimizing for Low Waste',
+    body: 'We will prompt you to begin your meal planning each week by checking for ingredients you already have and need to use up, planning your next meals around them, to avoid anything spoiling (this is also available at any time in the "Use Up Items" feature). We help you avoid duplicate purchasing by removing those items and anything you usually keep on hand, and can confirm you have enough of, from the grocery list when you go to shop. This ensures your ingredients never go to waste and your pantry stays de-cluttered.',
+    optimize: 'Extra leniency for ingredient substitution can further optimize your low-waste by allowing you to use ingredients more flexibly for a wider variety of different recipes and resulting in fewer unique ingredients needed for recipes. To optimize, go to "Substitution Mode" and select "Lenient". Your recipes will then show you lenient substitutions for ingredients both while meal planning and cooking.',
+  },
+  cheapest: {
+    title: 'Optimizing for Cost-Effectiveness',
+    body: 'Recipe lists are sorted to make lower-cost meals easy to find first. From-scratch methods of cooking are also usually recommended instead of shortcuts due to a generally lower cost to consumption ratio.',
+    optimize: 'For best results, use regular or lenient substitution (available under "Substitution Mode") so less expensive ingredients can be sugggested in place of pricier ones when the recipe still works well.',
+  },
+  easiest: {
+    title: 'Optimizing for Easy-to-Make',
+    body: 'Recipe lists are sorted by effort required, so the simplest meals appear first. Shortcut versions of recipes are also recommended because they can replace prep-heavy steps or multi-ingredient components with easier store-bought options.',
+    optimize: 'Beginner Mode can also be helpful, explaining cooking terms directly inside recipes while you cook (enable "Beginner Mode" in settings).',
+  },
+  quickest: {
+    title: 'Optimize for Quick-to-Cook',
+    body: 'Recipe lists are sorted by total time required, so faster meals are easier to find. Shortcut versions of recipes are recommended also because they can cut down prep and cooking time.',
+    optimize: 'When possible, the app can highlight recipes that can be multi-tasked well together, so mains and sides can be cooked at the same time and optimize your use of cooking time.',
+  },
+  frequency: {
+    title: 'Optimize for Cooking Less Often',
+    body: 'The app prioritizes recipes that work well for meal prep (or save well as leftovers), so one cooking session can cover more meals.',
+    optimize: 'Meal Prep mode scales recipes up so you cook larger batches with fewer cooking sessions during the week (enable "Meal Prep" under "Planned Cooking" in settings).',
+  },
+  healthy: {
+    title: 'Optimize for Healthiness',
+    body: 'Recipe lists are sorted by calories per serving by default. From-scratch cooking is recommended because it gives you more control over protein, sodium, sugar, and other nutritional factors in your meals.',
+    optimize: 'Ingredient substitutions can show healthier alternatives or ingredients that can be omitted (choose regular or lenient under "Substitution Mode" in settings). Diet and allergy settings automatically apply safe swaps in recipes and grocery lists (set your diet or food allergies under "Diet & Allergies" in settings).',
+  },
+  exploration: {
+    title: 'Optimize for Exploring Flavors',
+    body: 'We will keep recipe visibility open so you can browse a wide range of cuisines and cooking styles, only filtering for diet or allergy safety when needed.',
+    optimize: 'You can customize the recipe and ingredient libraries to add more variety and include new recipes. If this priority is ranked last, more adventurous recipes may be filtered lower or hidden to offer options suited to a more basic palette.',
+  },
+}
+
 function CookingPriorityView({ preferences, onUpdate }) {
+  const [openTipId, setOpenTipId] = useState(null)
   const ranked = preferences.prioritiesRanked ?? PRIORITIES.map((p) => p.id)
   const priorityMap = Object.fromEntries(PRIORITIES.map((p) => [p.id, p]))
 
@@ -58,12 +97,32 @@ function CookingPriorityView({ preferences, onUpdate }) {
       <ol className="priority-list priority-list--compact">
         {ranked.map((id, index) => {
           const p = priorityMap[id]
+          const tip = PRIORITY_TIPS[id]
+          const tipOpen = openTipId === id
           return (
             <li key={id} className="priority-item priority-item--compact">
               <span className="priority-item__rank">{index + 1}</span>
               <div className="priority-item__text">
-                <span className="priority-item__label">{p.label}</span>
+                <span className="priority-item__label-row">
+                  <span className="priority-item__label">{p.label}</span>
+                  {tip && (
+                    <button
+                      className="priority-learn-btn"
+                      onClick={() => setOpenTipId(tipOpen ? null : id)}
+                      aria-expanded={tipOpen}
+                    >
+                      Learn how
+                    </button>
+                  )}
+                </span>
                 <span className="priority-item__desc">{p.desc}</span>
+                {tipOpen && (
+                  <div className="priority-tip">
+                    <span className="priority-tip__title">{tip.title}</span>
+                    <p>{tip.body}</p>
+                    <p>{tip.optimize}</p>
+                  </div>
+                )}
               </div>
               <div className="priority-item__controls">
                 <button className="priority-btn" onClick={() => move(index, -1)} disabled={index === 0}>▲</button>
@@ -217,7 +276,7 @@ function EditSubstitutionView({ preferences, onUpdate }) {
   const options = [
     { id: 'strict',  label: 'Strict',  desc: 'Most technical — minimal substitutions, closest to the original recipe' },
     { id: 'regular', label: 'Regular', desc: 'Flexible and intuitive — sensible swaps when needed (default)' },
-    { id: 'lenient', label: 'Lenient', desc: 'Lowest waste — highest variance in flavor, including omissions' },
+    { id: 'lenient', label: 'Lenient', desc: 'Lowest waste — highest variance in flavor, including most freedom to omit' },
   ]
   return (
     <div className="settings-subview__body">
@@ -461,7 +520,7 @@ const REVERT_OPTIONS = [
   {
     id:    'revertRecipes',
     label: 'Revert Recipes',
-    desc:  'Reset all recipes back to the original default list. Any recipes you added or edited will be lost.',
+    desc:  'Reset all recipes back to the original default list. Any recipes you added or edits made to recipes will be lost.',
   },
   {
     id:    'revertInventory',
@@ -471,7 +530,7 @@ const REVERT_OPTIONS = [
   {
     id:    'revertPreferences',
     label: 'Revert Preferences',
-    desc:  'Reset all app settings back to defaults. Your meal plan data and saved preferences will be cleared.',
+    desc:  'Reset only your app settings back to defaults. Your meal plan data and saved preferences will be cleared. Recipes and inventory will not be affected and will still be saved.',
   },
   {
     id:    'revertAll',
@@ -595,13 +654,13 @@ function GlossaryView() {
 const VIEW_TITLES = {
   main:            'Settings',
   householdSize:   'Household Size',
-  cookingPriority: 'Cooking Priority',
+  cookingPriority: 'Cooking Priorities',
   planMode:        'Planned Cooking',
   shopSchedule:    'Shopping Schedule',
   editSubstitution:'Substitution Mode',
   editShortcut:    'Shortcut Mode',
   dietary:         'Diet & Allergies',
-  revertData:      'Reset to Defaults',
+  revertData:      'Revert to Defaults',
   glossary:        'Cooking Glossary',
 }
 

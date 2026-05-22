@@ -1492,6 +1492,13 @@ a { color: inherit; text-decoration: none; }
   color: var(--color-text);
 }
 
+.priority-item__label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 .priority-item__desc {
   font-size: 0.75rem;
   color: var(--color-text-soft);
@@ -1520,6 +1527,46 @@ a { color: inherit; text-decoration: none; }
 }
 
 .priority-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.priority-learn-btn {
+  flex-shrink: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 3px 8px;
+}
+
+.priority-learn-btn:hover {
+  border-color: var(--color-primary);
+}
+
+.priority-tip {
+  margin-top: 8px;
+  padding: 9px 10px;
+  border-radius: 10px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+}
+
+.priority-tip__title {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.priority-tip p {
+  margin: 0 0 6px;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--color-text-soft);
+}
+
+.priority-tip p:last-child { margin-bottom: 0; }
 
 /* ─── Toggle warn state ─────────────────────────────────────────────────────── */
 .toggle--warn { background: var(--color-danger) !important; }

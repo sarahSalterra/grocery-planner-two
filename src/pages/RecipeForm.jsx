@@ -43,7 +43,7 @@ function modeSubstituteField(mode) {
 
 // ingredientName = what the user types (friendly name, resolved to ID on save)
 const blankIngredient = () => ({
-  ingredientName: '', quantity: '', unit: 'oz', shortcutSubstitute: 'none', substitute: ''
+  ingredientName: '', quantity: '', unit: 'oz', shortcutSubstitute: '', substitute: ''
 })
 
 const blankStep = () => ({
