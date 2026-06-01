@@ -7,6 +7,7 @@ import {
   CUISINES, DISH_TYPES, DIFFICULTIES, PRICE_LEVELS,
   TIME_REQUIREMENTS, MULTI_TASK_OPTIONS,
 } from '../db/data/filterOptions'
+import { KITCHEN_EQUIPMENT, getRecipeEquipmentIds } from '../db/data/equipment.js'
 import { convertToMetric, convertFromMetric } from '../utils/recipeUtils'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -67,6 +68,7 @@ const blankForm = {
   servings: '',
   caloriesPerServing: '',
   timeToComplete: [],
+  equipmentIds: [],
   ingredients: [],
   steps: [],
   recommendedSides: [],
@@ -104,6 +106,7 @@ export default function RecipeForm() {
   const subFieldName = modeSubstituteField(substitutionMode)
   const subFieldLabel = `${substitutionMode.charAt(0).toUpperCase() + substitutionMode.slice(1)} Substitute`
   const metricUnits = preferences.metricUnits ?? false
+  const [equipmentInput, setEquipmentInput] = useState('')
 
   const allIngredients = useMemo(getIngredients, [])
   const allRecipes = useMemo(getRecipes, [])
@@ -139,6 +142,7 @@ export default function RecipeForm() {
       servings:            existing.servings            ?? '',
       caloriesPerServing:  existing.caloriesPerServing  ?? '',
       timeToComplete:      existing.timeToComplete      ?? [],
+      equipmentIds:        getRecipeEquipmentIds(existing),
       ingredients: ingredientsWithSub,
       recommendedSides: existing.recommendedSides ?? [],
     }
@@ -148,6 +152,35 @@ export default function RecipeForm() {
 
   function setField(key, value) {
     setForm((prev) => ({ ...prev, [key]: value }))
+  }
+
+  const selectedEquipment = useMemo(
+    () => (form.equipmentIds ?? [])
+      .map((equipmentId) => KITCHEN_EQUIPMENT.find((item) => item.id === equipmentId))
+      .filter(Boolean),
+    [form.equipmentIds]
+  )
+
+  function addEquipmentByName() {
+    const typedName = equipmentInput.trim()
+    if (!typedName) return
+    const match = KITCHEN_EQUIPMENT.find(
+      (item) => item.name.toLowerCase() === typedName.toLowerCase()
+    )
+    if (!match) return
+    setForm((prev) => {
+      const current = prev.equipmentIds ?? []
+      if (current.includes(match.id)) return prev
+      return { ...prev, equipmentIds: [...current, match.id] }
+    })
+    setEquipmentInput('')
+  }
+
+  function removeEquipment(equipmentId) {
+    setForm((prev) => ({
+      ...prev,
+      equipmentIds: (prev.equipmentIds ?? []).filter((id) => id !== equipmentId),
+    }))
   }
 
   // ── Ingredients ───────────────────────────────────────────────────────────
@@ -313,6 +346,7 @@ export default function RecipeForm() {
       timeToComplete: form.timeToComplete
         .filter((p) => p.phase && p.minutes !== '')
         .map((p) => ({ phase: p.phase, minutes: Number(p.minutes) })),
+      neededEquipment: form.equipmentIds ?? [],
       // Strip internal _substitute field before storing
       ingredients: resolvedIngredients.map(({ _substitute, ...rest }) => rest),
       steps: form.steps.filter((s) => s.name.trim() || s.text.trim()),
@@ -373,6 +407,15 @@ export default function RecipeForm() {
     </datalist>
   )
 
+  const equipmentDatalist = (
+    <datalist id="equipment-options">
+      {KITCHEN_EQUIPMENT
+        .filter((item) => !(form.equipmentIds ?? []).includes(item.id))
+        .map((item) => <option key={item.id} value={item.name} />)
+      }
+    </datalist>
+  )
+
   // ─── Render ──────────────────────────────────────────────────────────────────
 
   return (
@@ -380,6 +423,7 @@ export default function RecipeForm() {
       {ingredientDatalist}
       {unitDatalist}
       {recipeDatalist}
+      {equipmentDatalist}
 
       {/* Header */}
       <div className="library-header">
@@ -524,6 +568,61 @@ export default function RecipeForm() {
               placeholder="e.g. homemade sauce → jarred sauce"
             />
           </FormField>
+        </FormSection>
+
+        {/* Equipment */}
+        <FormSection title="Needed Equipment">
+          <p className="form-empty-note">
+            Search for tools needed beyond normal ingredients. Basic items are common tools;
+            special items are more likely to require a fully equipped kitchen.
+          </p>
+          <div className="equipment-picker">
+            <div className="equipment-picker__input-row">
+              <input
+                className="form-input"
+                list="equipment-options"
+                type="text"
+                placeholder="Type equipment name"
+                value={equipmentInput}
+                onChange={(e) => setEquipmentInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault()
+                    addEquipmentByName()
+                  }
+                }}
+              />
+              <button
+                className="form-add-row-btn equipment-picker__add"
+                onClick={addEquipmentByName}
+              >
+                Add
+              </button>
+            </div>
+            {selectedEquipment.length === 0 ? (
+              <p className="form-empty-note">No equipment selected yet.</p>
+            ) : (
+              <div className="equipment-tag-list">
+                {selectedEquipment.map((item) => (
+                  <div key={item.id} className="equipment-tag">
+                    <div>
+                      <span className="equipment-tag__name">{item.name}</span>
+                      <span className="equipment-tag__meta">
+                        {item.type}{item.substitutePossible ? ' · substitute possible' : ''}
+                      </span>
+                    </div>
+                    <button
+                      className="equipment-tag__remove"
+                      onClick={() => removeEquipment(item.id)}
+                      title="Remove equipment"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </FormSection>
 
         {/* Ingredients */}

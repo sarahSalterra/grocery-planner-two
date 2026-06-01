@@ -1,9 +1,10 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { getRecipes } from '../db/recipesDB'
 import { getIngredients } from '../db/ingredientsDB'
 import { getPreferences, savePreferences } from '../db/preferencesDB'
 import { CUISINES } from '../db/data/filterOptions'
+import { getRecipeEquipment } from '../db/data/equipment.js'
 import StepNav from '../components/StepNav'
 import MiniSettings from '../components/MiniSettings'
 import { isRecipeAllergyExcluded, getAllergyOmitIds, getDietarySubstitutes, getShortcutFallbackSub, recipeNeedsAutoShortcut, isDietaryOmittedIngredient, DIETARY_MODE_LABELS, DIETARY_MODE_FIELD, getStackedSubOptions, isDietaryFieldIncompatible } from '../utils/dietaryUtils'
@@ -47,6 +48,13 @@ function defaultSortFromPriorities(ranked) {
   if (top === 'quickest') return { field: 'timeRequirement',    dir: 'asc' }
   if (top === 'healthy')  return { field: 'caloriesPerServing', dir: 'asc' }
   return null
+}
+
+function defaultSortFromPreferences(preferences) {
+  if (preferences?.kitchenEquipmentLevel === 'not-equipped') {
+    return { field: 'difficulty', dir: 'asc' }
+  }
+  return defaultSortFromPriorities(preferences?.prioritiesRanked)
 }
 
 // ─── Recipe View Modal ────────────────────────────────────────────────────────
@@ -93,6 +101,7 @@ function RecipeViewModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
   const totalTime  = getTotalTime(timePhases)
   const activeTime = getTotalActiveTime(timePhases)
   const hasPassive = activeTime < totalTime
+  const neededEquipment = getRecipeEquipment(recipe)
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -186,6 +195,26 @@ function RecipeViewModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
 
         {/* Scrollable body */}
         <div className="modal-body">
+
+          {neededEquipment.length > 0 && (
+            <div className="modal-section">
+              <h3 className="modal-section__title">Needed Equipment</h3>
+              <ul className="equipment-list">
+                {neededEquipment.map((item) => {
+                  const substituted = showShortcut && item.substitutePossible
+                  return (
+                    <li
+                      key={item.id}
+                      className={`equipment-item ${substituted ? 'equipment-item--substituted' : ''}`}
+                    >
+                      <span>{item.name}</span>
+                      <span className="equipment-item__type">{item.type}</span>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          )}
 
           {/* Ingredients */}
           <div className="modal-section">
@@ -753,8 +782,8 @@ export default function MealPlanning() {
 
   // ── Filter / sort state ───────────────────────────────────────────────────
   const initSort = useMemo(
-    () => defaultSortFromPriorities(preferences.prioritiesRanked),
-    [preferences.prioritiesRanked]
+    () => defaultSortFromPreferences(preferences),
+    [preferences]
   )
 
   const [dishGroup,       setDishGroup]       = useState('mains')
@@ -764,6 +793,13 @@ export default function MealPlanning() {
   const [multiTaskFilter, setMultiTaskFilter] = useState(false)
   const [sortBy,          setSortBy]          = useState(initSort?.field ?? null)
   const [sortDir,         setSortDir]         = useState(initSort?.dir   ?? 'asc')
+
+  useEffect(() => {
+    if (preferences.kitchenEquipmentLevel === 'not-equipped') {
+      setSortBy('difficulty')
+      setSortDir('asc')
+    }
+  }, [preferences.kitchenEquipmentLevel])
 
   // ── Lookups ───────────────────────────────────────────────────────────────
   const recipesMap = useMemo(

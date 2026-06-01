@@ -10,6 +10,7 @@ import {
   SHOP_SCHEDULES,
   getRecommendations,
 } from '../db/data/userPreferenceModes.js'
+import { KITCHEN_EQUIPMENT_LEVELS } from '../db/data/equipment.js'
 import { DIETARY_MODE_LABELS } from '../utils/dietaryUtils'
 import {
   STARTER_HOUSEHOLD_GOODS,
@@ -237,6 +238,30 @@ function PageThree({ data, onChange }) {
             >
               <span className="option-card__label">{opt.label}</span>
               <span className="option-card__desc">{opt.desc}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Kitchen Equipment */}
+      <div className="onboarding-field">
+        <label className="onboarding-label">How equipped is your kitchen?</label>
+        <div className="option-cards option-cards--col">
+          {KITCHEN_EQUIPMENT_LEVELS.map((opt) => (
+            <button
+              key={opt.id}
+              className={[
+                'option-card option-card--row',
+                data.kitchenEquipmentLevel === opt.id ? 'option-card--selected' : '',
+                opt.id === 'not-equipped' && data.kitchenEquipmentLevel === opt.id ? 'option-card--recommended' : '',
+              ].join(' ')}
+              onClick={() => onChange('kitchenEquipmentLevel', opt.id)}
+            >
+              <span className="option-card__label">{opt.label}</span>
+              <span className="option-card__desc">{opt.desc}</span>
+              {opt.id === 'not-equipped' && data.kitchenEquipmentLevel === opt.id && (
+                <span className="option-card__badge">Shortcut mode recommended</span>
+              )}
             </button>
           ))}
         </div>
@@ -722,6 +747,7 @@ export default function Onboarding({ onComplete }) {
     planMode: 'unplanned',
     showLowWaste: false,
     experienceMode: 'experienced',
+    kitchenEquipmentLevel: 'standard',
     metricUnits: false,
     dietaryModes: [],
     allergyIngredients: [],
@@ -750,6 +776,11 @@ export default function Onboarding({ onComplete }) {
       // Auto-enable glossary beginner mode when the user selects beginner experience
       if (key === 'experienceMode') {
         updated.glossaryBeginnerMode = value === 'beginner'
+      }
+
+      if (key === 'kitchenEquipmentLevel' && value === 'not-equipped') {
+        const [, visibility = 'visible'] = (updated.shortcutMode ?? 'off-visible').split('-')
+        updated.shortcutMode = `on-${visibility}`
       }
 
       return updated

@@ -27,6 +27,7 @@ const DEFAULTS = {
   substitutionMode: "regular",       // strict | regular | lenient
   planMode: "unplanned",             // planned | unplanned | mealprep
   experienceMode: "experienced",     // beginner | experienced
+  kitchenEquipmentLevel: "standard",  // not-equipped | standard | cooking-equipped-baking-basic | baking-equipped-cooking-basic
 
   // ── Dietary restrictions ────────────────────────────────────────────────────
   // dietaryModes: string[] — active modes from 'vegetarian' | 'vegan' | 'gluten-free' | 'dairy-free' | 'pescatarian'

@@ -5,6 +5,7 @@ import {
   SHOP_SCHEDULES,
   getRecommendations,
 } from '../db/data/userPreferenceModes.js'
+import { KITCHEN_EQUIPMENT_LEVELS } from '../db/data/equipment.js'
 import {
   requestNotificationPermission,
   getNotificationPermission,
@@ -52,7 +53,7 @@ const PRIORITY_TIPS = {
   easiest: {
     title: 'Optimizing for Easy-to-Make',
     body: 'Recipe lists are sorted by effort required, so the simplest meals appear first. Shortcut versions of recipes are also recommended because they can replace prep-heavy steps or multi-ingredient components with easier store-bought options.',
-    optimize: 'Beginner Mode can also be helpful, explaining cooking terms directly inside recipes while you cook (enable "Beginner Mode" in settings).',
+    optimize: 'Beginner Mode can also be helpful, explaining cooking terms directly inside recipes while you cook (enable "Beginner Mode" in settings). If your kitchen is only equipped with basic tools, you can also set "Kitchen Equipment" to "Basic" in settings and see substitutions for less common tools under "Shortcut Mode" for most recipes.',
   },
   quickest: {
     title: 'Optimize for Quick-to-Cook',
@@ -173,6 +174,40 @@ function PlanModeView({ preferences, onUpdate }) {
           Meal prep scales recipe quantities up one level from your household size.
         </p>
       )}
+    </div>
+  )
+}
+
+// ─── Sub-view: Kitchen Equipment ───────────────────────────────────────────────
+
+function KitchenEquipmentView({ preferences, onUpdate }) {
+  function selectLevel(levelId) {
+    const next = { kitchenEquipmentLevel: levelId }
+    if (levelId === 'not-equipped') {
+      const [, visibility = 'visible'] = (preferences.shortcutMode ?? 'off-visible').split('-')
+      next.shortcutMode = `on-${visibility}`
+    }
+    onUpdate(next)
+  }
+
+  return (
+    <div className="settings-subview__body">
+      <p className="settings-subview__desc">
+        Helps the app favor recipes that fit the tools you have available.
+        Not equipped kitchens default toward easier recipes and shortcut mode.
+      </p>
+      <div className="settings-option-cards">
+        {KITCHEN_EQUIPMENT_LEVELS.map((opt) => (
+          <button
+            key={opt.id}
+            className={`settings-option-card settings-option-card--row ${preferences.kitchenEquipmentLevel === opt.id ? 'settings-option-card--selected' : ''}`}
+            onClick={() => selectLevel(opt.id)}
+          >
+            <span className="settings-option-card__label">{opt.label}</span>
+            <span className="settings-option-card__desc">{opt.desc}</span>
+          </button>
+        ))}
+      </div>
     </div>
   )
 }
@@ -649,12 +684,54 @@ function GlossaryView() {
   )
 }
 
+// ─── Sub-view: Report Bug ─────────────────────────────────────────────────────
+
+function ReportBugView() {
+  const [message, setMessage] = useState('')
+
+  function handleSend() {
+    const body = message.trim()
+    if (!body) return
+    const params = new URLSearchParams({
+      subject: 'Grocery Planner Error Reported',
+      body,
+    })
+    window.location.href = `mailto:sarah.salterra@gmail.com?${params.toString()}`
+  }
+
+  return (
+    <div className="settings-subview__body report-bug-view">
+      <p className="settings-subview__desc">
+        Found something broken? Type what happened and send it as an email report.
+      </p>
+      <textarea
+        className="form-textarea report-bug-view__message"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder="Describe the bug, what page you were on, and what you expected to happen."
+        rows={8}
+      />
+      <button
+        className="btn btn--primary"
+        onClick={handleSend}
+        disabled={!message.trim()}
+      >
+        Send Report
+      </button>
+      <p className="settings-subview__note">
+        This opens your email app with the report filled in before sending.
+      </p>
+    </div>
+  )
+}
+
 // ─── Main SettingsMenu ────────────────────────────────────────────────────────
 
 const VIEW_TITLES = {
   main:            'Settings',
   householdSize:   'Household Size',
   cookingPriority: 'Cooking Priorities',
+  kitchenEquipment: 'Kitchen Equipment',
   planMode:        'Planned Cooking',
   shopSchedule:    'Shopping Schedule',
   editSubstitution:'Substitution Mode',
@@ -662,6 +739,7 @@ const VIEW_TITLES = {
   dietary:         'Diet & Allergies',
   revertData:      'Revert to Defaults',
   glossary:        'Cooking Glossary',
+  reportBug:       'Report a Bug',
 }
 
 export default function SettingsMenu({ isOpen, onClose, preferences, onUpdate }) {
@@ -721,6 +799,7 @@ export default function SettingsMenu({ isOpen, onClose, preferences, onUpdate })
         {/* Sub-views */}
         {view === 'householdSize'   && <HouseholdSizeView   preferences={preferences} onUpdate={onUpdate} />}
         {view === 'cookingPriority' && <CookingPriorityView preferences={preferences} onUpdate={onUpdate} />}
+        {view === 'kitchenEquipment'&& <KitchenEquipmentView preferences={preferences} onUpdate={onUpdate} />}
         {view === 'planMode'        && <PlanModeView        preferences={preferences} onUpdate={onUpdate} />}
         {view === 'shopSchedule'    && <ShopScheduleView    preferences={preferences} onUpdate={onUpdate} />}
         {view === 'editSubstitution'&& <EditSubstitutionView preferences={preferences} onUpdate={onUpdate} />}
@@ -728,6 +807,7 @@ export default function SettingsMenu({ isOpen, onClose, preferences, onUpdate })
         {view === 'dietary'         && <DietaryView         preferences={preferences} onUpdate={onUpdate} />}
         {view === 'revertData'      && <RevertDataView      onUpdate={onUpdate} />}
         {view === 'glossary'        && <GlossaryView />}
+        {view === 'reportBug'       && <ReportBugView />}
 
         {/* Main view */}
         {view === 'main' && (
@@ -777,6 +857,7 @@ export default function SettingsMenu({ isOpen, onClose, preferences, onUpdate })
                 checked={preferences.glossaryBeginnerMode ?? false}
                 onToggle={() => onUpdate({ glossaryBeginnerMode: !(preferences.glossaryBeginnerMode ?? false) })}
               />
+              <DrillRow label="Kitchen Equipment" onClick={() => setView('kitchenEquipment')} />
             </div>
 
             <div className="settings-section">
@@ -823,6 +904,7 @@ export default function SettingsMenu({ isOpen, onClose, preferences, onUpdate })
 
             <div className="settings-section">
               <h3 className="settings-section__title">Data</h3>
+              <DrillRow label="Report a Bug" onClick={() => setView('reportBug')} />
               <DrillRow label="Reset to Defaults" onClick={() => setView('revertData')} />
             </div>
 

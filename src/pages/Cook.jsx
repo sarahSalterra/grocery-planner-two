@@ -6,6 +6,7 @@ import { getPreferences, savePreferences } from '../db/preferencesDB'
 import { getRecipes } from '../db/recipesDB'
 import { getIngredients } from '../db/ingredientsDB'
 import { CUISINES } from '../db/data/filterOptions'
+import { getRecipeEquipment } from '../db/data/equipment.js'
 import CookPromptModal from '../notifications/CookPromptModal'
 import { getAllergyOmitIds, getDietarySubstitutes, getStackedSubOptions, getShortcutFallbackSub, recipeNeedsAutoShortcut, isDietaryOmittedIngredient } from '../utils/dietaryUtils'
 import { scaleRecipe, formatMinutes, getTotalTime, getTotalActiveTime, convertToMetric } from '../utils/recipeUtils'
@@ -113,6 +114,7 @@ function CookRecipeModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
   const totalTime    = getTotalTime(timePhases)
   const activeTime   = getTotalActiveTime(timePhases)
   const hasPassive   = activeTime < totalTime
+  const neededEquipment = getRecipeEquipment(recipe)
 
   function toggleStep(i) {
     setStepsChecked((prev) => {
@@ -203,6 +205,26 @@ function CookRecipeModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
 
         {/* Scrollable body */}
         <div className="modal-body">
+
+          {neededEquipment.length > 0 && (
+            <div className="modal-section">
+              <h3 className="modal-section__title">Needed Equipment</h3>
+              <ul className="equipment-list">
+                {neededEquipment.map((item) => {
+                  const substituted = showShortcut && item.substitutePossible
+                  return (
+                    <li
+                      key={item.id}
+                      className={`equipment-item ${substituted ? 'equipment-item--substituted' : ''}`}
+                    >
+                      <span>{item.name}</span>
+                      <span className="equipment-item__type">{item.type}</span>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          )}
 
           {/* Ingredients */}
           <div className="modal-section">
@@ -372,7 +394,9 @@ function RecipeLibraryBrowse({ recipes, preferences, ingredientsMap, onBack }) {
   const [viewingRecipe, setViewingRecipe] = useState(null)
   const [filtersOpen,   setFiltersOpen]   = useState(false)
   const [cuisineFilter, setCuisineFilter] = useState('')
-  const [sortBy,        setSortBy]        = useState(null)
+  const [sortBy,        setSortBy]        = useState(
+    preferences.kitchenEquipmentLevel === 'not-equipped' ? 'difficulty' : null
+  )
   const [sortDir,       setSortDir]       = useState('asc')
   const [mealprepFilter, setMealprepFilter] = useState(false)
 

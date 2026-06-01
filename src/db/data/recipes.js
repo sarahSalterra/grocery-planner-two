@@ -3,7 +3,7 @@
 // Fields:
 //   id, name, cuisine, dishType, difficulty, priceLevel, timeRequirement,
 //   multiTasking, mealprepIdeal, shortcutReplaces, servings, batchSize,
-//   timeToComplete, ingredients, steps, recommendedSides, suggestedExtras
+//   timeToComplete, neededEquipment, ingredients, steps, recommendedSides, suggestedExtras
 //
 // mealprepIdeal: "yes" | "no"
 //   Whether this recipe is well-suited for batch cooking (scales well and
@@ -49,6 +49,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 20 },
       { phase: "bake", minutes: 45 },
     ],
+    neededEquipment: ["pie-dish", "wire-rack", "vegetable-peeler", "baking-spatula","chef-knife", "cutting-board", "oven", "mixing-bowl", "measuring-spoons"],
 
     ingredients: [
       { ingredientId: "pie-crust",              quantity: "2",   unit: "whole",    shortcutSubstitute: "none" },
@@ -61,10 +62,10 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Pie crust",               text: "Prepare one pie crust and place it into a pie dish. Preheat the oven to 425°F.", shortcutText: "no-shortcut" },
+      { name: "Pie crust",               text: "Prepare one pie crust and place it into a pie dish. Preheat the oven to 425°F.", shortcutText: "If you don't have a pie dish, you can use a round cake pan or even a square 8-inch or 9-inch baking/casserole dish. Prepare one pie crust and place it into the pan or dish. Preheat the oven to 425°F." },
       { name: "Mix filling",               text: "Peel and thinly slice the apples. Mix the sugar, nutmeg, cinnamon, apples, and salt in a bowl until evenly coated. Chop the butter into small pieces. Pour the filling carefully into the pie crust and dot with the butter.", shortcutText: "no-shortcut" },
       { name: "Bake",              text: "Cover with the second pie crust and seal the edges, cutting a flute on top. Use foil to cover the edges and prevent burning, then remove it during the final 15 minutes of baking. Bake for 40–50 minutes, until the crust is golden and the filling begins to bubble through the flute.", shortcutText: "no-shortcut" },
-      { name: "Cool and serve",              text: "Allow the pie to cool on a wire rack before serving. Serve still warm with a scoop of vanilla ice cream if desired.", shortcutText: "no-shortcut" },
+      { name: "Cool and serve",              text: "Allow the pie to cool on a wire rack before serving. Serve still warm with a scoop of vanilla ice cream if desired.", shortcutText: "If you don't have a wire rack, you can cool the pie on a countertop on a towel or pot holder. Serve still warm with a scoop of vanilla ice cream if desired." },
     ],
 
     recommendedSides: [],
@@ -88,6 +89,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 15 },
       { phase: "bake", minutes: 60 },
     ],
+    neededEquipment: ["loaf-pan", "oven", "mixing-bowl", "measuring-spoons", "baking-spatula"],
 
     ingredients: [
       { ingredientId: "all-purpose-flour",              quantity: "2",   unit: "cup",    shortcutSubstitute: "none" },
@@ -102,7 +104,7 @@ const DEFAULT_RECIPES = [
 
     steps: [
       { name: "Mash & mix",        text: "Mash ripe bananas thoroughly. Mix in melted butter, sugar, eggs, flour, baking soda, and salt until thoroughly combined. Fold in nuts if using.", shortcutText: "no-shortcut" },
-      { name: "Bake",              text: "Pour into a greased loaf pan. Bake at 350°F for 55–65 minutes until a toothpick comes out clean. Cool before slicing.", shortcutText: "no-shortcut" },
+      { name: "Bake",              text: "Pour into a greased or parchment-lined loaf pan. Bake at 350°F for 55–65 minutes until a toothpick comes out clean. Cool before slicing.", shortcutText: "If you don't have a loaf pan, you can use a square 8-inch or 9-inch baking/casserole dish. Pour the batter into the greased or parchment-lined baking dish. Bake at 350°F for 55–65 minutes until a toothpick comes out clean. Cool before slicing." },
     ],
 
     recommendedSides: [],
@@ -128,6 +130,7 @@ const DEFAULT_RECIPES = [
       { phase: "rise", minutes: 30 },
       { phase: "cook", minutes: 15 },
     ],
+    neededEquipment: ["steamer-basket", "mixing-bowl", "measuring-spoons", "measuring-cups", "rolling-pin"],
 
     ingredients: [
       { ingredientId: "all-purpose-flour",              quantity: "1",   unit: "cup",    shortcutSubstitute: "none" },
@@ -136,7 +139,7 @@ const DEFAULT_RECIPES = [
       { ingredientId: "olive-oil",          quantity: "1",   unit: "tbsp",   shortcutSubstitute: "none" },
       { ingredientId: "pork-shoulder",      quantity: "1", unit: "lb",      shortcutSubstitute: "pulled-pork" },
       { ingredientId: "chicken-stock",      quantity: "0.5", unit: "cup",      shortcutSubstitute: "none" },
-      { ingredientId: "ginger-root",        quantity: "1",   unit: "knob",   shortcutSubstitute: "ginger-paste" },
+      { ingredientId: "ginger-root",        quantity: "0.5",   unit: "knob",   shortcutSubstitute: "ginger-paste" },
       { ingredientId: "green-onions",       quantity: "0.5", unit: "bunch",  shortcutSubstitute: "omit" },
       { ingredientId: "jalapeno",           quantity: "0.5",   unit: "whole",  shortcutSubstitute: "omit" },
       { ingredientId: "sesame-seeds",       quantity: "0.5", unit: "tbsp",   shortcutSubstitute: "omit" },
@@ -148,10 +151,10 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Cook pork",        text: "Pour the sesame oil into a slow cooker. Rub the grated ginger, salt and pepper onto the pork, and place the pork into the slow cooker. Pour the chicken stock, soy sauce, and bbq sauce into the slow cooker. Cover and cook on high for 5-6 hours until the pork is tender. Pull the pork apart with two forks, and return to the juices, mixing in the diced green onions and jalapeno, and sesame seeds.", shortcutText: "Separate the meat from a store-bought pulled pork, add the included sauce or bbq sauce of your choice, along with the ginger, sesame oil, soy sauce, diced green onions and jalapeno, and sesame seeds." },
-      { name: "Make dough",        text: "Dissolve yeast in warm water with sugar. Mix in the flour, kneading until a smooth dough forms (knead about 5 minutes). Cover and let dough rest at least 30 minutes or until doubled in size.", shortcutText: "no-shortcut" },
-      { name: "Fill & shape",     text: "Divide dough into small rounds (usually 16 pieces per cup of flour). Lightly flour a clean surface and roll out each piece into a circle, a bit thinner on the outer edge than in the center. Scoop about a tablespoon of filling into the center and fold the dough, gathering and pinching the edges together to seal (wetting your fingers slightly with water before pinching can help the edges to stick). You may cut a small piece of parchment paper to place each bun on to help prevent it sticking to the steamer.", shortcutText: "no-shortcut" },
-      { name: "Steam",     text: "Place the buns on a steamer basket and steam for 10-12 minutes until puffed. If you do not have a steamer, you can use a large skillet or pot with 3 wads of foil inside. Pour water into the pot (not quite enough to submerge the foil) and place a plate on top of the foil. Bring the water to a boil, arrange some of the buns on the plate (leave room for them to grow in size) and cover the pot to steam (same duration).", shortcutText: "no-shortcut" },
+      { name: "Cook pork",        text: "Pour the sesame oil into a slow cooker. Rub the grated ginger, salt and pepper onto the pork, and place the pork into the slow cooker. Pour the chicken stock, soy sauce, and bbq sauce into the slow cooker. Cover and cook on high for 5-6 hours until the pork is tender. Pull the pork apart with two forks, and return to the juices, mixing in the diced green onions and jalapeno, and sesame seeds.", shortcutText: "Separate the meat from a store-bought pulled pork, add the included sauce or bbq sauce of your choice, along with the ginger, sesame oil, soy sauce, diced green onions and jalapeno, and sesame seeds. You can estimate the measurements if you don't want to use measuring spoons." },
+      { name: "Make dough",        text: "Dissolve yeast in warm water with sugar. Mix in the flour, kneading until a smooth dough forms (knead about 5 minutes). Cover the dough with plastic, foil, or a towel in a bowl and let dough rest at least 30 minutes or until doubled in size.", shortcutText: "no-shortcut" },
+      { name: "Fill & shape",     text: "Divide dough into small rounds (usually 16 pieces per cup of flour). Lightly flour a clean surface and roll out each piece into a circle, a bit thinner on the outer edge than in the center. Scoop about a tablespoon of filling into the center and fold the dough, gathering and pinching the edges together to seal (wetting your fingers slightly with water before pinching can help the edges to stick). You may cut a small piece of parchment paper to place each bun on to help prevent it sticking to the steamer.", shortcutText: "If you don't have a rolling pin, you can either pinch and flatten the dough with your hand or the bottom of a plate. Divide dough into small rounds (usually 16 pieces per cup of flour). Flatten each piece into a circle, a bit thinner on the outer edge than in the center. Scoop about a tablespoon of filling into the center and fold the dough, gathering and pinching the edges together to seal (wetting your fingers slightly with water before pinching can help the edges to stick). You may cut a small piece of parchment paper to place each bun on to help prevent it sticking to the steamer." },
+      { name: "Steam",     text: "Place the buns on a steamer basket and steam for 10-12 minutes until puffed.", shortcutText: "If you do not have a steamer, you can use a large skillet or pot with 3 wads of foil inside. Pour water into the pot (not quite enough to submerge the foil) and place a plate on top of the foil. Bring the water to a boil, arrange some of the buns on the plate (leave room for them to grow in size) and cover the pot to steam (10-12 minutes)." },
     ],
 
     recommendedSides: [],
@@ -175,6 +178,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 30 },
     ],
+    neededEquipment: ["saucepan", "measuring-spoons", "measuring-cups", "chef-knife", "cutting-board", "stove", "blender"],
 
     ingredients: [
       { ingredientId: "pinto-beans",        quantity: "7",   unit: "oz",     shortcutSubstitute: "none" },
@@ -197,7 +201,7 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Prepare sauce", text:"In a pot on medium heat, add 1 tsp of the butter and the dried chilies, toasting them until fragrant, and add the chipotle peppers, cooking another minute or two until warmed through. Transfer the pepper mixture to a blender, and blend until smooth (if needed,adding more of the butter melted). Leave the mixture in the blender for later.", shortcutText: ""},
+      { name: "Prepare sauce", text:"In a pot on medium heat, add 1 tsp of the butter and the dried chilies, toasting them until fragrant, and add the chipotle peppers, cooking another minute or two until warmed through. Transfer the pepper mixture to a blender, and blend until smooth (if needed, adding more of the butter melted). Leave the mixture in the blender for later.", shortcutText: ""},
       { name: "Make the aromatics", text: "In a pot on medium heat coated with 1 tbsp of the butter, add the diced onion, minced garlic, and diced jalapeno, and cook until softened, seasoning with salt and pepper.", shortcutText: "no-shortcut" },
       { name: "Combine",           text: "Rinse and add all the beans to the pot. Chop and add the smokies and the sauce to the pot, along with the pepper mixture from the blender, any remaining butter, the brown sugar, ketchup, poupon mustard, worcestershire sauce, and molasses. Stir to combine and bring to a simmer.", shortcutText: "Rinse and add all the beans to the pot. Chop and add the smokies and the sauce to the pot, along with the bbq sauce of preference." },
       { name: "Simmer",            text: "Cook over medium-low heat for 20–30 minutes, stirring occasionally, until thoroughly incorporated and fragrant, then serve.", shortcutText: "no-shortcut" },
@@ -224,6 +228,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
     ],
+    neededEquipment: ["skillet", "stock-pot", "measuring-cups", "chef-knife", "cutting-board", "colander", "stove", "wooden-spoon"],
 
     ingredients: [
       { ingredientId: "beef-tenderloin",    quantity: "1",   unit: "lb",     shortcutSubstitute: "ground-beef" },
@@ -238,7 +243,7 @@ const DEFAULT_RECIPES = [
 
     steps: [
       { name: "Cook noodles",      text: "Fill a pot 1/2 full of water and bring to a boil. Cook the egg noodles until al dente (just softened, not very soft). Drain and set aside.", shortcutText: "no-shortcut" },
-      { name: "Sear beef",         text: "Slice beef tenderloin into thin strips. Sear quickly in butter over high heat until browned but not overcooked. Set aside.", shortcutText: "Cook the ground beef in a skillet over medium heat, breaking it apart, and add the diced onion, minced garlic, and sliced mushrooms, cooking until the beef is browned and the vegetables are softened. Drain fat if there is excess." },
+      { name: "Sear beef",         text: "Slice beef tenderloin into thin strips. Sear quickly in butter over high heat until browned but not overcooked. Set aside.", shortcutText: "Cook the ground beef in a skillet over medium heat, breaking it apart, and add the diced onion, minced garlic, and sliced mushrooms, cooking and stirring until the beef is browned and the vegetables are softened. Drain fat if there is excess." },
       { name: "Cook vegetables",   text: "In the same pan, sauté onion, garlic, and mushrooms in butter until softened.", shortcutText: "" },
       { name: "Make sauce",        text: "Add beef stock and sour cream, and simmer 2–3 minutes.", shortcutText: "no-shortcut" },
       { name: "Combine & serve",   text: "Return beef to the pan and gently stir to coat. Serve over egg noodles.", shortcutText: "Add the egg noodles to the pan and stir to coat, then serve." },
@@ -268,6 +273,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 5 },
       { phase: "cook", minutes: 15 },
     ],
+    neededEquipment: ["skillet", "measuring-spoons", "chef-knife", "cutting-board", "stove", "wooden-spoon"],
 
     ingredients: [
       { ingredientId: "ground-beef",        quantity: "1",   unit: "lb",     shortcutSubstitute: "none" },
@@ -318,6 +324,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 20 },
       { phase: "fry",  minutes: 20 },
     ],
+    neededEquipment: ["mixing-bowl", "chef-knife", "cutting-board", "stove", "deep-fryer", "skillet", "wire-rack", "measuring-cups", "measuring-spoons"],
 
     ingredients: [
       { ingredientId: "cod",              quantity: "1.5", unit: "lb",    shortcutSubstitute: "none" },
@@ -328,14 +335,14 @@ const DEFAULT_RECIPES = [
       { ingredientId: "garlic-powder",    quantity: "0.5", unit: "tsp",   shortcutSubstitute: "none" },
       { ingredientId: "green-cabbage",     quantity: "0.25",   unit: "head",   shortcutSubstitute: "coleslaw-mix" },
       { ingredientId: "red-cabbage",     quantity: "0.25",   unit: "head",   shortcutSubstitute: "omit" },
-      { ingredientId: "tajin mayo",       quantity: "4",   unit: "tbsp",  shortcutSubstitute: "none" },
+      { ingredientId: "tajin-mayo",       quantity: "4",   unit: "tbsp",  shortcutSubstitute: "none" },
       { ingredientId: "lime",             quantity: "2",   unit: "whole", shortcutSubstitute: "none" },
       { ingredientId: "jalapeno",         quantity: "0.5", unit: "whole", shortcutSubstitute: "omit" },
       { ingredientId: "cilantro",         quantity: "0.5", unit: "bunch", shortcutSubstitute: "none" },
       { ingredientId: "guerrero-tortillas",quantity: "1",  unit: "pkg",   shortcutSubstitute: "none" },
       { ingredientId: "canola-oil",       quantity: "2",   unit: "cup",   shortcutSubstitute: "none" },
       { ingredientId: "sour-cream",       quantity: "0.5", unit: "cup",   shortcutSubstitute: "none" },
-      { ingredientId: "queso fresco",      quantity: "0.5", unit: "cup",   shortcutSubstitute: "none" },
+      { ingredientId: "queso-fresco",      quantity: "0.5", unit: "cup",   shortcutSubstitute: "none" },
       { ingredientId: "salt",             quantity: "0.75",unit: "tsp",   shortcutSubstitute: "none" },
       { ingredientId: "black-pepper",     quantity: "0.25",unit: "tsp",   shortcutSubstitute: "none" },
     ],
@@ -343,7 +350,7 @@ const DEFAULT_RECIPES = [
     steps: [
       { name: "Make slaw",        text: "In a bowl, toss the cabbage or coleslaw mix with mayo, juice of 1 lime, finely diced jalapeño if using, and a pinch of salt. Refrigerate until ready to serve.", shortcutText: "no-shortcut" },
       { name: "Make batter",      text: "In a large bowl, whisk together the flour, cornstarch, cajun seasoning, garlic powder, and a pinch of salt. Slowly whisk in cold beer or soda until a smooth, slightly thick batter forms (similar consistency to pancake batter). Do not overmix.", shortcutText: "no-shortcut" },
-      { name: "Fry fish",         text: "Cut the fish into strips about 3 inches long and 1 inch wide. Pat dry with paper towels. Heat canola oil in a deep skillet or pot to 375°F (190°C). Dip fish strips in the batter letting excess drip off, then fry in batches 3–4 minutes until golden brown and crispy. Drain on a wire rack.", shortcutText: "no-shortcut" },
+      { name: "Fry fish",         text: "Cut the fish into strips about 3 inches long and 1 inch wide. Pat dry with paper towels. Heat canola oil in a deep skillet/pot or deep fryer to 375°F (190°C). Dip fish strips in the batter letting excess drip off, then fry in batches 3–4 minutes until golden brown and crispy. Drain on a wire rack.", shortcutText: "If you don't have a deep fryer, you can heat the oil in a skillet or pot to 375°F (190°C). Dip fish strips in the batter letting excess drip off, then fry in batches 3–4 minutes until golden brown and crispy. Drain on a plate lined with paper towels if you don't have a wire rack." },
       { name: "Assemble tacos",   text: "Warm the tortillas. Build each taco with a few pieces of battered fish, a generous spoonful of slaw, fresh cilantro, and a squeeze of fresh lime. Serve with queso fresco and sour cream if desired and other preferred sides or toppings.", shortcutText: "no-shortcut" },
     ],
 
@@ -371,6 +378,8 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 15 },
       { phase: "cook", minutes: 20 },
     ],
+    neededEquipment: ["waffle-iron", "mixing-bowl", "measuring-cups", "measuring-spoons", "hand-mixer", "baking-spatula", "wire-rack"
+    ],
 
     ingredients: [
       { ingredientId: "all-purpose-flour",    quantity: "2",    unit: "cup",   shortcutSubstitute: "none" },
@@ -388,9 +397,9 @@ const DEFAULT_RECIPES = [
 
     steps: [
       { name: "Mix batter",              text: "Melt the butter and let it cool slightly. Dissolve the yeast in the milk and let it sit for 5 minutes until foamy. Separate the egg whites and yolks into two bowls. Whisk the yolks with the yeast milk, melted butter, sugar, and vanilla until combined. Add the flour, baking powder, and salt and stir until a smooth batter forms — a few small lumps are fine, do not over-mix.", shortcutText: "Melt the butter and let it cool slightly. Separate the egg whites and yolks into two bowls. Whisk the yolks with the milk, melted butter, sugar, and vanilla until combined. Add the flour, baking powder, and salt and stir until a smooth batter forms — a few small lumps are fine, do not over-mix." },
-      { name: "Fold in egg whites",      text: "Beat the egg whites with a clean electric mixer until stiff peaks form. Gently fold the beaten whites into the batter in two additions using a wide spatula. Folding in whipped egg whites — rather than just stirring them in — is the key to Belgian waffles' signature light, crispy texture.", shortcutText: "no-shortcut" },
-      { name: "Rise",                    text: "Cover and let rise in a warm place until doubled, 1-2 hours.", shortcutText: "" },
-      { name: "Cook waffles",            text: "Preheat a waffle iron and spray with nonstick cooking spray or brush lightly with melted butter. Pour enough batter to fill the iron (typically 3/4 to 1 cup depending on your iron) and close the lid. Cook until steam stops escaping and the waffles are golden and crispy, about 4–5 minutes. Keep warm on a wire rack in a 200°F oven, and avoid stacking them.", shortcutText: "no-shortcut" },
+      { name: "Fold in egg whites",      text: "Beat the egg whites with a clean electric mixer until stiff peaks form. Gently fold the beaten whites into the batter in two additions using a wide spatula. Folding in whipped egg whites — rather than just stirring them in to achieve the signature light, crispy texture.", shortcutText: "no-shortcut" },
+      { name: "Rise",                    text: "Cover with plastic, foil, or a towel and let rise in a warm place until doubled, 1-2 hours.", shortcutText: "" },
+      { name: "Cook waffles",            text: "Preheat a waffle iron and spray with nonstick cooking spray or brush lightly with melted butter. Pour enough batter to fill the iron (typically 3/4 to 1 cup depending on your iron) and close the lid. Cook until steam stops escaping and the waffles are golden and crispy, about 4–5 minutes. Serve immediately with toppings, or keep warm on a wire rack in a 200°F oven, and avoid stacking them.", shortcutText: "no-shortcut" },
       { name: "Whip cream & serve",      text: "Beat the heavy whipping cream and powdered sugar to stiff peaks. Serve waffles topped with whipped cream and your choice of extras.", shortcutText: "Serve the waffles with whipped topping and your choice of extras." },
     ],
 
@@ -420,6 +429,7 @@ const DEFAULT_RECIPES = [
       { phase: "bake",  minutes: 35 },
       { phase: "chill", minutes: 60 },
     ],
+    neededEquipment: ["oven", "cake-pan","mixing-bowl", "measuring-spoons", "measuring-cups", "chef-knife", "cutting-board", "saucepan", "whisk", "wire-rack", "cake-leveler"],
 
     ingredients: [
       { ingredientId: "all-purpose-flour",    quantity: "1.75",    unit: "cup",   shortcutSubstitute: "none" },
@@ -442,8 +452,8 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Make chocolate batter",       text: "Preheat the oven to 350°F and grease and flour two 9-inch or three 8-inch round cake pans (or line with parchment paper). Whisk together the flour, sugar, cocoa powder, baking soda, baking powder, espresso powder (if using), and salt in a large bowl. In another large bowl and with an electric mixer, beat the eggs, buttermilk, room-temperature sour cream, oil, and vanilla. Alternatively add the dry ingredients, then 1/2 cup of hot water, beating on medium speed 2 minutes until smooth.", shortcutText: "no-shortcut" },
-      { name: "Bake cake layers",            text: "Divide the batter evenly between the two or three prepared pans. Bake 30–35 minutes, until a toothpick inserted in the center comes out clean. Cool in pans for 15 minutes, then turn out onto a wire rack and cool completely before leveling and assembling.", shortcutText: "no-shortcut" },
+      { name: "Make chocolate batter",       text: "Preheat the oven to 350°F and grease and flour two 9-inch or three 8-inch round cake pans (or line with parchment paper). Whisk together the flour, sugar, cocoa powder, baking soda, baking powder, espresso powder (if using), and salt in a large bowl. In another large bowl and with an electric mixer, beat the eggs, buttermilk, room-temperature sour cream, oil, and vanilla. Alternatively add the dry ingredients, then 1/2 cup of hot water, beating on medium speed 2 minutes until smooth.", shortcutText: "If you don't have a cake pan, you can use a square 8-inch or 9-inch backing/casserole dish, but you'll have to divide the batter into at least two batches and bake them one by one (if possible, line the dish with parchment to make removing the cake quickly between batches easier). If you only have one mixing bowl, use a hand mixer or whisk to beat the eggs, buttermilk, room-temperature sour cream, oil, and vanilla. Whisk in the sugar, cocoa powder, baking soda, baking powder, espresso powder (if using), salt, and lastly flour. Add 1/2 cup of hot water, beating on medium speed or continuing to whisk vigorously for 2 minutes until smooth." },
+      { name: "Bake cake layers",            text: "Divide the batter evenly between the two or three prepared pans. Bake 30–35 minutes, until a toothpick inserted in the center comes out clean. Cool in pans for 15 minutes, then turn out onto a wire rack and cool completely before leveling and assembling.", shortcutText: "Divide the batter evenly between pans/baking dishes. Bake 30-35 minutes, until a toothpick inserted in the center comes out clean. If you don't have a wire rack, you can cool the cakes on a plate on top of a layer of parchment. You can level the cake with a knife if you don't have a cake leveler, or skip the leveling step altogether." },
       { name: "Make cherry filling",         text: "Drain the cherries into a bowl, reserving 1 cup of the juice, and slice the cherries in half. In a small saucepan over medium heat, whisk the reserved juice with the cherry brandy. Bring to a gentle boil, whisking frequently, and cook until thickened, about 2 minutes. Remove from heat and let cool. Brush the syrup over the leveled cake layers.", shortcutText: "Use canned cherry pie filling from the can in place of the homemade filling, and spread it evenly over the cake layers (except the top layer)." },
       { name: "Make whipped cream frosting", text: "In a bowl, beat two thirds of the heavy whipping cream and the powdered sugar with an electric mixer on high speed until stiff peaks form. Keep refrigerated until assembly.", shortcutText: "" },
       { name: "Make ganache", text: "Heat the remaining whipping cream in a saucepan over medium heat until a gentle simmer (don't overheat it). Put the chocolate chips in a bowl and pour the cream over them, gently mixing until the chocolate is melted and the ganache is smooth, then mix in the remaining vanilla.", shortcutText: "Wait until after assembling and frosting the cake (the next step). Then, microwave the chocolate chips in a heat-safe bowl in the microwave, 15 seconds at a time, stirring each time until the chocolate is melted. Stir in a couple spoonfuls of the whipped topping (closer to room-temperature, not cold or frozen) if desired for creamier consistency. Pour the ganache on the cake while it is still smooth and pourable but not too warm to avoid melting the cake frosting." },
@@ -471,6 +481,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 15 },
       { phase: "bake", minutes: 22 },
     ],
+    neededEquipment: ["oven", "muffin-tin", "mixing-bowl", "measuring-spoons", "measuring-cups", "baking-spatula", "hand-mixer"],
 
     ingredients: [
       { ingredientId: "all-purpose-flour",              quantity: "2",   unit: "cup",    shortcutSubstitute: "none" },
@@ -485,8 +496,8 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Mix wet",           text: "Cream the softened butter and sugar till fluffy, then beat in the eggs, buttermilk, and vanilla until just combined.", shortcutText: "no-shortcut" },
-      { name: "Mix dry",           text: "In a separate bowl, whisk together the flour, baking powder, and baking soda, making a well in the center for the wet ingredients. Pour the wet ingredients into the well and gently fold until just combined. Gently fold in blueberries.", shortcutText: "no-shortcut" },
+      { name: "Mix wet",           text: "Cream the softened butter and sugar with a hand mixer until fluffy, then beat in the eggs, buttermilk, and vanilla until just combined.", shortcutText: "If you don't have a hand mixer, you can use a whisk, rubber spatula, or wooden spoon to mix the butter and sugar until well combined, then mix in the eggs, buttermilk, and vanilla." },
+      { name: "Mix dry",           text: "In a separate bowl, whisk together the flour, baking powder, and baking soda, making a well in the center for the wet ingredients. Pour the wet ingredients into the well and gently fold until just combined. Gently fold in blueberries.", shortcutText: "If you only have one mixing bowl, you can mix the baking powder, baking soda, and finally the flour into the wet ingredients with the baking spatula or wooden spoon, lastly folding in the blueberries." },
       { name: "Bake",              text: "Fill greased or lined muffin tin ¾ full. Bake at 375°F for 20–22 minutes until a toothpick comes out clean.", shortcutText: "no-shortcut" },
     ],
 
@@ -511,6 +522,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 20 },
       { phase: "bake", minutes: 35 },
     ],
+    neededEquipment: ["oven", "cake-pan", "mixing-bowl", "measuring-spoons", "measuring-cups", "chef-knife", "cutting-board", "saucepan", "whisk", "stand-mixer", "wire-rack", "cake-leveler", "double-boiler"],
 
     ingredients: [
       { ingredientId: "all-purpose-flour",              quantity: "1.25",   unit: "cup",    shortcutSubstitute: "none" },
@@ -528,11 +540,11 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Mix batter",               text: "Grease and flour or line a round cake pan. In a bowl with an electric mixer, mix the shortening, flour, baking powder, 1 cup of the sugar, 1/2 tsp of the salt, one of the eggs, 3/4 cups of the milk and 1 tsp of the vanilla extract. Mix until smooth (about 30 seconds on low, then about 3 minutes on medium speed).", shortcutText: "no-shortcut" },
-      { name: "Bake",               text: "Pour the batter into the prepared pan, and bake at 350°F for 30-35 minutes until a toothpick comes out clean. Allow to cool 10 minutes before removing the cake from the pan and cooling completely on a wire rack.", shortcutText: "no-shortcut" },
+      { name: "Mix batter",               text: "Grease and flour or line a round cake pan. In a bowl with an electric mixer or using a hand mixer, mix the shortening, flour, baking powder, 1 cup of the sugar, 1/2 tsp of the salt, one of the eggs, 3/4 cups of the milk and 1 tsp of the vanilla extract. Mix until smooth (about 30 seconds on low, then about 3 minutes on medium speed).", shortcutText: "If you don't have a round cake pan, you may use a square 8-inch or 9-inch baking/casserole dish, greased or lined with parchment paper. If you don't have an electric mixer, you can use a mixing bowl and whisk to mix the shortening, flour, baking powder, 1 cup of the sugar, 1/2 tsp of the salt, one of the eggs, 3/4 cups of the milk and 1 tsp of the vanilla extract until smooth." },
+      { name: "Bake",               text: "Pour the batter into the prepared pan, and bake at 350°F for 30-35 minutes until a toothpick comes out clean. Allow to cool 10 minutes before removing the cake from the pan and cooling completely on a wire rack.", shortcutText: "Pour the batter into the prepared pan, and bake at 350°F for 30-35 minutes until a toothpick comes out clean. Allow to cool completely in the pan before removing and transferring to a plate." },
       { name: "Cream filling",              text: "Mix the remaining grantulated sugar, the cornstarch, and remaining salt in a saucepan. Separate the egg yolks from the whites. Mix the remaining milk and the yolks, lightly beaten, gradually into the saucepan. Cook over medium heat, stirring constantly until thickened and boiling gently. Cook one minute more and remove from heat, adding 2 tsp of the vanilla and allowing to cool.", shortcutText: "no-shortcut" },
       { name: "Chocolate glaze",              text: "Melt the butter and chocolate chips in a saucepan or double boiler over low heat, stirring occasionally. Remove from heat and mix in the powdered sugar and remaining vanilla. Add 2 tbsp hot water, one tsp at a time, until the glaze is smooth.", shortcutText: "no-shortcut" },
-      { name: "Assemble",              text: "Cut the cake into 2 layers (or 3 if desired). Spread the cream between the cake layers, and drizzle the chocolate glaze over the top once the layers are assembled. Refridgerate until serving.", shortcutText: "no-shortcut" },
+      { name: "Assemble",              text: "Cut the cake into 2 layers (or 3 if desired) using a cake leveler or a knife. Spread the cream between the cake layers, and drizzle the chocolate glaze over the top once the layers are assembled. Refridgerate until serving.", shortcutText: "no-shortcut" },
     ],
 
     recommendedSides: [],
@@ -557,6 +569,7 @@ const DEFAULT_RECIPES = [
       { phase: "marinate",minutes: 60 },
       { phase: "cook",    minutes: 20 },
     ],
+    neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "rice-cooker", "blender", "wooden-spoon", "measuring-cups", "measuring-spoons"],
 
     ingredients: [
       { ingredientId: "chicken-thighs",       quantity: "1.5", unit: "lb",    shortcutSubstitute: "rotisserie-chicken" },
@@ -613,6 +626,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 30 },
       { phase: "bake", minutes: 15 },
     ],
+    neededEquipment: ["oven", "baking-sheet", "mixing-bowl", "measuring-spoons", "measuring-cups", "baking-spatula", "rolling-pin"],
 
     ingredients: [
       { ingredientId: "buttermilk",           quantity: "1",   unit: "cup",   shortcutSubstitute: "biscuit-dough" },
@@ -625,9 +639,9 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      {name: "Mix dry ingredients",     text: "In a food processor, blender, or large bowl, pulse or whisk the flour, baking powder, baking soda, and salt together until combined. Add the butter (cubed) and pulse or mix with a pastry cutter until the mixture resembles coarse crumbs.", shortcutText: "no-shortcut" },
-      { name: "Add wet ingredients",      text: "With the dry ingredients in a bowl, add the buttermilk and honey, folding together with a spatula or spoon, careful not to overmix (if the dough is part crumbly part sticky, that is fine).", shortcutText: "no-shortcut" },
-      { name: "Shape & cut",      text: "Turn the dough onto a floured surface and knead it together with generously floured hands (it will be sticky at first). Flatten it into a thick rectangle and tri-fold the dough, then turn it 90 degrees and tri-fold it again, flattening (or rolling with a rolling pin) as you go. Repeat the double tri-fold process two more times, and flatten the dough into a rectangle once again. Cut into 8 to 10 equal pieces with a biscuit cutter or a very thin cup, re-shaping the scraps if necessary until the dough is used. Place on a parchment-lined baking sheet, spacing 1 inch apart.", shortcutText: "no-shortcut" },
+      {name: "Mix dry ingredients",     text: "In a food processor or blender, pulse or whisk the flour, baking powder, baking soda, and salt together until combined. Add the butter (cubed) and pulse or mix with a pastry cutter until the mixture resembles coarse crumbs.", shortcutText: "If you don't have a food processor or blender or a pastry cutter, whisk the flour, baking powder, baking soda, and salt together in a mixing bowl until combined. Add the butter (cubed) and mix with a whisk until the mixture resembles coarse crumbs." },
+      { name: "Add wet ingredients",      text: "With the dry ingredients in a bowl, add the buttermilk and honey, folding together with a baking spatula or wooden spoon, careful not to overmix (if the dough is part crumbly part sticky, that is fine).", shortcutText: "no-shortcut" },
+      { name: "Shape & cut",      text: "Turn the dough onto a floured surface and knead it together with generously floured hands (it will be sticky at first). Flatten it into a thick rectangle and tri-fold the dough, then turn it 90 degrees and tri-fold it again, flattening (or rolling with a rolling pin) as you go. Repeat the flatten-tri-fold-turn process four more times, and flatten the dough into a rectangle once again. Cut into 8 to 10 equal pieces with a biscuit cutter, re-shaping the scraps if necessary until the dough is used. Place on a parchment-lined baking sheet, spacing 1 inch apart.", shortcutText: "If you don't have a rolling pin or a biscuit cutter, you can knead the dough by hand with generously floured hands and flatten it into a thick rectangle. You may also use a large dinner plate to flatten the dough. Tri-fold the flattened dough, turn it 90 degrees, and flatten and tri-fold it again. Repeat the flatten-tri-fold-turn process up to four more times (for best results) and flatten one more time. Use a cup with a thin edge to cut out biscuits, re-shaping the scraps if necessary until the dough is used. Place the biscuits on a parchment-lined baking sheet, spacing 1 inch apart." },
       { name: "Bake & serve",      text: "If you have remaining buttermilk, brush a little on the tops of the biscuits. Bake at 425°F for 15-18 minutes until golden brown and cooked through, then serve.", shortcutText: "Place the biscuits on a baking sheet and bake at 425°F for 15-18 minutes until golden brown and cooked through." },
     ],
 
@@ -651,6 +665,7 @@ const DEFAULT_RECIPES = [
     timeToComplete: [
       { phase: "prep", minutes: 10 },
     ],
+    neededEquipment: ["chef-knife", "cutting-board", "salad-tongs", "mixing-bowl", "measuring-spoons", "measuring-cups", "whisk", "cheese-grater", "zester"],
 
     ingredients: [
       { ingredientId: "romaine-lettuce",           quantity: "1",   unit: "head",   shortcutSubstitute: "none" },
@@ -694,6 +709,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 30 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "rice-cooker", "wooden-spoon", "measuring-cups", "measuring-spoons"],
 
     ingredients: [
       { ingredientId: "red-beans",         quantity: "2",   unit: "can",   shortcutSubstitute: "none" },
@@ -737,6 +753,7 @@ const DEFAULT_RECIPES = [
       { phase: "bake", minutes: 35 },
       { phase: "rest", minutes: 30 },
     ],
+    neededEquipment: ["oven", "cake-pan", "mixing-bowl", "measuring-spoons", "measuring-cups", "chef-knife", "cutting-board", "whisk", "hand-mixer", "wire-rack", "cake-leveler", "vegetable-peeler", "cheese-grater"],
 
     ingredients: [
       { ingredientId: "all-purpose-flour",    quantity: "2.5",  unit: "cup",   shortcutSubstitute: "none" },
@@ -759,11 +776,11 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Prep carrots & dry ingredients", text: "Preheat the oven to 350°F and grease and flour two 9-inch or three 8-inch round cake pans (or line with parchment paper). Peel and finely shred the carrots with a grater. Pack them lightly into the measuring cup (you should have about 2.5 cups). In a large bowl, whisk together the flour, granulated sugar, brown sugar, baking soda, baking powder, cinnamon, nutmeg, ginger, and salt.", shortcutText: "no-shortcut" },
+      { name: "Prep carrots & dry ingredients", text: "Preheat the oven to 350°F and grease and flour two 9-inch or three 8-inch round cake pans (or line with parchment paper). Peel and finely shred the carrots with a grater. Pack them lightly into the measuring cup (you should have about 2.5 cups). In a large bowl, whisk together the flour, granulated sugar, brown sugar, baking soda, baking powder, cinnamon, nutmeg, ginger, and salt.", shortcutText: "If you don't have round cake pans, you can use a rectangular baking dish, greased or lined with parchment paper. Peel and finely shred the carrots. Pack them lightly into the measuring cup (you should have about 2.5 cups). In a large bowl, whisk together the flour, granulated sugar, brown sugar, baking soda, baking powder, cinnamon, nutmeg, ginger, and salt." },
       { name: "Mix wet ingredients & combine", text: "In a separate bowl, whisk together the eggs, vegetable oil, and vanilla until combined. Pour the wet ingredients into the dry and stir until almost combined, then fold in the shredded carrots and chopped walnuts until the batter is just combined.", shortcutText: "no-shortcut" },
-      { name: "Bake",                          text: "Divide the batter evenly between the two or three prepared pans. Bake 25–35 minutes, until a toothpick inserted in the center comes out clean. Cool in the pans for 15 minutes, then turn out onto wire racks and cool completely before frosting.", shortcutText: "no-shortcut" },
+      { name: "Bake",                          text: "Divide the batter evenly between the two or three prepared pans. Bake 25–35 minutes, until a toothpick inserted in the center comes out clean. Cool in the pans for 15 minutes, then turn out onto wire racks and cool completely before frosting.", shortcutText: "If using a rectangular baking dish, you can pour the batter into it and bake 35-45 minutes, until a toothpick inserted in the center comes out clean (check after 35 minutes and bake 5 min more at a time as needed). You may cool the cake completely in the rectangular dish and frost it in the dish without turning it out if desired." },
       { name: "Make cream cheese frosting",    text: "Beat the softened cream cheese and softened butter together on medium-high speed until completely smooth and creamy, about 2 minutes. Add the powdered sugar on low one cup at a time until fully incorporated, then beat on high for 2 minutes until fluffy. Mix in 1 tsp vanilla.", shortcutText: "" },
-      { name: "Assemble & frost",              text: "Place one cooled cake layer on a serving plate. Spread a thick, even layer of frosting over the top. Set the second layer on top and press gently. Frost the top and sides of the entire cake. Decorate with halved walnuts, a dusting of cinnamon, or carrot-shaped piped decorations if desired. Refrigerate at least 30 minutes before slicing.", shortcutText: "no-shortcut" },
+      { name: "Assemble & frost",              text: "Place one cooled cake layer on a serving plate. Spread a thick, even layer of frosting over the top. Set the second layer on top and press gently. Frost the top and sides of the entire cake. Decorate with halved walnuts, a dusting of cinnamon, or carrot-shaped piped decorations if desired. Refrigerate at least 30 minutes before slicing.", shortcutText: "If using a singular rectangular cake layer, you may frost it directly in the dish, or turn it out once cooled and frost the top and sides of the cake. You may refrigerate the cake 30 minutes before serving, or serve immediately." },
     ],
 
     recommendedSides: [],
@@ -787,6 +804,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
     ],
+    neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons"],
 
     ingredients: [
       { ingredientId: "chickpeas",          quantity: "14",  unit: "oz",     shortcutSubstitute: "none" },
@@ -804,7 +822,7 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Sauté aromatics",   text: "Sauté chopped onion, minced garlic, diced jalapeño, and drained chickpeas in olive oil until golden.", shortcutText: "no-shortcut" },
+      { name: "Sauté aromatics",   text: "Sauté chopped onion, minced garlic, diced jalapeño, and drained chickpeas in olive oil in a skillet on medium-high heat until golden.", shortcutText: "no-shortcut" },
       { name: "Add chickpeas",     text: "Add tomato sauce, chicken stock, cumin, coriander, salt, and apple cider vinegar. Stir to combine.", shortcutText: "no-shortcut" },
       { name: "Simmer & serve",    text: "Simmer 15–20 minutes until sauce is well incorporated and heated through. Top with fresh cilantro if desired and serve.", shortcutText: "no-shortcut" },
     ],
@@ -830,6 +848,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 30 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-cups", "cheese-grater", "oven", "baking-sheet", "potato-masher"],
 
     ingredients: [
       { ingredientId: "ham-steak",               quantity: "1",   unit: "lb",     shortcutSubstitute: "none" },
@@ -848,8 +867,8 @@ const DEFAULT_RECIPES = [
     steps: [
       { name: "Cook bacon",        text: "Cook bacon until crispy (you may use a skillet on medium-high heat or bake in the oven at 400°F for 15–20 minutes). Chop the bacon and set aside, reserving some of the grease for the soup.", shortcutText: "no-shortcut" },
       { name: "Sauté onion",       text: "Sauté diced onion in the bacon fat until softened.", shortcutText: "no-shortcut" },
-      { name: "Simmer potatoes",   text: "Add chicken stock and diced potatoes. Bring to a boil and cook until potatoes are tender, about 15 minutes. For a thick, chunky consistency, mash the potatoes only partly, or mash them completely for a smooth texture.", shortcutText: "no-shortcut" },
-      { name: "Finish",            text: "Stir in cream, milk, diced ham, salt, pepper, and cheddar cheese. Simmer until melted, well incorporated, and heated through. Top with bacon and green onions, or fold them in if desired, then serve.", shortcutText: "no-shortcut" },
+      { name: "Simmer potatoes",   text: "Add chicken stock and diced potatoes (filling a pot until the potatoes are barely covered). Bring to a boil and cook until potatoes are tender, about 15 minutes. For a thick, chunky consistency, mash the potatoes only partly, or mash them completely for a smooth texture.", shortcutText: "Add chicken stock and diced potatoes (filling a pot until the potatoes are barely covered). Bring to a boil and cook until potatoes are tender, about 15 minutes. If you don't have a potato masher, you can use a fork or skip the potato mashing step altogether." },
+      { name: "Finish",            text: "Stir in cream, milk, diced ham, salt, pepper, and grated cheddar cheese. Simmer until melted, well incorporated, and heated through. Top with bacon and green onions, or fold them in if desired, then serve.", shortcutText: "no-shortcut" },
     ],
 
     recommendedSides: [],
@@ -876,6 +895,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 10 },
     ],
+    neededEquipment: ["stove", "saucepan", "chef-knife", "cutting-board", "oven", "baking-sheet"],
 
     ingredients: [
       { ingredientId: "hot-dogs",           quantity: "1",   unit: "pkg",    shortcutSubstitute: "none" },
@@ -922,6 +942,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 20 },
       { phase: "cook", minutes: 45 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-cups", "measuring-spoons", "mixing-bowl"],
 
     ingredients: [
       { ingredientId: "chicken-thighs",      quantity: "1", unit: "lb",  shortcutSubstitute: "rotisserie-chicken" },
@@ -930,18 +951,18 @@ const DEFAULT_RECIPES = [
       { ingredientId: "russet-potatoes",           quantity: "1",   unit: "whole",  shortcutSubstitute: "none" },
       { ingredientId: "chicken-stock",      quantity: "3",   unit: "cup",    shortcutSubstitute: "none" },
       { ingredientId: "heavy-whipping-cream",quantity: "0.5",unit: "cup",   shortcutSubstitute: "none" },
-      { ingredientId: "whole-milk",              quantity: "0.5", unit: "cup",    shortcutSubstitute: "none" },
+      { ingredientId: "whole-milk",              quantity: "1", unit: "cup",    shortcutSubstitute: "none" },
       { ingredientId: "dried-thyme",              quantity: "1",   unit: "tsp",    shortcutSubstitute: "none" },
-      { ingredientId: "all-purpose-flour",              quantity: "0.5", unit: "cup",    shortcutSubstitute: "none" },
-      { ingredientId: "shortening",         quantity: "3",   unit: "tbsp",   shortcutSubstitute: "none" },
-      { ingredientId: "baking-powder",      quantity: "1",   unit: "tsp",    shortcutSubstitute: "none" },
+      { ingredientId: "all-purpose-flour",              quantity: "1", unit: "cup",    shortcutSubstitute: "none" },
+      { ingredientId: "shortening",         quantity: "2",   unit: "tbsp",   shortcutSubstitute: "none" },
+      { ingredientId: "baking-powder",      quantity: "0.5",   unit: "tsp",    shortcutSubstitute: "none" },
     ],
 
     steps: [
       { name: "Cook chicken",      text: "Coat a soup pot with oil and heat on the stove to medium-high heat. Trim the raw chicken of excess fat and skin and cut into short strips. Add the chicken to the pot and cook until browned on both sides, seasoning with salt and pepper (up to 5 minutes per side).", shortcutText: "Peel the meat from a store-bought rotisserie chicken, tear or cut it into short strips (or shred it) and add it to the pot." },
-      { name: "Make broth",        text: "Add the chicken stock, and chopped carrots, celery, and potatoes, seasoning with thyme, salt and pepper. Bring to a simmer and cook until vegetables are tender. Stir in the cream and milk.", shortcutText: "no-shortcut" },
-      { name: "Make dumpling batter",text: "Mix flour, baking powder, salt, and shortening until crumbly. Add the milk and mix until combined to form a sticky dough.", shortcutText: "no-shortcut" },
-      { name: "Add dumplings",     text: "Drop spoonfuls of dumpling batter onto the simmering broth. Cover tightly and cook without lifting the lid for 15 minutes. Remove from heat, allow to rest for up to 5 minutes, then serve.", shortcutText: "no-shortcut" },
+      { name: "Make broth",        text: "Add the chicken stock, and chopped carrots, celery, and potatoes, seasoning with half of the thyme, salt and pepper. Bring to a simmer and cook until vegetables are tender. Stir in a half cup plus 2 tbsp of the milk and heat thoroughly, then mix in at least half the cream.", shortcutText: "no-shortcut" },
+      { name: "Make dumpling batter",text: "Mix flour, baking powder, shortening, salt, remaining thyme, and remaining 6 tbsp of milk until crumbly. Add the milk and mix until just barely combined to form a sticky dough (be careful not to overmix).", shortcutText: "no-shortcut" },
+      { name: "Add dumplings",     text: "Drop spoonfuls of dumpling batter onto the simmering broth, spaced apart from eachother evenly. Cover tightly and cook without lifting the lid for 15 minutes. Remove from heat, allow to rest for at least 5 minutes (still not opening the lid until the rest time is finished), then add the remaining cream, fold gently without disturbing the dumplings, and serve.", shortcutText: "no-shortcut" },
     ],
 
     recommendedSides: ["caesar-salad"],
@@ -965,6 +986,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 15 },
       { phase: "cook", minutes: 15 },
     ],
+    neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons"],
 
     ingredients: [
       { ingredientId: "chicken-breast",     quantity: "2",   unit: "lb",     shortcutSubstitute: "none" },
@@ -1015,6 +1037,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 15 },
       { phase: "cook", minutes: 20 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon"],
 
     ingredients: [
       { ingredientId: "chicken-breast",            quantity: "0.5", unit: "lb",  shortcutSubstitute: "rotisserie-chicken" },
@@ -1063,6 +1086,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 25 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon"],
 
     ingredients: [
       { ingredientId: "chicken-breast",            quantity: "1",   unit: "lb",  shortcutSubstitute: "rotisserie-chicken" },
@@ -1107,6 +1131,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 20 },
       { phase: "cook", minutes: 25 },
     ],
+    neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "saucepan", "oven", "baking-dish"],
 
     ingredients: [
       { ingredientId: "chicken-breast",     quantity: "2",   unit: "lb",    shortcutSubstitute: "none" },
@@ -1129,7 +1154,7 @@ const DEFAULT_RECIPES = [
       { name: "Pound & bread chicken",  text: "Slice chicken breasts in half lengthwise to make thinner cutlets and pound to an even thickness. Season with salt and pepper. Set up three dishes: flour, beaten eggs, and panko mixed with half the parmesan and the oregano. Dredge each cutlet in flour, dip in egg, then press firmly into the panko-parmesan mixture.", shortcutText: "no-shortcut" },
       { name: "Pan-fry cutlets",        text: "In a skillet with olive oil over medium-high heat, pan-fry the breaded chicken 3–4 minutes per side until golden brown. Work in batches if needed. Remove from heat and transfer to a baking dish.", shortcutText: "no-shortcut" },
       { name: "Make sauce",             text: "In a small saucepan, sauté minced garlic in a little olive oil 1 minute. Add tomato paste and stir 1 minute, then add tomato sauce, dried basil, and a pinch of salt. Simmer 5–8 minutes.", shortcutText: "Open the jarred spaghetti sauce and heat in a small saucepan over medium-low heat." },
-      { name: "Top & bake",             text: "Spoon tomato sauce over each chicken cutlet in the skillet. Layer the remaining parmesan and then the mozzarella on top. Bake at 400°F for 15 minutes until the cheese is melted, bubbly, and golden. Let rest 5 minutes before serving.", shortcutText: "no-shortcut" },
+      { name: "Top & bake",             text: "Spoon tomato sauce over each chicken cutlet in the skillet if using cast-iron (otherwise, transfer the chicken to a casserole dish). Layer the remaining parmesan and then the mozzarella on top. Bake at 400°F for 15 minutes until the cheese is melted, bubbly, and golden. Let rest 5 minutes before serving.", shortcutText: "no-shortcut" },
     ],
 
     recommendedSides: ["caesar-salad"],
@@ -1157,6 +1182,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 25 },
     ],
+    neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons"],
 
     ingredients: [
       { ingredientId: "chicken-thighs",      quantity: "0.5", unit: "whole",  shortcutSubstitute: "rotisserie-chicken" },
@@ -1205,6 +1231,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 40 },
       { phase: "bake", minutes: 35 },
     ],
+    neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "oven", "pie-dish"],
 
     ingredients: [
       { ingredientId: "chicken-thighs",      quantity: "1",   unit: "lb",  shortcutSubstitute: "rotisserie-chicken" },
@@ -1227,7 +1254,7 @@ const DEFAULT_RECIPES = [
     steps: [
       { name: "Cook chicken",      text: "Coat a skillet with butter and heat on the stove to medium-high heat. Trim the raw chicken of excess fat and skin and cut into short strips. Add the chicken to the skillet and cook until browned on both sides, seasoning with salt and pepper (up to 5 minutes per side) and remove from heat.", shortcutText: "Peel the meat from a store-bought rotisserie chicken, tear or cut it into short strips and set it aside." },
       { name: "Make filling",      text: "Sauté onion, celery, carrots, and potato in butter. Whisk in flour, cook until bubbly and lightly browned, then whisk in milk and cream until smooth. Add the thyme, salt, and pepper, and simmer until thickened to desired consistency.", shortcutText: "no-shortcut" },
-      { name: "Assemble",          text: "Press one pie crust into a pie dish. Fill with the chicken mixture, and distribute the peas evenly on top. Cover with the second crust, crimp edges, and brush with egg wash. You may cut a few vents in the top.", shortcutText: "no-shortcut" },
+      { name: "Assemble",          text: "Press one pie crust into a pie dish. Fill with the chicken mixture, and distribute the peas evenly on top. Cover with the second crust, crimp edges, and brush with egg wash. You may cut a few vents in the top.", shortcutText: "If you don't have a pie dish, you can use a square 8-inch or 9-inch baking/casserole dish. Press one pie crust into the dish. Fill with the chicken mixture, and distribute the peas evenly on top. Cover with the second crust, crimp edges, and brush with egg wash. You may cut a few vents in the top." },
       { name: "Bake",              text: "Bake at 425°F for 30–35 minutes until crust is golden and filling is bubbling.", shortcutText: "no-shortcut" },
     ],
 
@@ -1252,6 +1279,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
     ],
+    neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "stock-pot"],
 
     ingredients: [
       { ingredientId: "chicken-breast",     quantity: "1",   unit: "lb",     shortcutSubstitute: "none" },
@@ -1278,7 +1306,7 @@ const DEFAULT_RECIPES = [
 
     steps: [
       
-      { name: "Cook chicken",      text: "Trim the raw chicken of excess fat and skin and cut into short strips. Add the chicken to the skillet with olive oil and cook until browned on both sides, seasoning with salt and pepper (up to 5 minutes per side) and remove from heat.", shortcutText: "Peel the meat from a store-bought rotisserie chicken, tear or cut it into short strips and set it aside." },
+      { name: "Cook chicken",      text: "Trim the raw chicken of excess fat and skin and cut into short strips. Add the chicken to the wok or skillet with olive oil and cook until browned on both sides, seasoning with salt and pepper (up to 5 minutes per side) and remove from heat.", shortcutText: "Peel the meat from a store-bought rotisserie chicken, tear or cut it into short strips and set it aside." },
       { name: "Stir fry vegetables",text: "In the same pan with remaining olive oil, stir fry chopped onion, carrots, broccoli, bell pepper, mushrooms, snow peas, diced jalapeno, minced garlic, and ginger over high heat 3–4 minutes (you may have to do this in batches).", shortcutText: "no-shortcut" },
       { name: "Soak noodles",      text: "Prepare rice noodles by soaking or boiling in a pot of water 5–8 minutes, until desired doneness. Drain and set aside.", shortcutText: "no-shortcut" },
       { name: "Combine",           text: "Return chicken and noodles to the pan. Add soy sauce, teriyaki sauce, fish paste if using, sesame oil, salt and MSG. Toss everything together over high heat 1–2 minutes.", shortcutText: "no-shortcut" },
@@ -1309,6 +1337,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 15 },
       { phase: "fry",  minutes: 20 },
     ],
+    neededEquipment: ["stove", "deep-fryer", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "wire-rack"],
 
     ingredients: [
       { ingredientId: "chicken-tenderloins", quantity: "1.5", unit: "lb",    shortcutSubstitute: "none" },
@@ -1326,7 +1355,7 @@ const DEFAULT_RECIPES = [
     steps: [
       { name: "Set up breading station", text: "Set up three shallow dishes: (1) flour mixed with salt, pepper, and half the cajun seasoning; (2) beaten eggs; (3) panko mixed with the remaining cajun seasoning, garlic powder, and smoked paprika.", shortcutText: "no-shortcut" },
       { name: "Bread chicken",           text: "Pat chicken tenderloins dry. Dredge each piece in the seasoned flour, shaking off excess. Dip in the beaten egg, then press firmly into the panko mixture to coat all sides. Set aside on a plate.", shortcutText: "no-shortcut" },
-      { name: "Fry",                     text: "Heat canola oil in a deep skillet or pot to 350°F (175°C). Fry chicken strips in batches for 4–5 minutes per side until deep golden brown and cooked through (internal temp 165°F). Do not crowd the pan. Drain on a wire rack or paper towels, then serve with any preferred sauce and sides.", shortcutText: "no-shortcut" },
+      { name: "Fry",                     text: "Heat canola oil in a deep fryer to 350°F (175°C). Fry chicken strips in batches for 4–5 minutes per side until deep golden brown and cooked through (internal temp 165°F). Do not crowd the fryer. Drain on a wire rack, then serve with any preferred sauce and sides.", shortcutText: "If you don't have a deep fryer, heat canola oil in a skillet or pot to 350°F (175°C). Fry chicken strips in batches for 4–5 minutes per side until deep golden brown and cooked through (internal temp 165°F). Do not crowd the pan. Drain on a paper towel-lined plate, then serve with any preferred sauce and sides." },
     ],
 
     recommendedSides: ["cajun-beans-and-rice", "mac-and-cheese", "mashed-potatoes"],
@@ -1354,6 +1383,7 @@ const DEFAULT_RECIPES = [
       { phase: "marinate", minutes: 60 },
       { phase: "cook",     minutes: 20 },
     ],
+    neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "rice-cooker", "blender"],
 
     ingredients: [
       { ingredientId: "chicken-thighs",     quantity: "1",   unit: "lb",  shortcutSubstitute: "rotisserie-chicken" },
@@ -1378,7 +1408,7 @@ const DEFAULT_RECIPES = [
     steps: [
       { name: "Marinate & cook chicken",      text: "Trim excess fat and slice chicken into strips. Mix the garlic, ginger, chili powder, garam masala, cumin, coriander, and salt. Divide the spice mixture in half, and set half aside. Add the other half to the yogurt and mix until combined. Add the yogurt mixture and the chicken to a bowl or bag, combining them thoroughly, and allow the chicken to marinate for at least 1 hour before cooking. In a skillet coated with olive oil on medium-high heat, add the chicken and allow to cook untouched until developing a crust, continuing to sauté until golden brown (you may need to cook in multiple batches to ensure even crispiness), then set aside.", shortcutText: "Peel the meat from a store-bought rotisserie chicken, tear or cut it into short strips and set aside." },
       { name: "Cook rice",              text: "While chicken is cooking, wash and add the rice and enough water to cover rice by about 1 inch in a pot (or to the water level indicated if using a rice cooker). Bring to a boil, cover, reduce heat, and simmer 18–20 minutes (or closer to 25 minutes if using a rice cooker).", shortcutText: "no-shortcut" },
-      { name: "Make masala sauce", text: "Sauté diced onion in the butter. Add tomato paste, tomato sauce, and the remaining tikka masala seasoning. Simmer 10 minutes, then transfer to a blender. Blend until smooth, return to the pan, and stir in the heavy cream and chicken.", shortcutText: "Sauté diced onion in the butter. Add either the tomato paste, tomato sauce, and sadaf seasoning mix or the store-bought tikka masala sauce in the pan until heated thoroughly. Transfer to a blender and blend until smooth, then return to the pan and stir in the heavy cream and chicken." },
+      { name: "Make masala sauce", text: "Sauté diced onion in the butter. Add tomato paste, tomato sauce, and the remaining tikka masala seasoning. Simmer 10 minutes, then transfer to a blender. Blend until smooth, return to the pan, and stir in the heavy cream and chicken.", shortcutText: "Sauté diced onion in the butter. Add either the tomato paste, tomato sauce, and sadaf seasoning mix or the store-bought tikka masala sauce in the pan until heated thoroughly. Transfer to a blender and blend until smooth. Return the sauce to the pan and stir in the heavy cream and chicken (if you don't have a blender, you can skip the blending step)." },
       { name: "Toppings & serve", text: "Fluff the rice once it is finished cooking and the tikka masala is heated through. Serve the tikka masala over rice topped with fresh cilantro if desired.", shortcutText: "no-shortcut" },
     ],
 
@@ -1407,6 +1437,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 5 },
       { phase: "cook", minutes: 25 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups"],
 
     ingredients: [
       { ingredientId: "chicken-breast",        quantity: "2",   unit: "lb",     shortcutSubstitute: "rotisserie-chicken" },
@@ -1434,7 +1465,7 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Cook chicken",      text: "Coat a skillet with oil and heat on the stove to medium-high heat. Trim the raw chicken of excess fat and skin. Add the chicken to the skillet, as well as the corn (in separate batches if necessary) and cook until browned on both sides, seasoning with salt and pepper. Cook for about 5 minutes per side and remove from heat. Shred the meat once cooled and cut the corn from the cobbs.", shortcutText: "Shred the meat from a store-bought rotisserie chicken and set aside." },
+      { name: "Cook chicken",      text: "Coat a pot or skillet with oil and heat on the stove to medium-high heat. Trim the raw chicken of excess fat and skin. Add the chicken to the pot or skillet, as well as the corn (in separate batches if necessary) and cook until browned on both sides, seasoning with salt and pepper. Cook for about 5 minutes per side and remove from heat. Shred the meat once cooled and cut the corn from the cobbs.", shortcutText: "Shred the meat from a store-bought rotisserie chicken and set aside." },
       { name: "Sauté vegetables",            text: "Sauté the onion, garlic, jalapeno, and orange bell pepper in a pot over medium heat until softened (about 5 minutes), then add the diced tomato, drained and rinsed black beans, drained pinto beans, green chili, and corn.", shortcutText: "no-shortcut" },
       { name: "Simmer & toppings",             text: "Add the shredded chicken, chicken stock, chili powder, cumin, paprika, cayenne, and salt to taste. Simmer for 15-20 minutes, stirring occasionally and adding the sour cream and grated cheese (if desired) after the first 10 minutes. Serve with tortilla chips, cilantro, avocado, and lime if desired.", shortcutText: "no-shortcut" },
     ],
@@ -1464,6 +1495,7 @@ const DEFAULT_RECIPES = [
       { phase: "bake", minutes: 60 },
       { phase: "rest", minutes: 60 },
     ],
+    neededEquipment: ["oven", "cake-pan", "mixing-bowl", "measuring-spoons", "measuring-cups", "whisk", "hand-mixer", "wire-rack", "cake-leveler"],
 
     ingredients: [
       { ingredientId: "cake-flour",    quantity: "1.5", unit: "cup",   shortcutSubstitute: "none" },
@@ -1506,6 +1538,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "skillet", "blender", "cheese-grater"],
 
     ingredients: [
       { ingredientId: "rigatoni-pasta",     quantity: "1",   unit: "pkg",    shortcutSubstitute: "none" },
@@ -1554,6 +1587,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 15 },
       { phase: "bake", minutes: 22 },
     ],
+    neededEquipment: ["oven", "muffin-tin", "mixing-bowl", "measuring-spoons", "measuring-cups", "whisk", "baking-spatula"],
 
     ingredients: [
       { ingredientId: "all-purpose-flour",              quantity: "2",   unit: "cup",    shortcutSubstitute: "none" },
@@ -1575,7 +1609,7 @@ const DEFAULT_RECIPES = [
 
     steps: [
       { name: "Mix wet",           text: "Whisk together the oil, sugar, eggs, milk, sour cream, vanilla, and almond extract in a small bowl.", shortcutText: "no-shortcut" },
-      { name: "Mix dry",           text: "In a separate larger bowl, whisk together the flour, cocoa, baking powder, baking soda, and salt, making a well in the center for the wet ingredients. Pour the wet ingredients into the well and gently fold until just combined.", shortcutText: "no-shortcut" },
+      { name: "Mix dry",           text: "In a separate larger bowl, whisk together the flour, cocoa, baking powder, baking soda, and salt, making a well in the center for the wet ingredients. Pour the wet ingredients into the well and gently fold until just combined.", shortcutText: "If you don't have a baking spatula, you can mix with a wooden spoon. If you only have one mixing bowl, you can mix the cocoa, baking powder, baking soda, salt, and finally the flour into the wet ingredients until just combined (don't over mix)." },
       { name: "Add mix-ins",       text: "Gently fold in chocolate chips and pitted, chopped cherries.", shortcutText: "no-shortcut" },
       { name: "Bake",              text: "Line a muffin tin with liners. Fill ¾ full. Bake at 375°F for 20–22 minutes.", shortcutText: "no-shortcut" },
     ],
@@ -1602,6 +1636,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 15 },
       { phase: "bake", minutes: 20 },
     ],
+    neededEquipment: ["oven", "baking-sheet", "mixing-bowl", "measuring-spoons", "measuring-cups", "baking-spatula"],
 
     ingredients: [
       { ingredientId: "all-purpose-flour",              quantity: "2.5", unit: "cup",    shortcutSubstitute: "none" },
@@ -1616,7 +1651,7 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Mix ingredients",text: "Mix softened butter, both sugars, beaten eggs, vanilla, flour, baking soda, and salt until thoroughly combined. Fold in the chocolate chips.", shortcutText: "no-shortcut" },
+      { name: "Mix ingredients",text: "Mix softened butter, both sugars, beaten eggs, vanilla, flour, baking soda, and salt until thoroughly combined. Fold in the chocolate chips.", shortcutText: "If you don't have a baking spatula, you can mix with a wooden spoon. Mix softened butter, both sugars, beaten eggs, vanilla, flour, baking soda, and salt until thoroughly combined. Fold in the chocolate chips." },
       { name: "Bake",              text: "Drop by spoonfuls onto parchment-lined baking sheets. Bake at 375°F for 8–10 minutes until desired doneness. Cool on the pan 5 minutes.", shortcutText: "no-shortcut" },
     ],
 
@@ -1641,6 +1676,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 15 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "skillet"],
 
     ingredients: [
       { ingredientId: "chow-mein-noodles", quantity: "1",   unit: "pkg",   shortcutSubstitute: "none" },
@@ -1688,13 +1724,14 @@ const DEFAULT_RECIPES = [
       { phase: "rise", minutes: 50 },
       { phase: "bake", minutes: 25 },
     ],
+    neededEquipment: ["oven", "baking-dish", "mixing-bowl", "measuring-spoons", "measuring-cups", "stand-mixer", "baking-spatula"],
 
     ingredients: [
       { ingredientId: "all-purpose-flour",              quantity: "2.5", unit: "cup",    shortcutSubstitute: "none" },
       { ingredientId: "salted-butter",             quantity: "16",  unit: "tbsp",   shortcutSubstitute: "none" },
       { ingredientId: "brown-sugar",        quantity: "2",   unit: "cup",    shortcutSubstitute: "none" },
       { ingredientId: "granulated-sugar",              quantity: "0.5", unit: "cup",    shortcutSubstitute: "none" },
-      { ingredientId: "active-dry-yeast",              quantity: "4",   unit: "tsp",    shortcutSubstitute: "none" },
+      { ingredientId: "active-dry-yeast",              quantity: "4",   unit: "tsp",    shortcutSubstitute: "instant-yeast" },
       { ingredientId: "eggs",              quantity: "2",   unit: "whole",  shortcutSubstitute: "none" },
       { ingredientId: "whole-milk",              quantity: "1",   unit: "cup",    shortcutSubstitute: "none" },
       { ingredientId: "ground-cinnamon",           quantity: "12",  unit: "tsp",    shortcutSubstitute: "none" },
@@ -1705,9 +1742,9 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Make dough",        text: "Dissolve a teaspoon of the sugar in warm milk and sprinkle the yeast across the top of the milk, waiting afterwards to ensure that it activates (allow the yeast to sit for at least 5 minutes. If it has not developed a foamy appearance after 15, throw it out and try again with new yeast). Mix the yeast milk with the flour, softened butter, sugar, salt, and eggs. Knead until elastic or use a stand mixer with the dough hook to knead until smooth and elastic.", shortcutText: "no-shortcut" },
+      { name: "Make dough",        text: "Dissolve a teaspoon of the sugar in warm milk and sprinkle the yeast across the top of the milk, waiting afterwards to ensure that it activates (allow the yeast to sit for at least 5 minutes. If it has not developed a foamy appearance after 15, throw it out and try again with new yeast). Mix the yeast milk with the flour, softened butter, sugar, salt, and eggs. Knead until elastic or use a stand mixer with the dough hook to knead until smooth and elastic.", shortcutText: "Mix the instant yeast, milk, flour, softened butter, sugar, salt, and eggs in a mixing bowl until just combined. Knead until elastic or use a stand mixer with the dough hook to knead until smooth and elastic." },
       { name: "First rise",        text: "Cover dough and let rise in a warm place until at least doubled, about 2-4 hours.", shortcutText: "no-shortcut" },
-      { name: "Make filling",       text: "Mix the remaining softened butter, brown sugar, and cinnamon until mixed evenly.", shortcutText: "no-shortcut" },
+      { name: "Make filling",       text: "Mix the remaining softened butter, brown sugar, and cinnamon until mixed evenly.", shortcutText: "If you only have one mixing bowl, you can spread the butter and sprinkle the brown sugar and cinnamon directly onto the rolled-out dough, skipping the filling mixing step altogether." },
       { name: "Fill & roll",       text: "Roll dough into a 1/4 inch thick rectangle. Spread with the filling as evenly as possible. Roll tightly into a log and slice into rolls.", shortcutText: "no-shortcut" },
       { name: "Second rise",       text: "Place rolls in a greased or parchment-lined baking dish or sheet. Cover and let rise another 45–60 minutes.", shortcutText: "no-shortcut" },
       { name: "Bake & frost",      text: "Bake at 375°F for 20–25 minutes until golden. Beat cream cheese with powdered sugar and vanilla. Frost the rolls while warm and serve.", shortcutText: "no-shortcut" },
@@ -1735,6 +1772,7 @@ const DEFAULT_RECIPES = [
       { phase: "bake", minutes: 25 },
       { phase: "rest", minutes: 30 },
     ],
+    neededEquipment: ["oven", "cake-pan", "mixing-bowl", "measuring-spoons", "measuring-cups", "stand-mixer", "baking-spatula"],
 
     ingredients: [
       { ingredientId: "cake-flour",    quantity: "2.5",    unit: "cup",   shortcutSubstitute: "none" },
@@ -1782,6 +1820,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "bake", minutes: 25 },
     ],
+    neededEquipment: ["oven", "baking-dish", "mixing-bowl", "measuring-spoons", "measuring-cups", "baking-spatula"],
 
     ingredients: [
       { ingredientId: "cornmeal",           quantity: "0.5", unit: "cup",    shortcutSubstitute: "cornbread-mix" },
@@ -1797,7 +1836,7 @@ const DEFAULT_RECIPES = [
 
     steps: [
       { name: "Mix dry",           text: "Whisk together cornmeal, flour, sugar, and baking powder in a small bowl.", shortcutText: "Mix the cornbread mix with eggs and milk, according to package instructions." },
-      { name: "Mix wet",           text: "In a larger bowl, whisk together oil, melted butter, honey, eggs, and milk.", shortcutText: "" },
+      { name: "Mix wet",           text: "In a larger bowl, whisk together oil, melted butter, honey, eggs, and milk.", shortcutText: "If you only have one mixing bowl, you can mix the oil, melted butter, honey, beaten eggs, and milk into the dry ingredients with a baking spatula or wooden spoon until combined." },
       { name: "Combine & bake",    text: "Fold the dry mixture into the wet mixture with a spatula until just combined. Pour into a greased 9x9 pan or into greased or lined muffin tins. Bake at 400°F for 20–25 minutes until a toothpick comes out clean.", shortcutText: "Pour the cornbread batter into a greased 9x9 pan or into greased or lined muffin tins. Bake according to package instructions." },
     ],
 
@@ -1824,6 +1863,7 @@ const DEFAULT_RECIPES = [
       { phase: "bake",  minutes: 30 },
       { phase: "chill", minutes: 120 },
     ],
+    neededEquipment: ["oven", "baking-sheet", "mixing-bowl", "measuring-spoons", "measuring-cups", "hand-mixer", "baking-spatula", "piping-bag"],
 
     ingredients: [
       { ingredientId: "salted-butter",        quantity: "10",   unit: "tbsp",  shortcutSubstitute: "none" },
@@ -1840,7 +1880,7 @@ const DEFAULT_RECIPES = [
     steps: [
       { name: "Make choux pastry",  text: "Combine 1 cup of water and 8 tbsp of the butter in a medium saucepan over medium-high heat. Bring to a rolling boil. Remove from heat and immediately add 1 cup of the flour and the salt all at once. Stir vigorously with a wooden spoon or rubber spatula until the dough comes together and pulls cleanly away from the sides of the pan. Return to medium heat and stir 1 minute more to dry the dough slightly (until a thin film forms on the bottom of the pan), then remove from heat.", shortcutText: "no-shortcut" },
       { name: "Beat in eggs",       text: "Beat 4 of the eggs into the warm dough all at once with a hand mixer or sturdy wooden spoon until smooth.", shortcutText: "no-shortcut" },
-      { name: "Pipe & bake",        text: "Preheat the oven to 400°F. Line two baking sheets with parchment or silicone mats. Fit a piping bag with a large round tip and fill with the choux dough. Pipe 1.5-inch mounds spaced 2 inches apart. Dampen a fingertip and smooth any peaks. Bake one sheet at a time for 25–35 minutes until deep golden and hollow-sounding when tapped (do not open the oven for the first 20 minutes of baking). Transfer to a wire rack and pierce the bottom of each puff with a small skewer to release steam and cool completely.", shortcutText: "Preheat the oven to 400°F. Line two baking sheets with parchment or silicone mats. Drop dough by nearly 1/4 cupfuls about 3  inches apart onto the sheets. Bake one sheet at a time for 25–35 minutes until deep golden and hollow-sounding when tapped (do not open the oven for the first 20 minutes of baking). Transfer to a wire rack and pierce the bottom of each puff with a small skewer to release steam and cool completely." },
+      { name: "Pipe & bake",        text: "Preheat the oven to 400°F. Line two baking sheets with parchment or silicone mats. Fit a piping bag with a large round tip and fill with the choux dough. Pipe 1.5-inch mounds spaced 2 inches apart. Dampen a fingertip and smooth any peaks. Bake one sheet at a time for 25–35 minutes until deep golden and hollow-sounding when tapped (do not open the oven for the first 20 minutes of baking). Transfer to a wire rack and pierce the bottom of each puff with a small skewer to release steam and cool completely.", shortcutText: "Preheat the oven to 400°F. Line two baking sheets with parchment or silicone mats. Drop dough by nearly 1/4 cupfuls about 3  inches apart onto the sheets. Bake one sheet at a time for 25–35 minutes until deep golden and hollow-sounding when tapped (do not open the oven for the first 20 minutes of baking). Transfer to a wire rack or parchment-lined plate and pierce the bottom of each puff with a small skewer to release steam and cool completely." },
       { name: "Make pastry cream",  text: "Separate the remaining 2 egg yolks and whites, and save the whites for something else. Mix the cornstarch, grantulated sugar, and salt in a saucepan. Gradually stir in the milk and heat over medium heat, stirring constantly until gently boiling and thickening. Cook one more minute, then temper the eggs (gradually stir half the hot mixture into the beaten egg yolks, and transfer the yolks back into the saucepan). Cook and continue stirring one more minute, remove from heat, and add the remaining butter and vanilla. Mix and let cool completely.", shortcutText: "Whisk instant vanilla pudding mix with 1.5 cups of milk (less than package directions) for a thicker consistency. Chill until firm." },
       { name: "Fill & finish",      text: "Slice the tops off the cooled puffs with a serrated knife, or pipe the filling in through the steam hole in the bottom. Fill generously. Dust the tops with the remaining powdered sugar and serve (chilled if desired).", shortcutText: "no-shortcut" },
     ],
@@ -1866,6 +1906,7 @@ const DEFAULT_RECIPES = [
       { phase: "rest", minutes: 30 },
       { phase: "cook", minutes: 20 },
     ],
+    neededEquipment: ["stove", "skillet", "measuring-spoons", "measuring-cups", "blender", "spatula"],
 
     ingredients: [
       { ingredientId: "all-purpose-flour",    quantity: "0.5",    unit: "cup",   shortcutSubstitute: "none" },
@@ -1878,8 +1919,8 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Make & rest batter", text: "Melt the butter and let it cool slightly. Combine the flour, eggs, milk, melted butter, sugar, vanilla, and salt in a blender (or whisk together in a bowl until smooth). Let the batter rest at room temperature for at least 30 minutes, or refrigerate up to overnight (resting allows the gluten to relax and produces a lacy texture).", shortcutText: "no-shortcut" },
-      { name: "Cook crepes",        text: "Heat an 8- or 10-inch nonstick skillet or crepe pan over medium heat. Brush lightly with melted butter. Pour in about 1/4 cup of batter and immediately tilt and swirl the pan in a circular motion to spread the batter into a thin, even circle. Cook 1–2 minutes until the edges look dry and the bottom is lightly golden. Flip with a thin spatula and cook 30 seconds more. Slide onto a plate and repeat with the remaining batter, stacking finished crepes with small squares of parchment between them.", shortcutText: "no-shortcut" },
+      { name: "Make & rest batter", text: "Melt the butter and let it cool slightly. Combine the flour, eggs, milk, melted butter, sugar, vanilla, and salt in a blender. Let the batter rest at room temperature for at least 30 minutes, or refrigerate up to overnight (resting allows the gluten to relax and produces a lacy texture).", shortcutText: "Melt the butter and let it cool slightly. Whisk the flour, eggs, milk, melted butter, sugar, vanilla, and salt in a bowl vigorously until very smooth and a bit frothy." },
+      { name: "Cook crepes",        text: "Heat an 8-inch or 10-inch nonstick skillet or crepe pan over medium heat. Brush lightly with melted butter. Pour in about 1/4 cup of batter and immediately tilt and swirl the pan in a circular motion to spread the batter into a thin, even circle. Cook 1–2 minutes until the edges look dry and the bottom is lightly golden. Flip with a thin spatula and cook 30 seconds more. Slide onto a plate and repeat with the remaining batter, stacking finished crepes with small squares of parchment between them.", shortcutText: "no-shortcut" },
       { name: "Fill & serve",       text: "Serve crepes warm or at room temperature. Fill or top with your choice of extras.", shortcutText: "no-shortcut" },
     ],
 
@@ -1909,6 +1950,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 25 },
       { phase: "bake", minutes: 20 },
     ],
+    neededEquipment: ["stove", "skillet", "measuring-spoons", "wooden-spoon", "baking-sheet", "oven", "chef-knife", "cutting-board", "rice-cooker"],
 
     ingredients: [
       { ingredientId: "orange-bell-pepper",  quantity: "4",   unit: "whole",  shortcutSubstitute: "none" },
@@ -1960,6 +2002,7 @@ const DEFAULT_RECIPES = [
       { phase: "chill", minutes: 120 },
       { phase: "bake", minutes: 20 },
     ],
+    neededEquipment: ["oven", "baking-sheet", "mixing-bowl", "measuring-spoons", "measuring-cups", "hand-mixer", "baking-spatula", "rolling-pin"],
 
     ingredients: [
       { ingredientId: "all-purpose-flour",              quantity: "2.5", unit: "cup",    shortcutSubstitute: "none" },
@@ -1976,7 +2019,7 @@ const DEFAULT_RECIPES = [
 
     steps: [
       { name: "Mix ingredients",text: "Mix the softened salted butter, 1/2 of the powdered sugar, 1/2 of the vanilla, almond extract and eggs in a bowl. Then add the flour, baking soda, cream of tartar, and salt and stir until combined. Chill the dough for 2 hours.", shortcutText: "no-shortcut" },
-      { name: "Cut out cookies",text: "Preheat the oven to 375°F. Roll out half the batch of dough at a time on a floured surface. Cut into desired shapes and place onto parchment-lined baking sheets, re-rolling and cutting dough as needed.", shortcutText: "no-shortcut" },
+      { name: "Cut out cookies",text: "Preheat the oven to 375°F. Roll out half the batch of dough at a time on a floured surface. Cut into desired shapes and place onto parchment-lined baking sheets, re-rolling and cutting dough as needed.", shortcutText: "Preheat the oven to 375°F. If you don't have a rolling pin, you can flatten half the batch of dough at a time by hand or using the bottom of a plate on a floured surface. Cut into desired shapes and place onto parchment-lined baking sheets, re-flattening and cutting dough as needed." },
       { name: "Bake",              text: "You may sprinkle with decorative or grantulated sugar if desired, or leave plain if planning to add icing. Bake for 7-8 minutes until desired doneness. Cool on the pan 5 minutes.", shortcutText: "no-shortcut" },
       { name: "Frost",              text: "If frosting the cookies, beat the remaining softened unsalted butter with an elecric mixer in a bowl for 3-5 minutes, until fluffy and white-colored. Add the powdered sugar, salt, and vanilla, then beat to combine. Food dye may be added to the frosting to color it if desired. Frost the cookies once they have cooled completely.", shortcutText: "If frosting the cookies, wait until they are completely cooled, then spread the frosting on them as desired." },
     ],
@@ -2002,6 +2045,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 25 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "saucepan"],
 
     ingredients: [
       { ingredientId: "yellow-lentils",     quantity: "1",   unit: "cup",    shortcutSubstitute: "none" },
@@ -2018,7 +2062,7 @@ const DEFAULT_RECIPES = [
 
     steps: [
       { name: "Simmer lentils",    text: "Combine yellow lentils with chicken stock and bring to a boil. Simmer 20–25 minutes until soft and creamy, meanwhile preparing and adding the spices.", shortcutText: "no-shortcut" },
-      { name: "Temper & add spices",     text: "Heat 1 tbsp of butter in a small pan. Add cumin seeds and mustard seeds and cook until they pop. Add chopped onion, minced garlic, and diced jalapeño and sauté until golden. Add the tempered spices, salt, and remaining butter to the lentils while they continue to cook until desired doneness. If desired, transfer to a blender and blend until smooth. Serve and top with fresh cilantro if desired.", shortcutText: "no-shortcut" },
+      { name: "Temper & add spices",     text: "Heat 1 tbsp of butter in a saucepan. Add cumin seeds and mustard seeds and cook until they pop. Add chopped onion, minced garlic, and diced jalapeño and sauté until golden. Add the tempered spices, salt, and remaining butter to the lentils while they continue to cook until desired doneness. If desired, transfer to a blender and blend until smooth. Serve and top with fresh cilantro if desired.", shortcutText: "You may skip the tempering step and add the spices directly to the lentils while they continue to cook until desired doneness. If desired, transfer to a blender and blend until smooth. Serve and top with fresh cilantro if desired." },
     ],
 
     recommendedSides: [],
@@ -2042,6 +2086,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "mixing-bowl"],
 
     ingredients: [
       { ingredientId: "eggs",              quantity: "6",   unit: "whole",  shortcutSubstitute: "none" },
@@ -2054,7 +2099,7 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Hard boil",         text: "Place eggs in a pot of cold water, bring to a boil, cook 10 minutes, then transfer to an ice bath to cool. Peel.", shortcutText: "no-shortcut" },
+      { name: "Hard boil",         text: "Place eggs in a pot of cold water, bring to a boil, cook 10 minutes, then transfer to an ice bath to cool, then peel.", shortcutText: "no-shortcut" },
       { name: "Fill",              text: "Halve eggs lengthwise. Remove yolks and mash with mayo, mustard, apple cider vinegar, salt, and pepper until smooth.", shortcutText: "no-shortcut" },
       { name: "Pipe & garnish",    text: "Spoon or pipe yolk mixture back into the egg whites. Dust with paprika and serve.", shortcutText: "no-shortcut" },
     ],
@@ -2080,6 +2125,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 25 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "rice-cooker"],
 
     ingredients: [
       { ingredientId: "eggs",             quantity: "8",   unit: "whole", shortcutSubstitute: "none" },
@@ -2134,6 +2180,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 10 },
     ],
+    neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons"],
 
     ingredients: [
       { ingredientId: "fresh-corn",               quantity: "4",   unit: "cobb",  shortcutSubstitute: "frozen-corn" },
@@ -2172,6 +2219,7 @@ const DEFAULT_RECIPES = [
     timeToComplete: [
       { phase: "prep", minutes: 15 },
     ],
+    neededEquipment: ["chef-knife", "cutting-board", "salad-tongs", "measuring-spoons", "whisk", "mixing-bowl"],
 
     ingredients: [
       { ingredientId: "roma-tomato",             quantity: "1",   unit: "whole",  shortcutSubstitute: "none" },
@@ -2222,6 +2270,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "skillet"],
 
     ingredients: [
       { ingredientId: "fettuccine-pasta",   quantity: "1",   unit: "pkg",    shortcutSubstitute: "none" },
@@ -2268,6 +2317,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 20 },
       { phase: "fry",  minutes: 20 },
     ],
+    neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "deep-fryer"],
 
     ingredients: [
       { ingredientId: "chicken-breast",    quantity: "1.5", unit: "lb",    shortcutSubstitute: "rotisserie-chicken" },
@@ -2289,7 +2339,7 @@ const DEFAULT_RECIPES = [
       { name: "Cook & shred chicken", text: "Season chicken breasts with salt, pepper, cumin, and chili powder. Cook in a skillet with a little oil over medium-high heat, 5–6 minutes per side, until cooked through. Remove and shred with two forks.", shortcutText: "Peel the meat from a store-bought rotisserie chicken and shred it with two forks." },
       { name: "Make filling",         text: "In a bowl, mix the warm shredded chicken with the softened cream cheese, shredded cheddar, minced garlic, cumin, chili powder, and salt until well combined.", shortcutText: "no-shortcut" },
       { name: "Roll flautas",         text: "Using room-temperature tortillas, add a strip of filling down the center of each tortilla and roll tightly. Secure with a toothpick or place seam-side down.", shortcutText: "no-shortcut" },
-      { name: "Fry",                  text: "Heat canola oil in a deep skillet to 350°F (175°C). Fry the rolled flautas seam-side down first in batches 2–3 minutes, turning once or twice, until golden brown and crispy all over. Drain on a wire rack or paper towels.", shortcutText: "no-shortcut" },
+      { name: "Fry",                  text: "Heat canola oil in a deep fryer to 350°F (175°C). Fry the rolled flautas seam-side down first in batches 2–3 minutes, turning once or twice, until golden brown and crispy all over. Drain on a wire rack.", shortcutText: "If you don't have a deep fryer, heat canola oil in a skillet or pot to 350°F (175°C). Fry the rolled flautas seam-side down first in batches 2–3 minutes, turning once or twice, until golden brown and crispy all over. Drain on a paper towel-lined plate if you don't have a wire rack." },
       { name: "Serve",                text: "Remove toothpicks if used. Serve immediately topped with sour cream, a squeeze of lime, and fresh cilantro if desired, alongside any preferred sides or toppings.", shortcutText: "no-shortcut" },
     ],
 
@@ -2314,6 +2364,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
     ],
+    neededEquipment: ["stove", "saucepan", "skillet", "chef-knife", "cutting-board", "oven", "wooden-spoon"],
 
     ingredients: [
       { ingredientId: "roast-beef",         quantity: "1",   unit: "lb",     shortcutSubstitute: "none" },
@@ -2330,7 +2381,7 @@ const DEFAULT_RECIPES = [
       { name: "Make au jus",       text: "Bring beef stock to a simmer in a small saucepan. Season with a pinch of black pepper. Keep warm.", shortcutText: "no-shortcut" },
       { name: "Sauté toppings",    text: "Caramelize sliced onion and mushrooms if using in butter until golden, about 10 minutes.", shortcutText: "no-shortcut" },
       { name: "Warm beef",         text: "Briefly warm deli roast beef in the au jus pot while the bread rolls are being toasted.", shortcutText: "no-shortcut" },
-      { name: "Assemble",          text: "Toast bread rolls under a broiler, and quickly layer roast beef and provolone cheese on each roll. Place back under the broiler 1–2 minutes to melt cheese, watching them continuously to avoid burning. Top with caramelized onions and mushrooms if using. Serve with au jus for dipping.", shortcutText: "no-shortcut" },
+      { name: "Assemble",          text: "Toast bread rolls under a broiler or in a 350°F oven, and quickly layer roast beef and provolone cheese on each roll. Place back under the broiler 1–2 minutes to melt cheese, watching them continuously to avoid burning. Top with caramelized onions and mushrooms if using. Serve with au jus for dipping.", shortcutText: "no-shortcut" },
     ],
 
     recommendedSides: ["seasonal-berry-salad"],
@@ -2356,6 +2407,7 @@ const DEFAULT_RECIPES = [
     timeToComplete: [
       { phase: "prep", minutes: 5 },
     ],
+    neededEquipment: ["blender", "measuring-spoons"],
 
     ingredients: [
       { ingredientId: "frozen-berries",     quantity: "2",   unit: "cup",    shortcutSubstitute: "none" },
@@ -2389,6 +2441,7 @@ const DEFAULT_RECIPES = [
     timeToComplete: [
       { phase: "prep", minutes: 15 },
     ],
+    neededEquipment: ["chef-knife", "cutting-board", "measuring-spoons", "mixing-bowl", "salad-tongs"],
 
     ingredients: [
       { ingredientId: "cucumber",           quantity: "1",   unit: "whole",  shortcutSubstitute: "none" },
@@ -2426,6 +2479,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 40 },
       { phase: "cook", minutes: 30 },
     ],
+    neededEquipment: ["stove", "stock-pot", "saucepan", "baking-dish", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "oven"],
 
     ingredients: [
       { ingredientId: "fresh-green-beans",     quantity: "1", unit: "lb",  shortcutSubstitute: "frozen-green-beans" },
@@ -2467,6 +2521,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 20 },
       { phase: "bake", minutes: 25 },
     ],
+    neededEquipment: ["stove", "stock-pot", "baking-dish", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "cheese-grater", "oven"],
 
     ingredients: [
       { ingredientId: "macaroni",           quantity: "1",   unit: "pkg",    shortcutSubstitute: "none" },
@@ -2513,6 +2568,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 40 },
       { phase: "bake", minutes: 25 },
     ],
+    neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "oven", "baking-dish", "cheese-grater"],
 
     ingredients: [
       { ingredientId: "green-tomatillos",   quantity: "10",  unit: "whole",  shortcutSubstitute: "tomatillo-salsa" },
@@ -2563,6 +2619,7 @@ const DEFAULT_RECIPES = [
     timeToComplete: [
       { phase: "prep", minutes: 10 },
     ],
+    neededEquipment: ["chef-knife", "cutting-board", "wooden-spoon", "mixing-bowl"],
 
     ingredients: [
       { ingredientId: "avocado",            quantity: "3",   unit: "whole",  shortcutSubstitute: "none" },
@@ -2600,6 +2657,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 20 },
       { phase: "cook", minutes: 45 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons"],
 
     ingredients: [
       { ingredientId: "chicken-breast",            quantity: "0.5", unit: "lb",  shortcutSubstitute: "rotisserie-chicken" },
@@ -2657,6 +2715,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
     ],
+    neededEquipment: ["deep-fryer", "measuring-spoons", "measuring-cups", "mixing-bowl", "baking-spatula", "rolling-pin", "donut-cutter", "wire-rack"],
 
     ingredients: [
       { ingredientId: "all-purpose-flour",              quantity: "2.25",unit: "cup",    shortcutSubstitute: "none" },
@@ -2669,9 +2728,9 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Make batter",       text: "Mix the flour, baking soda, and a pinch of salt. Combine with egg and sour cream until a soft, sticky dough forms.", shortcutText: "no-shortcut" },
-      { name: "Cut & fry",         text: "Roll dough to ½ inch thick on a floured surface. Cut into rounds with a donut cutter. Heat oil to 375°F. Fry donuts 1–2 minutes per side until golden.", shortcutText: "no-shortcut" },
-      { name: "Dust & serve",      text: "Drain on paper towels. Dust generously with powdered sugar while warm.", shortcutText: "no-shortcut" },
+      { name: "Make batter",       text: "Mix the flour, baking soda, and a pinch of salt. Combine with egg and sour cream until a soft, sticky dough forms.", shortcutText: "If you don't have a baking spatula, you can mix with a wooden spoon. Mix the flour, baking soda, and a pinch of salt. Combine with egg and sour cream until a soft, sticky dough forms." },
+      { name: "Cut & fry",         text: "Roll dough to ½ inch thick on a floured surface. Cut into rounds with a donut cutter. Heat oil in a deep fryer to 375°F. Fry donuts 1–2 minutes per side until golden.", shortcutText: "If you don't have a rolling pin, you can flatten the dough on a floured surface by hand or using the bottom of a plate. If you don't have a donut cutter, you can into rounds with a thin cup and poke a hole in the center. If you don't have a deep fryer, heat oil in a skillet or pot to 375°F. Fry donuts 1–2 minutes per side until golden." },
+      { name: "Dust & serve",      text: "Drain on a wire rack. Dust generously with powdered sugar while warm.", shortcutText: "If you don't have a wire rack, you can drain on a plate lined with paper towels and dust with powdered sugar once mostly cooled." },
     ],
 
     recommendedSides: [],
@@ -2695,6 +2754,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 15 },
     ],
+    neededEquipment: ["stove", "skillet", "spatula"],
 
     ingredients: [
       { ingredientId: "eggs",              quantity: "4",   unit: "whole",  shortcutSubstitute: "none" },
@@ -2733,6 +2793,7 @@ const DEFAULT_RECIPES = [
     timeToComplete: [
       { phase: "prep", minutes: 10 },
     ],
+    neededEquipment: ["blender", "measuring-spoons"],
 
     ingredients: [
       { ingredientId: "chickpeas",    quantity: "2",   unit: "can",   shortcutSubstitute: "none" },
@@ -2771,6 +2832,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 25 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups"],
 
     ingredients: [
       { ingredientId: "hot-italian-sausage",quantity: "1",   unit: "lb",     shortcutSubstitute: "none" },
@@ -2818,6 +2880,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 5 },
       { phase: "cook", minutes: 20 },
     ],
+    neededEquipment: ["stove", "saucepan", "wooden-spoon", "measuring-spoons"],
 
     ingredients: [
       { ingredientId: "black-beans",   quantity: "2",   unit: "can",   shortcutSubstitute: "none" },
@@ -2858,6 +2921,7 @@ const DEFAULT_RECIPES = [
       { phase: "marinate",minutes: 30 },
       { phase: "cook",    minutes: 20 },
     ],
+    neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "rice-cooker"],
 
     ingredients: [
       { ingredientId: "large-shrimp",      quantity: "1",   unit: "lb",    shortcutSubstitute: "none" },
@@ -2913,6 +2977,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 5 },
       { phase: "cook", minutes: 25 },
     ],
+    neededEquipment: ["stove", "rice-cooker", "skillet", "chef-knife", "cutting-board", "wooden-spoon"],
 
     ingredients: [
       { ingredientId: "ground-beef",        quantity: "1",   unit: "lb",     shortcutSubstitute: "none" },
@@ -2964,6 +3029,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 30 },
       { phase: "cook", minutes: 40 },
     ],
+    neededEquipment: ["stove", "rice-cooker", "skillet", "baking-dish", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups"],
 
     ingredients: [
       { ingredientId: "rice",              quantity: "1",   unit: "cup",    shortcutSubstitute: "none" },
@@ -2992,8 +3058,8 @@ const DEFAULT_RECIPES = [
       { name: "Toast rice & lentils",        text: "Toast dry rice and lentils (in separate batches) in an oil-coated large dry skillet over medium heat until lightly golden and fragrant, 3–4 minutes.", shortcutText: "" },
       { name: "Cook rice",              text: "Add enough water to cover rice by about 1 inch in a pot (or to the water level indicated if using a rice cooker) and submerge the lentils in a separate pot . Bring to a boil, cover, reduce heat, and simmer rice 18–20 minutes (or closer to 25 minutes if using a rice cooker) and lentils until tender.", shortcutText: "no-shortcut" },
       { name: "Cook macaroni",      text: "Cook macaroni in a pot of salted (using 1 tsp of salt) boiling water until al dente, then drain and toss in olive oil.", shortcutText: "no-shortcut" },
-      { name: "Make tomato sauce",  text: "Sauté half the onion and garlic in olive oil. Add tomato paste, diced tomatoes, and 0.5 tsp salt. Simmer 15 minutes.", shortcutText: "no-shortcut" },
-      { name: "Cook meat",          text: "If desired, in a separate pan brown ground beef and season with all spices and salt as well as any remaining garlic.", shortcutText: "" },
+      { name: "Make tomato sauce",  text: "Sauté half the onion and garlic in olive oil. Add tomato paste, diced tomatoes, and 0.5 tsp salt. Simmer 15 minutes and set aside.", shortcutText: "no-shortcut" },
+      { name: "Cook meat",          text: "If desired, brown ground beef in a skillet and season with all spices and salt as well as any remaining garlic, then set aside.", shortcutText: "" },
       { name: "Toast chickpeas & crisp onions",    text: "Toast drained chickpeas in an oil-coated skillet over medium-high heat until lightly browned, about 3-4 minutes, seasoning with salt. Slice the remaining onion, coat in flour, and fry in oil in the same skillet over medium-high heat until golden brown, about 3-4 minutes, seasoning with salt.", shortcutText: "" },
       { name: "Assemble",           text: "Layer lentils, rice, macaroni, and chickpeas in a baking dish or platter. Spoon tomato sauce over the top, finish with crispy onions and a drizzle of chili oil, then serve with the meat if desired.", shortcutText: "no-shortcut" },
     ],
@@ -3023,6 +3089,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep",     minutes: 15 },
       { phase: "braise",   minutes: 60 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "rice-cooker"],
 
     ingredients: [
       { ingredientId: "lamb-shoulder",    quantity: "2",   unit: "lb",    shortcutSubstitute: "none" },
@@ -3081,6 +3148,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 40 },
       { phase: "bake", minutes: 35 },
     ],
+    neededEquipment: ["stove", "stock-pot", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-cups", "oven", "baking-dish"],
 
     ingredients: [
       { ingredientId: "lasagna-noodles",    quantity: "1",   unit: "pkg",    shortcutSubstitute: "none" },
@@ -3132,6 +3200,7 @@ const DEFAULT_RECIPES = [
       { phase: "bake",  minutes: 22 },
       { phase: "chill", minutes: 60 },
     ],
+    neededEquipment: ["oven", "pie-dish", "chef-knife", "cutting-board", "stand-mixer", "measuring-spoons", "measuring-cups", "zester"],
 
     ingredients: [
       { ingredientId: "pie-crust",              quantity: "1",   unit: "whole",    shortcutSubstitute: "none" },
@@ -3173,6 +3242,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 15 },
       { phase: "bake", minutes: 22 },
     ],
+    neededEquipment: ["oven", "muffin-tin", "measuring-spoons", "mixing-bowl", "whisk", "baking-spatula"],
 
     ingredients: [
       { ingredientId: "all-purpose-flour",              quantity: "2",   unit: "cup",    shortcutSubstitute: "none" },
@@ -3192,7 +3262,7 @@ const DEFAULT_RECIPES = [
 
     steps: [
       { name: "Mix wet",           text: "Whisk together oil, sugar, eggs, milk, sour cream, lemon juice, and vanilla.", shortcutText: "no-shortcut" },
-      { name: "Mix dry",           text: "In a separate bowl, whisk together the flour, baking powder, baking soda, poppy seeds, and salt, making a well in the center for the wet ingredients. Pour the wet ingredients into the well and gently fold until just combined.", shortcutText: "no-shortcut" },
+      { name: "Mix dry",           text: "In a separate bowl, whisk together the flour, baking powder, baking soda, poppy seeds, and salt, making a well in the center for the wet ingredients. Pour the wet ingredients into the well and gently fold until just combined.", shortcutText: "If you only have one mixing bowl, you can mix the baking powder, baking soda, poppy seeds, salt, and finally flour into the wet ingredients using a baking spatula or wooden spoon until just combined (don't over mix)." },
       { name: "Bake",              text: "Line muffin tin with liners. Fill ¾ full. Bake at 375°F for 20–22 minutes.", shortcutText: "no-shortcut" },
     ],
 
@@ -3217,6 +3287,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 25 },
       { phase: "cook", minutes: 10 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups"],
 
     ingredients: [
       { ingredientId: "red-potatoes",           quantity: "4",   unit: "whole",  shortcutSubstitute: "none" },
@@ -3238,7 +3309,7 @@ const DEFAULT_RECIPES = [
 
     steps: [
       { name: "Cook bacon",        text: "Cook bacon until crispy (you may use a skillet on medium-high heat or bake in the oven at 400°F for 15–20 minutes). Cook the potatoes and eggs while waiting for the bacon, but keep a close eye on the bacon to not let it burn. Once cooled, chop the bacon and set aside.", shortcutText: "no-shortcut" },
-      { name: "Boil potatoes and eggs",     text: "Cube the potatoes (peeling only if desired). Fill a pot with water and bring to a boil. Hard-boil the eggs (about 10 minutes), then transfer to an ice bath or bowl of cold water to cool. Boil the potatoes in salted water until soft, about 15 minutes, then dain and allow to cool.", shortcutText: "no-shortcut" },
+      { name: "Boil potatoes and eggs",     text: "Cube the potatoes (peeling only if desired). Fill a pot with water and bring to a boil. Hard-boil the eggs (about 10 minutes), then transfer to an ice bath or bowl of cold water to cool. Boil the potatoes in salted water until soft, about 15 minutes, then drain and allow to cool.", shortcutText: "no-shortcut" },
       { name: "Combine",              text: "Chop the celery, red onion, and green onion, and peel and chop the eggs. In a large bowl, mix the mayonnaise, sour cream, apple cider vinegar, poupon mustard, paprika, cayenne, salt, and pepper until well combined. Gently mix in the eggs, bacon, celery, red onion, grated cheese, and chopped potatoes until combined, then serve", shortcutText: "no-shortcut" },
     ],
 
@@ -3263,6 +3334,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 15 },
       { phase: "cook", minutes: 360 },
     ],
+    neededEquipment: ["slow-cooker", "stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons"],
 
     ingredients: [
       { ingredientId: "beef-chuck-roast",   quantity: "6",   unit: "lb",     shortcutSubstitute: "none" },
@@ -3282,7 +3354,7 @@ const DEFAULT_RECIPES = [
 
     steps: [
       { name: "Season & sear",     text: "Season the chuck roast generously with salt and pepper.", shortcutText: "no-shortcut" },
-      { name: "Slow cook",         text: "Place roast in a slow cooker or covered Dutch oven with chipotle peppers, garlic, and a splash of water. Cook on low 6–8 hours (or 300°F for 4–5 hours) until fall-apart tender.", shortcutText: "no-shortcut" },
+      { name: "Slow cook",         text: "Place roast in a slow cooker or covered Dutch oven with chipotle peppers, garlic, and a splash of water. Cook on low 6–8 hours (or 300°F for 4–5 hours) until fall-apart tender.", shortcutText: "If you don't have a slow cooker, you can cook the roast in a Dutch oven or roasting pan in the oven at 300°F for 4–5 hours until fall-apart tender." },
       { name: "Shred",             text: "Remove beef and shred with two forks. Return to the cooking juices and toss to coat, then sear in a skillet until slightly crispy.", shortcutText: "no-shortcut" },
       { name: "Assemble tacos",    text: "Serve shredded beef in warm tortillas topped with cilantro, chopped red onion, shredded cabbage, chopped cucumber, queso fresco, lime, and sour cream if desired.", shortcutText: "no-shortcut" },
     ],
@@ -3311,6 +3383,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 15 },
       { phase: "rest", minutes: 15 },
     ],
+    neededEquipment: ["chef-knife", "cutting-board", "wooden-spoon", "mixing-bowl"],
 
     ingredients: [
       { ingredientId: "mango",      quantity: "1",   unit: "whole", shortcutSubstitute: "canned-mangoes" },
@@ -3348,6 +3421,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "potato-masher"],
 
     ingredients: [
       { ingredientId: "russet-potatoes",           quantity: "4",   unit: "whole",  shortcutSubstitute: "none" },
@@ -3386,6 +3460,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 15 },
       { phase: "bake", minutes: 55 },
     ],
+    neededEquipment: ["oven", "mixing-bowl", "chef-knife", "cutting-board", "wooden-spoon", "baking-sheet"],
 
     ingredients: [
       { ingredientId: "ground-beef",        quantity: "1.5",   unit: "lb",     shortcutSubstitute: "none" },
@@ -3435,6 +3510,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 15 },
       { phase: "bake", minutes: 20 },
     ],
+    neededEquipment: ["oven", "baking-sheet", "measuring-spoons", "measuring-cups", "mixing-bowl", "baking-spatula"],
 
     ingredients: [
       { ingredientId: "all-purpose-flour",              quantity: "2.25",unit: "cup",    shortcutSubstitute: "none" },
@@ -3451,7 +3527,7 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Mix ingredients",           text: "Mix the softened butter, shortening, brown sugar, eggs, molasses, flour, baking soda, cinnamon, ginger, cloves, and salt until thoroughly combined.", shortcutText: "no-shortcut" },
+      { name: "Mix ingredients",           text: "Mix the softened butter, shortening, brown sugar, eggs, molasses, flour, baking soda, cinnamon, ginger, cloves, and salt until thoroughly combined.", shortcutText: "If you don't have a baking spatula, you can mix with a wooden spoon. Mix the softened butter, shortening, brown sugar, eggs, molasses, flour, baking soda, cinnamon, ginger, cloves, and salt until thoroughly combined." },
       { name: "Bake",              text: "Roll into 1-inch balls, roll in sugar, and place on baking sheets. Bake at 375°F for 8–10 minutes until crinkled. Do not overbake.", shortcutText: "no-shortcut" },
     ],
 
@@ -3477,6 +3553,7 @@ const DEFAULT_RECIPES = [
       { phase: "bake",  minutes: 80 },
       { phase: "chill", minutes: 480 },
     ],
+    neededEquipment: ["oven", "springform-pan", "wooden-spoon", "measuring-spoons", "measuring-cups", "hand-mixer", "mixing-bowl", "baking-spatula", "baking-sheet"],
 
     ingredients: [
       { ingredientId: "graham-crackers",      quantity: "1.5",  unit: "cup",   shortcutSubstitute: "graham-cracker-crust" },
@@ -3492,7 +3569,7 @@ const DEFAULT_RECIPES = [
     steps: [
       { name: "Make graham cracker crust",    text: "Preheat the oven to 325°F. Crush the graham crackers into fine crumbs using a food processor or by sealing them in a zip-lock bag and rolling with a rolling pin. Mix the crumbs with 3 tbsp of the sugar and the melted butter. Press firmly and evenly into the bottom and 1 inch up the sides of a 9-inch springform pan. Bake for 8 minutes. Set aside to cool.", shortcutText: "Press a store-bought graham cracker crust into the springform pan bottom." },
       { name: "Make cheesecake filling",      text: "Beat the softened cream cheese in a large bowl on medium speed until completely smooth with no lumps, about 3 minutes. Add the remaining sugar and the flour and beat until combined. On low speed, add the eggs one at a time, mixing just until each is blended — do not over-beat once the eggs are added. Add the sour cream and vanilla, and mix on low until just combined.", shortcutText: "no-shortcut" },
-      { name: "Bake in water bath",           text: "Wrap the outside of the springform pan tightly in two layers of heavy-duty aluminum foil (or a silicone wrap for best results). Place in a large roasting pan and pour the filling over the cooled crust. Set in the oven and pour hot water into the roasting pan until it comes about 1 inch up the side of the springform. Bake at 325°F for 65–75 minutes — the edges should be set and lightly puffed but the center 2 inches should still jiggle gently when nudged.", shortcutText: "no-shortcut" },
+      { name: "Bake in water bath",           text: "Wrap the outside of the springform pan tightly in two layers of heavy-duty aluminum foil (or a silicone wrap for best results). Place in a large roasting pan or deep baking sheet and pour the filling over the cooled crust. Set in the oven and pour hot water into the roasting pan until it comes about 1 inch up the side of the springform. Bake at 325°F for 65–75 minutes — the edges should be set and lightly puffed but the center 2 inches should still jiggle gently when nudged.", shortcutText: "no-shortcut" },
       { name: "Cool slowly & chill overnight",text: "Turn off the oven and crack the door open about 1 inch. Leave the cheesecake in the oven for 1 hour, cooling gradually to prevent cracks. Remove from the water bath, run a thin knife around the edge to prevent sticking, and cool to room temperature on a wire rack. Refrigerate uncovered for at least 8 hours or overnight before removing the springform ring and slicing to serve.", shortcutText: "no-shortcut" },
     ],
 
@@ -3518,6 +3595,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 15 },
       { phase: "bake", minutes: 20 },
     ],
+    neededEquipment: ["oven", "baking-sheet", "measuring-spoons", "measuring-cups", "mixing-bowl", "baking-spatula"],
 
     ingredients: [
       { ingredientId: "quick-oats",         quantity: "2",   unit: "cup",    shortcutSubstitute: "none" },
@@ -3558,6 +3636,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 15 },
       { phase: "fry",  minutes: 20 },
     ],
+    neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "deep-fryer"],
 
     ingredients: [
       { ingredientId: "chicken-breast",      quantity: "1.5", unit: "lb",    shortcutSubstitute: "none" },
@@ -3577,7 +3656,7 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Batter & fry chicken", text: "Cut chicken into 1-inch cubes. Mix flour, 2/3 of the cornstarch, and salt in one bowl and beat eggs in another. Dip chicken pieces in egg then dredge in the flour-cornstarch mix. Heat canola oil to 375°F (190°C) and fry chicken in batches 4–5 minutes until golden and cooked through. Drain on a wire rack.", shortcutText: "no-shortcut" },
+      { name: "Batter & fry chicken", text: "Cut chicken into 1-inch cubes. Mix flour, 2/3 of the cornstarch, and salt in one bowl and beat eggs in another. Dip chicken pieces in egg then dredge in the flour-cornstarch mix. Heat canola oil to 375°F (190°C) and fry chicken in batches 4–5 minutes until golden and cooked through. Drain on a wire rack or paper towel-lined plate.", shortcutText: "no-shortcut" },
       { name: "Make sauce",           text: "In a small saucepan, combine the orange juice, brown sugar, rice vinegar, and soy sauce. Bring to a boil, then reduce heat to a simmer. Whisk the remaining cornstarch with a splash of water into a slurry. Add the slurry to the sauce and stir until thickened.", shortcutText: "Open the store-bought orange chicken sauce and heat in a small saucepan over medium-low heat." },
       { name: "Stir-fry vegetables",  text: "In a wok or skillet with a little canola oil over high heat, stir-fry the diced onion, broccoli, minced garlic, and grated ginger 2–3 minutes until crisp-tender.", shortcutText: "no-shortcut" },
       { name: "Combine & serve",      text: "Add the fried chicken to the vegetables. Pour the warm orange sauce over everything and toss to coat over high heat for 1–2 minutes. Serve immediately with any preferred sides.", shortcutText: "no-shortcut" },
@@ -3607,6 +3686,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "bake", minutes: 25 },
     ],
+    neededEquipment: ["oven", "baking-dish", "measuring-spoons", "measuring-cups", "mixing-bowl", "baking-spatula"],
 
     ingredients: [
       { ingredientId: "all-purpose-flour",              quantity: "2",   unit: "cup",    shortcutSubstitute: "none" },
@@ -3619,8 +3699,8 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Mix",               text: "Stir together flour, cocoa, sugar, baking powder, oil, and vanilla until combined (batter will be thick). Fold in peanut butter M&Ms.", shortcutText: "no-shortcut" },
-      { name: "Bake",              text: "Spread into a greased 9x13 baking dish. Bake at 350°F for 20–25 minutes until a toothpick comes out with moist crumbs.", shortcutText: "no-shortcut" },
+      { name: "Mix",               text: "Stir together flour, cocoa, sugar, baking powder, oil, and vanilla until combined (batter will be thick). Fold in peanut butter M&Ms.", shortcutText: "If you don't have a baking spatula, you can mix with a wooden spoon. Stir together flour, cocoa, sugar, baking powder, oil, and vanilla until combined (batter will be thick). Fold in peanut butter M&Ms." },
+      { name: "Bake",              text: "Spread into a greased baking dish. Bake at 350°F for 20–25 minutes until a toothpick comes out with moist crumbs.", shortcutText: "no-shortcut" },
     ],
 
     recommendedSides: [],
@@ -3644,6 +3724,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 15 },
       { phase: "bake", minutes: 48 },
     ],
+    neededEquipment: ["oven", "baking-dish", "chef-knife", "cutting-board", "baking-spatula", "measuring-spoons", "measuring-cups", "hand-mixer"],
 
     ingredients: [
       { ingredientId: "pineapple", quantity: "20", unit: "oz", shortcutSubstitute: "canned-pineapple" },
@@ -3660,7 +3741,7 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Prepare pineapple",               text: "Preheat the oven to 350°F. If using fresh pineapple, peel, core, and slice the pineapple into 1/2 inch thick slices. If using canned pineapple, drain the sliced pineapple. Melt the butter in an ovenproof skillet or round baking dish. Sprinkle the brown sugar evenly across it, and arrange the pineapple slices in a single layer in the dish.", shortcutText: "no-shortcut" },
+      { name: "Prepare pineapple",               text: "Preheat the oven to 350°F. If using fresh pineapple, peel, core, and slice the pineapple into 1/2 inch thick slices. If using canned pineapple, drain the sliced pineapple. Melt the butter in an ovenproof skillet or preferrably round baking dish (a cake pan or pie dish will work). Sprinkle the brown sugar evenly across it, and arrange the pineapple slices in a single layer in the dish.", shortcutText: "no-shortcut" },
       { name: "Mix batter",               text: "Beat the remaining ingredients in a bowl with an electric mixer until thoroughly combined (about 30 seconds on low, then about 3 minutes on medium speed). Pour the batter into the prepared pan over the pineapple carefully.", shortcutText: "no-shortcut" },
       { name: "Bake & remove",              text: "Bake for 45-50 minutes, or until a toothpick comes out clean. Remove from oven and immediately invert onto a heat-safe serving plate, letting the dish remain on the cake for a few minutes. Finally, remove the dish from the cake and allow to cool slightly before serving.", shortcutText: "no-shortcut" },
     ],
@@ -3687,6 +3768,7 @@ const DEFAULT_RECIPES = [
       { phase: "marinate", minutes: 30 },
       { phase: "cook",     minutes: 35 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "skillet"],
 
     ingredients: [
       { ingredientId: "ramen-noodles",      quantity: "1",   unit: "pkg",    shortcutSubstitute: "none" },
@@ -3739,6 +3821,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 15 },
       { phase: "cook", minutes: 150 },
     ],
+    neededEquipment: ["oven", "baking-dish", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "skillet"],
 
     ingredients: [
       { ingredientId: "beef-chuck-roast",         quantity: "2",   unit: "lb",     shortcutSubstitute: "none" },
@@ -3756,7 +3839,7 @@ const DEFAULT_RECIPES = [
 
     steps: [
       { name: "Sear roast",        text: "Season roast with salt and pepper. Sear on all sides in a hot Dutch oven or skillet until browned.", shortcutText: "no-shortcut" },
-      { name: "Add vegetables",    text: "Add chopped potatoes, carrots, onion, garlic, thyme, bay leaf, and beef stock to the pot.", shortcutText: "no-shortcut" },
+      { name: "Add vegetables",    text: "Add chopped potatoes, carrots, onion, garlic, thyme, bay leaf, and beef stock to the Dutch oven (or transfer to a roasting pan or slow cooker).", shortcutText: "no-shortcut" },
       { name: "Slow cook",         text: "Cover tightly and cook in a 325°F oven for 2–3 hours, or in a slow cooker on low for 8 hours, until beef is fork-tender.", shortcutText: "no-shortcut" },
       { name: "Make gravy",        text: "Prepare gravy mix per package instructions or using the drippings from the pot if desired. Serve over the roast and vegetables.", shortcutText: "no-shortcut" },
     ],
@@ -3786,6 +3869,7 @@ const DEFAULT_RECIPES = [
       { phase: "bake",  minutes: 55 },
       { phase: "chill", minutes: 180 },
     ],
+    neededEquipment: ["oven", "pie-dish", "wooden-spoon", "measuring-spoons", "measuring-cups", "baking-spatula", "hand-mixer"],
 
     ingredients: [
       { ingredientId: "pie-crust",              quantity: "1",   unit: "whole",    shortcutSubstitute: "none" },
@@ -3830,6 +3914,7 @@ const DEFAULT_RECIPES = [
       { phase: "marinate", minutes: 30 },
       { phase: "cook",     minutes: 30 },
     ],
+    neededEquipment: ["deep-fryer", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "mixing-bowl"],
 
     ingredients: [
       { ingredientId: "chicken-tenderloins",quantity: "1",   unit: "lb",     shortcutSubstitute: "none" },
@@ -3857,7 +3942,7 @@ const DEFAULT_RECIPES = [
 
     steps: [
       { name: "Crush chips",       text: "Crush ranch tortilla chips into medium-sized crumbs in a bag, transfer to a bowl, and stir in 1/4 cup of flour. In another bowl, whisk together the remaining 1/4 cup of flour, chili powder, cumin, salt, and pepper. In a third bowl, beat the eggs with 2 tbsp of the buttermilk. Coat each tenderloin first in the spiced flour, then the eggs, then in the chip crumbs.", shortcutText: "no-shortcut" },
-      { name: "Fry chicken",       text: "Heat vegetable oil in a skillet over medium-high heat. Fry coated tenderloins 3–4 minutes per side until golden and cooked through.", shortcutText: "no-shortcut" },
+      { name: "Fry chicken",       text: "Heat vegetable oil in a deep-fryer to 375. Fry coated tenderloins 3–4 minutes per side until golden and cooked through.", shortcutText: "If you don't have a deep-fryer, heat vegetable oil in a skillet over medium-high heat. Fry coated tenderloins 3–4 minutes per side until golden and cooked through." },
       { name: "Prep toppings",     text: "Mash avocado and mix with chopped cilantro, chopped jalapeño, chopped red onion, chopped tomato, minced garlic, pomegranate seeds, lime juice and salt to make guacamole. Mix 1/4 cup of sour cream, 1/4 cup of buttermilk, and 1/4-1/2 of the ranch dip mix packet into a bowl to make the ranch sauce (add the seasoning little by little, tasting as you go until reaching desired flavor).", shortcutText: "Mix the pomegranate seeds (if using) into the guacamole and add salt or lime juice to taste if desired." },
       { name: "Assemble",          text: "Fill warm tortillas with fried chicken, lettuce, guacamole, queso fresco, ranch sauce or dressing, and more lime if desired, then serve.", shortcutText: "no-shortcut" },
     ],
@@ -3889,6 +3974,7 @@ const DEFAULT_RECIPES = [
       { phase: "bake", minutes: 15 },
       { phase: "chill", minutes: 60 },
     ],
+    neededEquipment: ["oven", "baking-sheet", "measuring-spoons", "measuring-cups", "mixing-bowl", "blender", "sifter", "piping-bag", "stand-mixer"],
 
     ingredients: [
       { ingredientId: "almond-flour",         quantity: "1.5", unit: "cup",   shortcutSubstitute: "none" },
@@ -3934,6 +4020,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 40 },
       { phase: "bake", minutes: 25 },
     ],
+    neededEquipment: ["stove", "skillet", "oven", "baking-dish", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups"],
 
     ingredients: [
       { ingredientId: "chicken-breast",     quantity: "1",   unit: "lb",  shortcutSubstitute: "rotisserie-chicken" },
@@ -3985,6 +4072,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep",  minutes: 10 },
       { phase: "chill", minutes: 15 },
     ],
+    neededEquipment: ["blender", "measuring-spoons"],
 
     ingredients: [
       { ingredientId: "diced-tomatoes",     quantity: "14",  unit: "oz",     shortcutSubstitute: "none" },
@@ -4022,6 +4110,8 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "chill", minutes: 15 },
     ],
+    neededEquipment: ["stove", "stock-pot", "baking-dish", "baking-spatula"],
+
     ingredients: [
       { ingredientId: "rice-cereal",            quantity: "4",   unit: "cup",   shortcutSubstitute: "none" },
       { ingredientId: "marshmallows",     quantity: "4", unit: "cup",    shortcutSubstitute: "none" },
@@ -4053,6 +4143,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
     ],
+    neededEquipment: ["oven", "baking-sheet", "chef-knife", "cutting-board"],
 
     ingredients: [
       { ingredientId: "salmon-fillet",              quantity: "1",   unit: "lb",     shortcutSubstitute: "none" },
@@ -4093,6 +4184,7 @@ const DEFAULT_RECIPES = [
     timeToComplete: [
       { phase: "prep", minutes: 10 },
     ],
+    neededEquipment: ["chef-knife", "cutting-board", "salad-tongs", "measuring-spoons", "mixing-bowl", "whisk"],
 
     ingredients: [
       { ingredientId: "raspberries",            quantity: "0.5", unit: "cup",    shortcutSubstitute: "none" },
@@ -4133,6 +4225,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 40 },
       { phase: "cook", minutes: 30 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "skillet"],
 
     ingredients: [
       { ingredientId: "chicken-breast",     quantity: "1", unit: "lb",  shortcutSubstitute: "rotisserie-chicken" },
@@ -4184,6 +4277,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 45 },
     ],
+    neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "rice-cooker"],
 
     ingredients: [
       { ingredientId: "rice",              quantity: "2",   unit: "cup",    shortcutSubstitute: "none" },
@@ -4232,6 +4326,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 5 },
       { phase: "cook", minutes: 15 },
     ],
+    neededEquipment: ["stove", "skillet", "wooden-spoon"],
 
     ingredients: [
       { ingredientId: "ground-beef",        quantity: "1",   unit: "lb",     shortcutSubstitute: "none" },
@@ -4274,6 +4369,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
     ],
+    neededEquipment: ["stove", "stock-pot", "wooden-spoon"],
 
     ingredients: [
       { ingredientId: "ground-beef",        quantity: "1",   unit: "lb",     shortcutSubstitute: "none" },
@@ -4321,6 +4417,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
     ],
+    neededEquipment: ["stove", "stock-pot", "skillet", "chef-knife", "cutting-board", "wooden-spoon"],
 
     ingredients: [
       { ingredientId: "spaghetti",          quantity: "16",  unit: "oz",     shortcutSubstitute: "none" },
@@ -4370,6 +4467,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 5 },
       { phase: "cook", minutes: 20 },
     ],
+    neededEquipment: ["stove", "skillet", "wooden-spoon"],
 
     ingredients: [
       { ingredientId: "rice",               quantity: "2",   unit: "cup",    shortcutSubstitute: "none" },
@@ -4405,6 +4503,7 @@ const DEFAULT_RECIPES = [
       { phase: "bake",  minutes: 10 },
       { phase: "chill", minutes: 180 },
     ],
+    neededEquipment: ["oven", "pie-dish", "chef-knife", "cutting-board", "baking-spatula", "measuring-spoons", "measuring-cups"],
 
     ingredients: [
       { ingredientId: "pie-crust",              quantity: "1",   unit: "whole",    shortcutSubstitute: "none" },
@@ -4441,6 +4540,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 15 },
       { phase: "fry",  minutes: 20 },
     ],
+    neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "mixing-bowl"],
 
     ingredients: [
       { ingredientId: "chicken-breast",      quantity: "1.5", unit: "lb",    shortcutSubstitute: "none" },
@@ -4463,7 +4563,7 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Batter & fry chicken", text: "Cut chicken into 1-inch cubes. Mix flour, 2/3 of the cornstarch, and salt in one bowl and beat eggs in another. Dip chicken pieces in egg then dredge in the flour-cornstarch mix. Heat canola oil to 375°F (190°C) and fry chicken in batches 4–5 minutes until golden and cooked through. Drain on a wire rack.", shortcutText: "no-shortcut" },
+      { name: "Batter & fry chicken", text: "Cut chicken into 1-inch cubes. Mix flour, 2/3 of the cornstarch, and salt in one bowl and beat eggs in another. Dip chicken pieces in egg then dredge in the flour-cornstarch mix. Heat canola oil to 375°F (190°C) and fry chicken in batches 4–5 minutes until golden and cooked through. Drain on a wire rack or paper towel-lined plate.", shortcutText: "no-shortcut" },
       { name: "Make sauce",           text: "In a small saucepan, combine the pineapple juice, ketchup, sugar, rice vinegar, and soy sauce. Bring to a boil, then reduce heat to a simmer. Whisk the remaining cornstarch with a splash of water into a slurry. Add the slurry to the sauce and stir until thickened.", shortcutText: "Open the store-bought sweet and sour sauce and heat in a small saucepan over medium-low heat." },
       { name: "Stir-fry vegetables",  text: "In a wok or skillet with a little canola oil over high heat, stir-fry the diced onion, bell peppers, pineapple, minced garlic, and grated ginger 2–3 minutes until crisp-tender.", shortcutText: "no-shortcut" },
       { name: "Combine & serve",      text: "Add the fried chicken to the vegetables. Pour the warm sweet and sour sauce over everything and toss to coat over high heat for 1–2 minutes. Serve immediately with any preferred sides.", shortcutText: "no-shortcut" },
@@ -4493,6 +4593,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
     ],
+    neededEquipment: ["oven", "baking-dish", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "potato-masher"],
 
     ingredients: [
       { ingredientId: "sweet-potatoes",           quantity: "4",   unit: "whole",  shortcutSubstitute: "canned-yams" },
@@ -4532,6 +4633,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 25 },
       { phase: "cook", minutes: 45 },
     ],
+    neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "blender", "rice-cooker"],
 
     ingredients: [
       { ingredientId: "chicken-breast",     quantity: "1",   unit: "lb",     shortcutSubstitute: "rotisserie-chicken" },
@@ -4589,6 +4691,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 25 },
       { phase: "cook", minutes: 45 },
     ],
+    neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "blender", "rice-cooker"],
 
     ingredients: [
       { ingredientId: "chicken-breast",     quantity: "1",   unit: "lb",     shortcutSubstitute: "rotisserie-chicken" },
@@ -4645,6 +4748,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep",  minutes: 30 },
       { phase: "chill", minutes: 240 },
     ],
+    neededEquipment: ["oven", "loaf-pan", "baking-spatula", "measuring-spoons", "measuring-cups", "hand-mixer", "sifter"],
 
     ingredients: [
       { ingredientId: "mascarpone",           quantity: "16",   unit: "oz",    shortcutSubstitute: "no-shortcut" },
@@ -4662,7 +4766,7 @@ const DEFAULT_RECIPES = [
       { name: "Make zabaglione (egg cream)",     text: "Separate the egg yolks from the whites. Place the yolks and granulated sugar in a heatproof bowl set over a pot of barely simmering water, making sure the bowl does not touch the water. Whisk vigorously for 8–10 minutes until the mixture is pale, thick, and has nearly tripled in volume. Remove from heat and let cool 10 minutes, then whisk in the mascarpone until completely smooth.", shortcutText: "no-shortcut" },
       { name: "Whip cream & fold",               text: "In a separate chilled bowl, beat the heavy whipping cream and vanilla with an electric mixer to soft peaks. Gently fold the whipped cream into the mascarpone-yolk mixture in two additions using a wide spatula until just incorporated, keeping the mixture light and airy.", shortcutText: "Fold the marscapone-yolk mixture into the whipped topping." },
       { name: "Layer & assemble",                text: "Working quickly, dip each ladyfinger into the espresso soak for 1–2 seconds per side (long enough to absorb liquid but not become too soggy). Arrange a single layer in a 9×13-inch baking dish. Spread half the mascarpone cream over the ladyfingers in an even layer. Repeat with a second layer of dipped ladyfingers and the remaining mascarpone cream.", shortcutText: "no-shortcut" },
-      { name: "Chill & dust with cocoa",         text: "Cover the dish tightly with plastic wrap and refrigerate for at least 4 hours (overnight is recommended to strengthen the flavors). Just before serving, dust the entire surface generously with sifted cocoa powder.", shortcutText: "no-shortcut" },
+      { name: "Chill & dust with cocoa",         text: "Cover the dish tightly with plastic wrap and refrigerate for at least 4 hours (overnight is recommended to strengthen the flavors). Just before serving, dust the entire surface generously with sifted cocoa powder (or sprinkle using a fork).", shortcutText: "no-shortcut" },
     ],
 
     recommendedSides: [],
@@ -4686,6 +4790,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 20 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "blender"],
 
     ingredients: [
       { ingredientId: "large-shrimp",             quantity: "1",   unit: "lb",     shortcutSubstitute: "none" },
@@ -4707,7 +4812,7 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Build broth",       text: "Blend Thai chilies, shallots, garlic, lemongrass, shrimp paste, fish paste, and lime zest into a smooth paste using a food processor, blender, or mortar. If it is too thick to blend, you can add water sparingly until it blends. Combine chicken stock, coconut milk, fish sauce, sliced galangal (or ginger), lime leaves, and salt.", shortcutText: "no-shortcut" },
+      { name: "Build broth",       text: "Blend Thai chilies, shallots, garlic, lemongrass, shrimp paste, fish paste, and lime zest into a smooth paste using a food processor, blender, or mortar. If it is too thick to blend, you can add water sparingly until it blends. Combine chicken stock, coconut milk, fish sauce, sliced galangal (or ginger), lime leaves, and salt.", shortcutText: "You may skip the blending step altogether if you don't have a blender or want a soup with more texture." },
       { name: "Add mushrooms & shrimp",     text: "Add sliced mushrooms and simmer 10 minutes, then add shrimp and diced green onions, then cook up to 3–4 minutes, only until the shrimp has just turned pink (don't overcook).", shortcutText: "no-shortcut" },
       { name: "Season & serve",    text: "Stir in lime juice to taste, and chili flakes if desired. Top with diced green onions and serve.", shortcutText: "no-shortcut" },
     ],
@@ -4736,6 +4841,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 10 },
       { phase: "cook", minutes: 25 },
     ],
+    neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "blender"],
 
     ingredients: [
       { ingredientId: "diced-tomatoes",       quantity: "14",   unit: "oz",   shortcutSubstitute: "none" },
@@ -4776,6 +4882,7 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 40 },
       { phase: "bake", minutes: 25 },
     ],
+    neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "baking-dish", "oven"],
 
     ingredients: [
       { ingredientId: "chicken-breast",     quantity: "1",   unit: "lb",  shortcutSubstitute: "rotisserie-chicken" },
@@ -4829,6 +4936,7 @@ const DEFAULT_RECIPES = [
       { phase: "rise", minutes: 30 },
       { phase: "bake", minutes: 18 },
     ],
+    neededEquipment: ["oven", "baking-sheet", "mixing-bowl", "baking-spatula"],
 
     ingredients: [
       { ingredientId: "all-purpose-flour", quantity: "3",    unit: "cup",   shortcutSubstitute: "none" },
@@ -4869,6 +4977,8 @@ const DEFAULT_RECIPES = [
       { phase: "prep", minutes: 20 },
       { phase: "cook", minutes: 25 },
     ],
+
+    neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "blender", "rice-cooker"],
 
     ingredients: [
       { ingredientId: "chicken-breast",     quantity: "1",   unit: "lb",     shortcutSubstitute: "rotisserie-chicken" },
