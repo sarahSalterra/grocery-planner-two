@@ -25,16 +25,29 @@ export function getTotalTime(timeToComplete) {
   return timeToComplete.reduce((s, p) => s + (p.minutes ?? 0), 0)
 }
 
+export function getEffectiveTimePhases(timeToComplete, useShortcut = false) {
+  if (!Array.isArray(timeToComplete)) return []
+  return timeToComplete.filter((p) => !(useShortcut && p.skippable))
+}
+
+export function formatPhaseLabel(phase) {
+  if (!phase) return ''
+  return phase
+    .split('-')
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ')
+}
+
 /**
- * Sum only the active (hands-on) phases, excluding passive waiting phases.
- * Passive phases: rise, chill, marinate, rest
+ * Sum only the active (hands-on) phases, excluding passive/multitaskable phases.
+ * Multitaskable phases: rise, chill, marinate, rest, slow-cook
  */
-const PASSIVE_PHASES = new Set(['rise', 'chill', 'marinate', 'rest'])
+const MULTITASKABLE_PHASES = new Set(['rise', 'chill', 'marinate', 'rest', 'slow-cook'])
 
 export function getTotalActiveTime(timeToComplete) {
   if (!Array.isArray(timeToComplete)) return 0
   return timeToComplete
-    .filter((p) => !PASSIVE_PHASES.has(p.phase))
+    .filter((p) => !MULTITASKABLE_PHASES.has(p.phase))
     .reduce((s, p) => s + (p.minutes ?? 0), 0)
 }
 
@@ -45,7 +58,7 @@ export function getTotalActiveTime(timeToComplete) {
 export function getAdvancePlanningPhases(timeToComplete) {
   if (!Array.isArray(timeToComplete)) return []
   return timeToComplete.filter(
-    (p) => PASSIVE_PHASES.has(p.phase) && p.minutes >= 15
+    (p) => MULTITASKABLE_PHASES.has(p.phase) && p.minutes >= 15
   )
 }
 
@@ -286,8 +299,8 @@ function _scaleTime(recipe, factor, scaledServings) {
   if (!Array.isArray(phases)) return phases
 
   return phases.map((phase) => {
-    if (PASSIVE_PHASES.has(phase.phase)) {
-      // Passive phases (rise, chill, marinate, rest) don't scale with quantity
+    if (MULTITASKABLE_PHASES.has(phase.phase)) {
+      // Multitaskable phases (rise, chill, marinate, rest, slow-cook) don't scale with quantity
       return phase
     }
 

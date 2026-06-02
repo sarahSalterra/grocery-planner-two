@@ -8,7 +8,7 @@ import {
   TIME_REQUIREMENTS, MULTI_TASK_OPTIONS,
 } from '../db/data/filterOptions'
 import { KITCHEN_EQUIPMENT, getRecipeEquipmentIds } from '../db/data/equipment.js'
-import { convertToMetric, convertFromMetric } from '../utils/recipeUtils'
+import { convertToMetric, convertFromMetric, formatPhaseLabel } from '../utils/recipeUtils'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -51,9 +51,9 @@ const blankStep = () => ({
   name: '', text: '', shortcutText: 'no-shortcut'
 })
 
-const TIME_PHASES = ['prep', 'cook', 'bake', 'rise', 'chill', 'marinate', 'rest']
+const TIME_PHASES = ['prep', 'cook', 'slow-cook', 'bake', 'rise', 'chill', 'marinate', 'rest']
 
-const blankPhase = () => ({ phase: 'prep', minutes: '' })
+const blankPhase = () => ({ phase: 'prep', minutes: '', skippable: false })
 
 const blankForm = {
   name: '',
@@ -141,7 +141,10 @@ export default function RecipeForm() {
       shortcutReplaces:    existing.shortcutReplaces    ?? '',
       servings:            existing.servings            ?? '',
       caloriesPerServing:  existing.caloriesPerServing  ?? '',
-      timeToComplete:      existing.timeToComplete      ?? [],
+      timeToComplete:      (existing.timeToComplete ?? []).map((phase) => ({
+        ...phase,
+        skippable: phase.skippable ?? false,
+      })),
       equipmentIds:        getRecipeEquipmentIds(existing),
       ingredients: ingredientsWithSub,
       recommendedSides: existing.recommendedSides ?? [],
@@ -345,7 +348,11 @@ export default function RecipeForm() {
       caloriesPerServing: form.caloriesPerServing  !== '' ? Number(form.caloriesPerServing) : undefined,
       timeToComplete: form.timeToComplete
         .filter((p) => p.phase && p.minutes !== '')
-        .map((p) => ({ phase: p.phase, minutes: Number(p.minutes) })),
+        .map((p) => ({
+          phase: p.phase,
+          minutes: Number(p.minutes),
+          skippable: p.skippable ?? false,
+        })),
       neededEquipment: form.equipmentIds ?? [],
       // Strip internal _substitute field before storing
       ingredients: resolvedIngredients.map(({ _substitute, ...rest }) => rest),
@@ -494,7 +501,7 @@ export default function RecipeForm() {
                   onChange={(e) => updatePhase(i, 'phase', e.target.value)}
                 >
                   {TIME_PHASES.map((p) => (
-                    <option key={p} value={p}>{p.charAt(0).toUpperCase() + p.slice(1)}</option>
+                    <option key={p} value={p}>{formatPhaseLabel(p)}</option>
                   ))}
                 </select>
                 <input
@@ -506,6 +513,14 @@ export default function RecipeForm() {
                   placeholder="mins"
                 />
                 <span className="phase-row__unit">min</span>
+                <label className="phase-row__skip">
+                  <input
+                    type="checkbox"
+                    checked={phase.skippable ?? false}
+                    onChange={(e) => updatePhase(i, 'skippable', e.target.checked)}
+                  />
+                  skipped by shortcut
+                </label>
                 <button className="form-remove-btn" onClick={() => removePhase(i)} title="Remove">✕</button>
               </div>
             ))}

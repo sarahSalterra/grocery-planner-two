@@ -9,7 +9,7 @@ import { CUISINES } from '../db/data/filterOptions'
 import { getRecipeEquipment } from '../db/data/equipment.js'
 import CookPromptModal from '../notifications/CookPromptModal'
 import { getAllergyOmitIds, getDietarySubstitutes, getStackedSubOptions, getShortcutFallbackSub, recipeNeedsAutoShortcut, isDietaryOmittedIngredient } from '../utils/dietaryUtils'
-import { scaleRecipe, formatMinutes, getTotalTime, getTotalActiveTime, convertToMetric } from '../utils/recipeUtils'
+import { scaleRecipe, formatMinutes, formatPhaseLabel, getEffectiveTimePhases, getTotalTime, getTotalActiveTime, convertToMetric } from '../utils/recipeUtils'
 import { GLOSSARY_MAP, GLOSSARY_TERMS_SORTED } from '../db/data/glossary'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -110,11 +110,12 @@ function CookRecipeModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
     (recipe.ingredients ?? []).some((i) => i.shortcutSubstitute && i.shortcutSubstitute !== 'none')
 
   // Time summary
-  const timePhases   = recipe.timeToComplete ?? []
+  const timePhases   = getEffectiveTimePhases(recipe.timeToComplete, showShortcut)
   const totalTime    = getTotalTime(timePhases)
   const activeTime   = getTotalActiveTime(timePhases)
   const hasPassive   = activeTime < totalTime
   const neededEquipment = getRecipeEquipment(recipe)
+  const showNeededEquipment = preferences.kitchenEquipmentLevel !== 'standard' && neededEquipment.length > 0
 
   function toggleStep(i) {
     setStepsChecked((prev) => {
@@ -159,7 +160,7 @@ function CookRecipeModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
               <span className="modal-info-time__breakdown">
                 {timePhases.map((p, i) => (
                   <span key={i} className={`modal-info-phase modal-info-phase--${p.phase}`}>
-                    {p.phase.charAt(0).toUpperCase() + p.phase.slice(1)}: {formatMinutes(p.minutes)}
+                    {formatPhaseLabel(p.phase)}: {formatMinutes(p.minutes)}
                   </span>
                 ))}
               </span>
@@ -205,26 +206,6 @@ function CookRecipeModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
 
         {/* Scrollable body */}
         <div className="modal-body">
-
-          {neededEquipment.length > 0 && (
-            <div className="modal-section">
-              <h3 className="modal-section__title">Needed Equipment</h3>
-              <ul className="equipment-list">
-                {neededEquipment.map((item) => {
-                  const substituted = showShortcut && item.substitutePossible
-                  return (
-                    <li
-                      key={item.id}
-                      className={`equipment-item ${substituted ? 'equipment-item--substituted' : ''}`}
-                    >
-                      <span>{item.name}</span>
-                      <span className="equipment-item__type">{item.type}</span>
-                    </li>
-                  )
-                })}
-              </ul>
-            </div>
-          )}
 
           {/* Ingredients */}
           <div className="modal-section">
@@ -338,6 +319,30 @@ function CookRecipeModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
               })}
             </ol>
           </div>
+
+          {showNeededEquipment && (
+            <div className="modal-section">
+              <h3 className="modal-section__title">Equipment</h3>
+              <ul className="equipment-list">
+                {neededEquipment.map((item) => {
+                  const canSubstituteOrSkip = showShortcut && item.substitutePossible
+                  return (
+                    <li key={item.id} className="equipment-item">
+                      <span>
+                        {item.name}
+                        {canSubstituteOrSkip && (
+                          <span className="equipment-item__shortcut-note">
+                            can be substituted or skipped
+                          </span>
+                        )}
+                      </span>
+                      <span className="equipment-item__type">{item.type}</span>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          )}
 
         </div>
 

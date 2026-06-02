@@ -46,8 +46,8 @@ const DEFAULT_RECIPES = [
     servings: 16,
     caloriesPerServing: 310,
     timeToComplete: [
-      { phase: "prep", minutes: 20 },
-      { phase: "bake", minutes: 45 },
+      { phase: "prep", minutes: 20, skippable: false },
+      { phase: "bake", minutes: 45, skippable: false },
     ],
     neededEquipment: ["pie-dish", "wire-rack", "vegetable-peeler", "baking-spatula","chef-knife", "cutting-board", "oven", "mixing-bowl", "measuring-spoons"],
 
@@ -86,8 +86,8 @@ const DEFAULT_RECIPES = [
     servings: 8,
     caloriesPerServing: 230,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
-      { phase: "bake", minutes: 60 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "bake", minutes: 60, skippable: false },
     ],
     neededEquipment: ["loaf-pan", "oven", "mixing-bowl", "measuring-spoons", "baking-spatula"],
 
@@ -125,10 +125,10 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 340,
     timeToComplete: [
-      { phase: "prep", minutes: 25 },
-      { phase: "cook", minutes: 330 },
-      { phase: "rise", minutes: 30 },
-      { phase: "cook", minutes: 15 },
+      { phase: "prep", minutes: 25, skippable: false },
+      { phase: "slow-cook", minutes: 330, skippable: true },
+      { phase: "rise", minutes: 30, skippable: false },
+      { phase: "cook", minutes: 15, skippable: false },
     ],
     neededEquipment: ["steamer-basket", "mixing-bowl", "measuring-spoons", "measuring-cups", "rolling-pin"],
 
@@ -175,8 +175,8 @@ const DEFAULT_RECIPES = [
     servings: 6,
     caloriesPerServing: 290,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 30 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "cook", minutes: 30, skippable: false },
     ],
     neededEquipment: ["saucepan", "measuring-spoons", "measuring-cups", "chef-knife", "cutting-board", "stove", "blender"],
 
@@ -225,8 +225,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 620,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 20 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "cook", minutes: 20, skippable: false },
     ],
     neededEquipment: ["skillet", "stock-pot", "measuring-cups", "chef-knife", "cutting-board", "colander", "stove", "wooden-spoon"],
 
@@ -270,8 +270,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 450,
     timeToComplete: [
-      { phase: "prep", minutes: 5 },
-      { phase: "cook", minutes: 15 },
+      { phase: "prep", minutes: 5, skippable: false },
+      { phase: "cook", minutes: 15, skippable: false },
     ],
     neededEquipment: ["skillet", "measuring-spoons", "chef-knife", "cutting-board", "stove", "wooden-spoon"],
 
@@ -321,8 +321,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 490,
     timeToComplete: [
-      { phase: "prep", minutes: 20 },
-      { phase: "fry",  minutes: 20 },
+      { phase: "prep", minutes: 20, skippable: false },
+      { phase: "fry",  minutes: 20, skippable: false },
     ],
     neededEquipment: ["mixing-bowl", "chef-knife", "cutting-board", "stove", "deep-fryer", "skillet", "wire-rack", "measuring-cups", "measuring-spoons"],
 
@@ -375,8 +375,9 @@ const DEFAULT_RECIPES = [
     servings: 8,
     caloriesPerServing: 320,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
-      { phase: "cook", minutes: 20 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "rise", minutes: 120, skippable: true },
+      { phase: "cook", minutes: 20, skippable: false },
     ],
     neededEquipment: ["waffle-iron", "mixing-bowl", "measuring-cups", "measuring-spoons", "hand-mixer", "baking-spatula", "wire-rack"
     ],
@@ -425,9 +426,10 @@ const DEFAULT_RECIPES = [
     servings: 12,
     caloriesPerServing: 480,
     timeToComplete: [
-      { phase: "prep",  minutes: 40 },
-      { phase: "bake",  minutes: 35 },
-      { phase: "chill", minutes: 60 },
+      { phase: "prep",  minutes: 30, skippable: false },
+      { phase: "cook",  minutes: 10, skippable: true },
+      { phase: "bake",  minutes: 35, skippable: false },
+      { phase: "chill", minutes: 60, skippable: true },
     ],
     neededEquipment: ["oven", "cake-pan","mixing-bowl", "measuring-spoons", "measuring-cups", "chef-knife", "cutting-board", "saucepan", "whisk", "wire-rack", "cake-leveler"],
 
@@ -478,8 +480,8 @@ const DEFAULT_RECIPES = [
     servings: 12,
     caloriesPerServing: 280,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
-      { phase: "bake", minutes: 22 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "bake", minutes: 22, skippable: false },
     ],
     neededEquipment: ["oven", "muffin-tin", "mixing-bowl", "measuring-spoons", "measuring-cups", "baking-spatula", "hand-mixer"],
 
@@ -515,12 +517,13 @@ const DEFAULT_RECIPES = [
     timeRequirement: "medium",
     multiTasking: "possible",
     mealprepIdeal: "yes",
-    shortcutReplaces: null,
+    shortcutReplaces: "cream filling → instant vanilla pudding filling",
     servings: 16,
     caloriesPerServing: 310,
     timeToComplete: [
-      { phase: "prep", minutes: 20 },
-      { phase: "bake", minutes: 35 },
+      { phase: "prep", minutes: 20, skippable: false },
+      { phase: "cook", minutes: 10, skippable: true },
+      { phase: "bake", minutes: 35, skippable: false },
     ],
     neededEquipment: ["oven", "cake-pan", "mixing-bowl", "measuring-spoons", "measuring-cups", "chef-knife", "cutting-board", "saucepan", "whisk", "stand-mixer", "wire-rack", "cake-leveler", "double-boiler"],
 
@@ -533,7 +536,7 @@ const DEFAULT_RECIPES = [
       { ingredientId: "baking-powder", quantity: "1.5", unit: "tsp", shortcutSubstitute: "none" },
       { ingredientId: "vanilla-extract", quantity: "3.75", unit: "tsp", shortcutSubstitute: "none" },
       { ingredientId: "salt", quantity: "0.625", unit: "tsp", shortcutSubstitute: "none" },
-      { ingredientId: "cornstarch", quantity: "2", unit: "tbsp", shortcutSubstitute: "none" },
+      { ingredientId: "cornstarch", quantity: "2", unit: "tbsp", shortcutSubstitute: "pudding-mix" },
       { ingredientId: "salted-butter", quantity: "3", unit: "tbsp", shortcutSubstitute: "none" },
       { ingredientId: "chocolate-chips", quantity: "0.5", unit: "cup", shortcutSubstitute: "none" },
       { ingredientId: "powdered-sugar", quantity: "1", unit: "cup", shortcutSubstitute: "none" },
@@ -542,8 +545,8 @@ const DEFAULT_RECIPES = [
     steps: [
       { name: "Mix batter",               text: "Grease and flour or line a round cake pan. In a bowl with an electric mixer or using a hand mixer, mix the shortening, flour, baking powder, 1 cup of the sugar, 1/2 tsp of the salt, one of the eggs, 3/4 cups of the milk and 1 tsp of the vanilla extract. Mix until smooth (about 30 seconds on low, then about 3 minutes on medium speed).", shortcutText: "If you don't have a round cake pan, you may use a square 8-inch or 9-inch baking/casserole dish, greased or lined with parchment paper. If you don't have an electric mixer, you can use a mixing bowl and whisk to mix the shortening, flour, baking powder, 1 cup of the sugar, 1/2 tsp of the salt, one of the eggs, 3/4 cups of the milk and 1 tsp of the vanilla extract until smooth." },
       { name: "Bake",               text: "Pour the batter into the prepared pan, and bake at 350°F for 30-35 minutes until a toothpick comes out clean. Allow to cool 10 minutes before removing the cake from the pan and cooling completely on a wire rack.", shortcutText: "Pour the batter into the prepared pan, and bake at 350°F for 30-35 minutes until a toothpick comes out clean. Allow to cool completely in the pan before removing and transferring to a plate." },
-      { name: "Cream filling",              text: "Mix the remaining grantulated sugar, the cornstarch, and remaining salt in a saucepan. Separate the egg yolks from the whites. Mix the remaining milk and the yolks, lightly beaten, gradually into the saucepan. Cook over medium heat, stirring constantly until thickened and boiling gently. Cook one minute more and remove from heat, adding 2 tsp of the vanilla and allowing to cool.", shortcutText: "no-shortcut" },
-      { name: "Chocolate glaze",              text: "Melt the butter and chocolate chips in a saucepan or double boiler over low heat, stirring occasionally. Remove from heat and mix in the powdered sugar and remaining vanilla. Add 2 tbsp hot water, one tsp at a time, until the glaze is smooth.", shortcutText: "no-shortcut" },
+      { name: "Cream filling",              text: "Mix the remaining grantulated sugar, the cornstarch, and remaining salt in a saucepan. Separate the egg yolks from the whites. Mix the remaining milk and the yolks, lightly beaten, gradually into the saucepan. Cook over medium heat, stirring constantly until thickened and boiling gently. Cook one minute more and remove from heat, adding 2 tsp of the vanilla and allowing to cool.", shortcutText: "Whisk the instant pudding mix with 1.5 cups of milk (less than package directions) for a thicker consistency, or prepare the filling mix (if not instant) as directed on the package and chill until firm." },
+      { name: "Chocolate glaze",              text: "Melt the butter and chocolate chips in a saucepan or double boiler over low heat, stirring occasionally. Remove from heat and mix in the powdered sugar and remaining vanilla. Add 2 tbsp hot water, one tsp at a time, until the glaze is smooth.", shortcutText: "Microwave the chocolate chips and butter in a microwave-safe bowl for 30 seconds, then mix, and an additional 15 seconds at a time, stirring until smooth between heating. Mix in the powdered sugar and remaining vanilla." },
       { name: "Assemble",              text: "Cut the cake into 2 layers (or 3 if desired) using a cake leveler or a knife. Spread the cream between the cake layers, and drizzle the chocolate glaze over the top once the layers are assembled. Refridgerate until serving.", shortcutText: "no-shortcut" },
     ],
 
@@ -565,9 +568,9 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 520,
     timeToComplete: [
-      { phase: "prep",    minutes: 15 },
-      { phase: "marinate",minutes: 60 },
-      { phase: "cook",    minutes: 20 },
+      { phase: "prep",    minutes: 15, skippable: false },
+      { phase: "marinate",minutes: 60, skippable: true },
+      { phase: "cook",    minutes: 20, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "rice-cooker", "blender", "wooden-spoon", "measuring-cups", "measuring-spoons"],
 
@@ -623,8 +626,8 @@ const DEFAULT_RECIPES = [
     servings: 8,
     caloriesPerServing: 180,
     timeToComplete: [
-      { phase: "prep", minutes: 30 },
-      { phase: "bake", minutes: 15 },
+      { phase: "prep", minutes: 30, skippable: false },
+      { phase: "bake", minutes: 15, skippable: false },
     ],
     neededEquipment: ["oven", "baking-sheet", "mixing-bowl", "measuring-spoons", "measuring-cups", "baking-spatula", "rolling-pin"],
 
@@ -663,7 +666,7 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 280,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
+      { phase: "prep", minutes: 10, skippable: false },
     ],
     neededEquipment: ["chef-knife", "cutting-board", "salad-tongs", "mixing-bowl", "measuring-spoons", "measuring-cups", "whisk", "cheese-grater", "zester"],
 
@@ -706,8 +709,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 380,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 30 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 30, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "rice-cooker", "wooden-spoon", "measuring-cups", "measuring-spoons"],
 
@@ -749,9 +752,9 @@ const DEFAULT_RECIPES = [
     servings: 16,
     caloriesPerServing: 450,
     timeToComplete: [
-      { phase: "prep", minutes: 25 },
-      { phase: "bake", minutes: 35 },
-      { phase: "rest", minutes: 30 },
+      { phase: "prep", minutes: 25, skippable: false },
+      { phase: "bake", minutes: 35, skippable: false },
+      { phase: "rest", minutes: 30, skippable: true },
     ],
     neededEquipment: ["oven", "cake-pan", "mixing-bowl", "measuring-spoons", "measuring-cups", "chef-knife", "cutting-board", "whisk", "hand-mixer", "wire-rack", "cake-leveler", "vegetable-peeler", "cheese-grater"],
 
@@ -801,8 +804,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 310,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 20 },
+      { phase: "prep", minutes: 5, skippable: false },
+      { phase: "cook", minutes: 15, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons"],
 
@@ -845,8 +848,8 @@ const DEFAULT_RECIPES = [
     servings: 6,
     caloriesPerServing: 380,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 30 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 25, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-cups", "cheese-grater", "oven", "baking-sheet", "potato-masher"],
 
@@ -892,8 +895,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 450,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 10 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 10, skippable: false },
     ],
     neededEquipment: ["stove", "saucepan", "chef-knife", "cutting-board", "oven", "baking-sheet"],
 
@@ -939,8 +942,9 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 440,
     timeToComplete: [
-      { phase: "prep", minutes: 20 },
-      { phase: "cook", minutes: 45 },
+      { phase: "prep", minutes: 20, skippable: false },
+      { phase: "cook", minutes: 45, skippable: false },
+      { phase: "rest", minutes: 5, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-cups", "measuring-spoons", "mixing-bowl"],
 
@@ -983,8 +987,9 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 480,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
-      { phase: "cook", minutes: 15 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "marinate", minutes: 15, skippable: true },
+      { phase: "cook", minutes: 15, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons"],
 
@@ -1034,8 +1039,8 @@ const DEFAULT_RECIPES = [
     servings: 6,
     caloriesPerServing: 260,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
-      { phase: "cook", minutes: 20 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "cook", minutes: 20, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon"],
 
@@ -1083,8 +1088,8 @@ const DEFAULT_RECIPES = [
     servings: 6,
     caloriesPerServing: 310,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 25 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 25, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon"],
 
@@ -1128,8 +1133,9 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 580,
     timeToComplete: [
-      { phase: "prep", minutes: 20 },
-      { phase: "cook", minutes: 25 },
+      { phase: "prep", minutes: 20, skippable: false },
+      { phase: "cook", minutes: 20, skippable: false },
+      { phase: "bake", minutes: 15, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "saucepan", "oven", "baking-dish"],
 
@@ -1179,8 +1185,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 420,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 25 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 30, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons"],
 
@@ -1228,8 +1234,9 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 580,
     timeToComplete: [
-      { phase: "prep", minutes: 40 },
-      { phase: "bake", minutes: 35 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 20, skippable: false },
+      { phase: "bake", minutes: 35, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "oven", "pie-dish"],
 
@@ -1272,12 +1279,12 @@ const DEFAULT_RECIPES = [
     timeRequirement: "short",
     multiTasking: "possible",
     mealprepIdeal: "no",
-    shortcutReplaces: null,
+    shortcutReplaces: "fresh chicken, roasted → rotisserie chicken",
     servings: 4,
     caloriesPerServing: 380,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 20 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 20, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "stock-pot"],
 
@@ -1334,8 +1341,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 340,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
-      { phase: "fry",  minutes: 20 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "fry",  minutes: 20, skippable: false },
     ],
     neededEquipment: ["stove", "deep-fryer", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "wire-rack"],
 
@@ -1379,9 +1386,9 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 490,
     timeToComplete: [
-      { phase: "prep",     minutes: 15 },
-      { phase: "marinate", minutes: 60 },
-      { phase: "cook",     minutes: 20 },
+      { phase: "prep",     minutes: 15, skippable: false },
+      { phase: "marinate", minutes: 60, skippable: true },
+      { phase: "cook",     minutes: 20, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "rice-cooker", "blender"],
 
@@ -1434,8 +1441,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 380,
     timeToComplete: [
-      { phase: "prep", minutes: 5 },
-      { phase: "cook", minutes: 25 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 25, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups"],
 
@@ -1491,9 +1498,9 @@ const DEFAULT_RECIPES = [
     servings: 12,
     caloriesPerServing: 280,
     timeToComplete: [
-      { phase: "prep", minutes: 20 },
-      { phase: "bake", minutes: 60 },
-      { phase: "rest", minutes: 60 },
+      { phase: "prep", minutes: 20, skippable: false },
+      { phase: "bake", minutes: 60, skippable: false },
+      { phase: "rest", minutes: 60, skippable: false },
     ],
     neededEquipment: ["oven", "cake-pan", "mixing-bowl", "measuring-spoons", "measuring-cups", "whisk", "hand-mixer", "wire-rack", "cake-leveler"],
 
@@ -1535,8 +1542,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 560,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 20 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 20, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "skillet", "blender", "cheese-grater"],
 
@@ -1584,8 +1591,8 @@ const DEFAULT_RECIPES = [
     servings: 12,
     caloriesPerServing: 320,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
-      { phase: "bake", minutes: 22 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "bake", minutes: 22, skippable: false },
     ],
     neededEquipment: ["oven", "muffin-tin", "mixing-bowl", "measuring-spoons", "measuring-cups", "whisk", "baking-spatula"],
 
@@ -1633,8 +1640,8 @@ const DEFAULT_RECIPES = [
     caloriesPerServing: 180,
     batchSize: 12,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
-      { phase: "bake", minutes: 20 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "bake", minutes: 20, skippable: false },
     ],
     neededEquipment: ["oven", "baking-sheet", "mixing-bowl", "measuring-spoons", "measuring-cups", "baking-spatula"],
 
@@ -1673,8 +1680,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 440,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 15 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 15, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "skillet"],
 
@@ -1715,14 +1722,13 @@ const DEFAULT_RECIPES = [
     timeRequirement: "long",
     multiTasking: "possible",
     mealprepIdeal: "yes",
-    shortcutReplaces: null,
+    shortcutReplaces: "cream cheese icing → store-bought cream cheese frosting",
     servings: 12,
     caloriesPerServing: 390,
     timeToComplete: [
-      { phase: "prep", minutes: 50 },
-      { phase: "rise", minutes: 150 },
-      { phase: "rise", minutes: 50 },
-      { phase: "bake", minutes: 25 },
+      { phase: "prep", minutes: 45, skippable: false },
+      { phase: "rise", minutes: 150, skippable: false },
+      { phase: "bake", minutes: 25, skippable: false },
     ],
     neededEquipment: ["oven", "baking-dish", "mixing-bowl", "measuring-spoons", "measuring-cups", "stand-mixer", "baking-spatula"],
 
@@ -1735,9 +1741,9 @@ const DEFAULT_RECIPES = [
       { ingredientId: "eggs",              quantity: "2",   unit: "whole",  shortcutSubstitute: "none" },
       { ingredientId: "whole-milk",              quantity: "1",   unit: "cup",    shortcutSubstitute: "none" },
       { ingredientId: "ground-cinnamon",           quantity: "12",  unit: "tsp",    shortcutSubstitute: "none" },
-      { ingredientId: "cream-cheese",       quantity: "16",  unit: "tbsp",   shortcutSubstitute: "none" },
-      { ingredientId: "vanilla-extract",    quantity: "1",   unit: "tsp",    shortcutSubstitute: "none" },
-      { ingredientId: "powdered-sugar",     quantity: "2",   unit: "cup",    shortcutSubstitute: "none" },
+      { ingredientId: "cream-cheese",       quantity: "16",  unit: "tbsp",   shortcutSubstitute: "cream-cheese-frosting" },
+      { ingredientId: "vanilla-extract",    quantity: "1",   unit: "tsp",    shortcutSubstitute: "omit" },
+      { ingredientId: "powdered-sugar",     quantity: "2",   unit: "cup",    shortcutSubstitute: "omit" },
       { ingredientId: "salt",                quantity: "0.5",   unit: "tsp",    shortcutSubstitute: "none" },
     ],
 
@@ -1746,8 +1752,8 @@ const DEFAULT_RECIPES = [
       { name: "First rise",        text: "Cover dough and let rise in a warm place until at least doubled, about 2-4 hours.", shortcutText: "no-shortcut" },
       { name: "Make filling",       text: "Mix the remaining softened butter, brown sugar, and cinnamon until mixed evenly.", shortcutText: "If you only have one mixing bowl, you can spread the butter and sprinkle the brown sugar and cinnamon directly onto the rolled-out dough, skipping the filling mixing step altogether." },
       { name: "Fill & roll",       text: "Roll dough into a 1/4 inch thick rectangle. Spread with the filling as evenly as possible. Roll tightly into a log and slice into rolls.", shortcutText: "no-shortcut" },
-      { name: "Second rise",       text: "Place rolls in a greased or parchment-lined baking dish or sheet. Cover and let rise another 45–60 minutes.", shortcutText: "no-shortcut" },
-      { name: "Bake & frost",      text: "Bake at 375°F for 20–25 minutes until golden. Beat cream cheese with powdered sugar and vanilla. Frost the rolls while warm and serve.", shortcutText: "no-shortcut" },
+      { name: "Second rise",       text: "Place rolls in a greased or parchment-lined baking dish or sheet. Cover and let rise another 30–60 minutes.", shortcutText: "no-shortcut" },
+      { name: "Bake & frost",      text: "Bake at 375°F for 20–25 minutes until golden. Beat cream cheese with powdered sugar and vanilla. Frost the rolls while warm and serve.", shortcutText: "Bake at 375°F for 20–25 minutes until golden. Frost the rolls while warm and serve." },
     ],
 
     recommendedSides: [],
@@ -1768,9 +1774,9 @@ const DEFAULT_RECIPES = [
     servings: 16,
     caloriesPerServing: 520,
     timeToComplete: [
-      { phase: "prep", minutes: 35 },
-      { phase: "bake", minutes: 25 },
-      { phase: "rest", minutes: 30 },
+      { phase: "prep", minutes: 35, skippable: false },
+      { phase: "bake", minutes: 25, skippable: false },
+      { phase: "rest", minutes: 30, skippable: true },
     ],
     neededEquipment: ["oven", "cake-pan", "mixing-bowl", "measuring-spoons", "measuring-cups", "stand-mixer", "baking-spatula"],
 
@@ -1796,7 +1802,7 @@ const DEFAULT_RECIPES = [
       { name: "Bake cake layers",           text: "Divide the batter evenly among the prepared pans. Bake 21-24 minutes, until a toothpick inserted in the center comes out clean. Cool in pans 15 minutes, then turn out onto wire racks to cool completely.", shortcutText: "no-shortcut" },
       { name: "Toast coconut",              text: "Spread one cup of the shredded coconut onto a parchment-lined baking sheet and toast at 350°F for about 4-5 minutes, stirring once or twice, until light golden. Watch closely to prevent sudden burning, then let cool.", shortcutText: "" },
       { name: "Cream cheese frosting", text: "Beat the softened cream cheese and the remaining softened butter with an electric mixer until smooth, about 2 minutes. Gradually add the powdered sugar on low speed (you can use less than 4 cups if desired consistency and taste is reached), then beat on high 1–2 minutes until light and fluffy. Mix in remaining 1/2 tsp of vanilla and 1/2 tsp of coconut extract, 2 tbsp coconut milk, 1/8 tsp salt, and one cup shredded coconut.", shortcutText: "Use store-bought cream cheese frosting in place of the homemade frosting, mixing in 1/2 tsp coconut extract, 1/8 tsp salt, and one cup shredded coconut." },
-      { name: "Assemble & frost",           text: "Place the first cake layer on a serving plate. Spread a layer of frosting across the cake evenly (a bit less than half if making 2 layers, a bit less than one third if making 3 layers). Add the second layer and repeat. Top with the third layer if using 3 layers. Frost the top and sides of the entire cake. Press the toasted coconut over the sides of the cake (and the top if desired), then serve.", shortcutText: "Place the first cake layer on a serving plate. Spread a layer of frosting across the cake evenly (a bit less than half if making 2 layers, a bit less than one third if making 3 layers). Add the second layer and repeat. Top with the third layer if using 3 layers. Frost the top and sides of the entire cake, then serve." },
+      { name: "Assemble & frost",           text: "Place the first cake layer on a serving plate. Spread a layer of frosting across the cake evenly (a bit less than half if making 2 layers, a bit less than one third if making 3 layers). Add the second layer and repeat. Top with the third layer if using 3 layers. Frost the top and sides of the entire cake. Press the toasted coconut over the sides of the cake (and the top if desired), allow to rest for 30-60 minutes, then serve.", shortcutText: "Place the first cake layer on a serving plate. Spread a layer of frosting across the cake evenly (a bit less than half if making 2 layers, a bit less than one third if making 3 layers). Add the second layer and repeat. Top with the third layer if using 3 layers. Frost the top and sides of the entire cake, then serve." },
     ],
 
     recommendedSides: [],
@@ -1817,8 +1823,8 @@ const DEFAULT_RECIPES = [
     servings: 6,
     caloriesPerServing: 240,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "bake", minutes: 25 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "bake", minutes: 25, skippable: false },
     ],
     neededEquipment: ["oven", "baking-dish", "mixing-bowl", "measuring-spoons", "measuring-cups", "baking-spatula"],
 
@@ -1859,9 +1865,10 @@ const DEFAULT_RECIPES = [
     caloriesPerServing: 180,
     batchSize: 12,
     timeToComplete: [
-      { phase: "prep",  minutes: 30 },
-      { phase: "bake",  minutes: 30 },
-      { phase: "chill", minutes: 120 },
+      { phase: "prep",  minutes: 10, skippable: false },
+      { phase: "bake",  minutes: 30, skippable: false },
+      { phase: "cook", minutes: 20, skippable: true },
+      { phase: "chill", minutes: 120, skippable: true },
     ],
     neededEquipment: ["oven", "baking-sheet", "mixing-bowl", "measuring-spoons", "measuring-cups", "hand-mixer", "baking-spatula", "piping-bag"],
 
@@ -1903,8 +1910,9 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 180,
     timeToComplete: [
-      { phase: "rest", minutes: 30 },
-      { phase: "cook", minutes: 20 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "rest", minutes: 30, skippable: true },
+      { phase: "cook", minutes: 20, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "measuring-spoons", "measuring-cups", "blender", "spatula"],
 
@@ -1947,8 +1955,9 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 420,
     timeToComplete: [
-      { phase: "prep", minutes: 25 },
-      { phase: "bake", minutes: 20 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 15, skippable: false },
+      { phase: "bake", minutes: 15, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "measuring-spoons", "wooden-spoon", "baking-sheet", "oven", "chef-knife", "cutting-board", "rice-cooker"],
 
@@ -1973,7 +1982,7 @@ const DEFAULT_RECIPES = [
       { name: "Cook rice",              text: "Add half the can of el pato sauce, beef stock, and lastly enough water to cover rice by about 1 inch in a pot (or to the water level indicated if using a rice cooker). Bring to a boil, cover, reduce heat, and simmer 18–20 minutes (or closer to 25 minutes if using a rice cooker).", shortcutText: "no-shortcut" },
       { name: "Cook filling",      text: "While rice is cooking, brown ground beef with chopped onion and minced garlic. Add chili powder, cumin, paprika, oregano, cayenne, and salt along with the remaining el pato sauce and cooked rice. Stir to combine and heat through (about 2-3 minutes).", shortcutText: "Brown beef, breaking apart, and add taco seasoning packet per package directions, then stir in remaining el pato sauce and cooked rice, heating through (about 2-3 minutes)." },
       { name: "Prepare peppers",   text: "Core the bell peppers carefully and wash out the seeds. Slice each pepper widthwise into rings (about 3-4 per pepper). Arrange the rings flat in a baking dish or sheet, and lightly salt the pepper rings.", shortcutText: "no-shortcut" },
-      { name: "Fill & bake",       text: "Sprinkle a small layer of cheese in the bottom of each pepper ring. Spoon the meat filling into each pepper ring, then top with more cheese. Bake at 375°F for 18-22 minutes until peppers are tender and cheese is melted.", shortcutText: "no-shortcut" },
+      { name: "Fill & bake",       text: "Sprinkle a small layer of cheese in the bottom of each pepper ring. Spoon the meat filling into each pepper ring, then top with more cheese. Bake at 375°F for 15-20 minutes until peppers are tender and cheese is melted.", shortcutText: "no-shortcut" },
     ],
 
     recommendedSides: ["elote"],
@@ -1998,9 +2007,9 @@ const DEFAULT_RECIPES = [
     caloriesPerServing: 180,
     batchSize: 12,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
-      { phase: "chill", minutes: 120 },
-      { phase: "bake", minutes: 20 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "chill", minutes: 120, skippable: false },
+      { phase: "bake", minutes: 20, skippable: false },
     ],
     neededEquipment: ["oven", "baking-sheet", "mixing-bowl", "measuring-spoons", "measuring-cups", "hand-mixer", "baking-spatula", "rolling-pin"],
 
@@ -2042,8 +2051,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 280,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 25 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 25, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "saucepan"],
 
@@ -2083,8 +2092,9 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 120,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 20 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 10, skippable: false },
+      { phase: "chill", minutes: 30, skippable: true },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "mixing-bowl"],
 
@@ -2101,7 +2111,7 @@ const DEFAULT_RECIPES = [
     steps: [
       { name: "Hard boil",         text: "Place eggs in a pot of cold water, bring to a boil, cook 10 minutes, then transfer to an ice bath to cool, then peel.", shortcutText: "no-shortcut" },
       { name: "Fill",              text: "Halve eggs lengthwise. Remove yolks and mash with mayo, mustard, apple cider vinegar, salt, and pepper until smooth.", shortcutText: "no-shortcut" },
-      { name: "Pipe & garnish",    text: "Spoon or pipe yolk mixture back into the egg whites. Dust with paprika and serve.", shortcutText: "no-shortcut" },
+      { name: "Pipe & garnish",    text: "Spoon or pipe yolk mixture back into the egg whites. Dust with paprika, chill if desired, and serve.", shortcutText: "no-shortcut" },
     ],
 
     recommendedSides: [],
@@ -2122,8 +2132,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 340,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 25 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 25, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "rice-cooker"],
 
@@ -2177,8 +2187,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 180,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 10 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 10, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons"],
 
@@ -2217,7 +2227,7 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 180,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
+      { phase: "prep", minutes: 15, skippable: false },
     ],
     neededEquipment: ["chef-knife", "cutting-board", "salad-tongs", "measuring-spoons", "whisk", "mixing-bowl"],
 
@@ -2267,8 +2277,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 700,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 20 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 20, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "skillet"],
 
@@ -2314,8 +2324,9 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 460,
     timeToComplete: [
-      { phase: "prep", minutes: 20 },
-      { phase: "fry",  minutes: 20 },
+      { phase: "prep", minutes: 20, skippable: false },
+      { phase: "cook", minutes: 10, skippable: true },
+      { phase: "fry",  minutes: 20, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "deep-fryer"],
 
@@ -2361,8 +2372,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 540,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 20 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 10, skippable: false },
     ],
     neededEquipment: ["stove", "saucepan", "skillet", "chef-knife", "cutting-board", "oven", "wooden-spoon"],
 
@@ -2405,7 +2416,7 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 180,
     timeToComplete: [
-      { phase: "prep", minutes: 5 },
+      { phase: "prep", minutes: 5, skippable: false },
     ],
     neededEquipment: ["blender", "measuring-spoons"],
 
@@ -2439,7 +2450,7 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 220,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
+      { phase: "prep", minutes: 15, skippable: false },
     ],
     neededEquipment: ["chef-knife", "cutting-board", "measuring-spoons", "mixing-bowl", "salad-tongs"],
 
@@ -2476,8 +2487,9 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 190,
     timeToComplete: [
-      { phase: "prep", minutes: 40 },
-      { phase: "cook", minutes: 30 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 20, skippable: true },
+      { phase: "bake", minutes: 20, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "saucepan", "baking-dish", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "oven"],
 
@@ -2518,8 +2530,9 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 580,
     timeToComplete: [
-      { phase: "prep", minutes: 20 },
-      { phase: "bake", minutes: 25 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "cook", minutes: 15, skippable: false },
+      { phase: "bake", minutes: 25, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "baking-dish", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "cheese-grater", "oven"],
 
@@ -2565,8 +2578,9 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 520,
     timeToComplete: [
-      { phase: "prep", minutes: 40 },
-      { phase: "bake", minutes: 25 },
+      { phase: "prep", minutes: 25, skippable: false },
+      { phase: "cook", minutes: 10, skippable: false },
+      { phase: "bake", minutes: 25, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "oven", "baking-dish", "cheese-grater"],
 
@@ -2617,7 +2631,7 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 150,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
+      { phase: "prep", minutes: 10, skippable: false },
     ],
     neededEquipment: ["chef-knife", "cutting-board", "wooden-spoon", "mixing-bowl"],
 
@@ -2654,8 +2668,8 @@ const DEFAULT_RECIPES = [
     servings: 6,
     caloriesPerServing: 460,
     timeToComplete: [
-      { phase: "prep", minutes: 20 },
-      { phase: "cook", minutes: 45 },
+      { phase: "prep", minutes: 20, skippable: false },
+      { phase: "cook", minutes: 45, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons"],
 
@@ -2712,8 +2726,8 @@ const DEFAULT_RECIPES = [
     servings: 12,
     caloriesPerServing: 290,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 20 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "fry", minutes: 20, skippable: false },
     ],
     neededEquipment: ["deep-fryer", "measuring-spoons", "measuring-cups", "mixing-bowl", "baking-spatula", "rolling-pin", "donut-cutter", "wire-rack"],
 
@@ -2751,8 +2765,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 420,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 15 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 10, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "spatula"],
 
@@ -2791,7 +2805,7 @@ const DEFAULT_RECIPES = [
     servings: 6,
     caloriesPerServing: 140,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
+      { phase: "prep", minutes: 10, skippable: false },
     ],
     neededEquipment: ["blender", "measuring-spoons"],
 
@@ -2829,8 +2843,8 @@ const DEFAULT_RECIPES = [
     servings: 6,
     caloriesPerServing: 380,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 25 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 20, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups"],
 
@@ -2877,8 +2891,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 240,
     timeToComplete: [
-      { phase: "prep", minutes: 5 },
-      { phase: "cook", minutes: 20 },
+      { phase: "prep", minutes: 5, skippable: false },
+      { phase: "cook", minutes: 20, skippable: false },
     ],
     neededEquipment: ["stove", "saucepan", "wooden-spoon", "measuring-spoons"],
 
@@ -2917,9 +2931,9 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 310,
     timeToComplete: [
-      { phase: "prep",    minutes: 15 },
-      { phase: "marinate",minutes: 30 },
-      { phase: "cook",    minutes: 20 },
+      { phase: "prep",    minutes: 15, skippable: false },
+      { phase: "marinate",minutes: 30, skippable: true },
+      { phase: "cook",    minutes: 20, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "rice-cooker"],
 
@@ -2974,8 +2988,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 500,
     timeToComplete: [
-      { phase: "prep", minutes: 5 },
-      { phase: "cook", minutes: 25 },
+      { phase: "prep", minutes: 5, skippable: false },
+      { phase: "cook", minutes: 25, skippable: false },
     ],
     neededEquipment: ["stove", "rice-cooker", "skillet", "chef-knife", "cutting-board", "wooden-spoon"],
 
@@ -3026,8 +3040,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 520,
     timeToComplete: [
-      { phase: "prep", minutes: 30 },
-      { phase: "cook", minutes: 40 },
+      { phase: "prep", minutes: 30, skippable: false },
+      { phase: "cook", minutes: 30, skippable: false },
     ],
     neededEquipment: ["stove", "rice-cooker", "skillet", "baking-dish", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups"],
 
@@ -3085,9 +3099,9 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 510,
     timeToComplete: [
-      { phase: "marinate", minutes: 120 },
-      { phase: "prep",     minutes: 15 },
-      { phase: "braise",   minutes: 60 },
+      { phase: "marinate", minutes: 120, skippable: false },
+      { phase: "prep",     minutes: 15, skippable: false },
+      { phase: "cook",   minutes: 60, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "rice-cooker"],
 
@@ -3145,8 +3159,9 @@ const DEFAULT_RECIPES = [
     servings: 8,
     caloriesPerServing: 650,
     timeToComplete: [
-      { phase: "prep", minutes: 40 },
-      { phase: "bake", minutes: 35 },
+      { phase: "prep", minutes: 20, skippable: false },
+      { phase: "cook", minutes: 20, skippable: false },
+      { phase: "bake", minutes: 35, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-cups", "oven", "baking-dish"],
 
@@ -3155,8 +3170,8 @@ const DEFAULT_RECIPES = [
       { ingredientId: "hot-italian-sausage",quantity: "2",   unit: "lb",     shortcutSubstitute: "none" },
       { ingredientId: "brown-onion",              quantity: "0.5", unit: "whole",  shortcutSubstitute: "none" },
       { ingredientId: "garlic",             quantity: "3",   unit: "clove",  shortcutSubstitute: "none" },
-      { ingredientId: "diced-tomatoes",     quantity: "7",   unit: "oz",     shortcutSubstitute: "none" },
-      { ingredientId: "tomato-paste",       quantity: "3",   unit: "oz",     shortcutSubstitute: "none" },
+      { ingredientId: "diced-tomatoes",     quantity: "7",   unit: "oz",     shortcutSubstitute: "spaghetti-sauce" },
+      { ingredientId: "tomato-paste",       quantity: "3",   unit: "oz",     shortcutSubstitute: "omit" },
       { ingredientId: "ricotta-cheese",     quantity: "1",   unit: "cup",    shortcutSubstitute: "none" },
       { ingredientId: "parmesan-cheese",    quantity: "1",   unit: "cup",    shortcutSubstitute: "none" },
       { ingredientId: "mozzarella-cheese",  quantity: "2",   unit: "cup",    shortcutSubstitute: "none" },
@@ -3167,7 +3182,7 @@ const DEFAULT_RECIPES = [
 
     steps: [
       { name: "Cook noodles",      text: "Fill a pot half to 3/4 full of water and bring to a boil. Boil lasagna noodles until just al dente, gently stirring to separate them once softened. Drain and lay flat.", shortcutText: "no-shortcut" },
-      { name: "Make meat sauce",   text: "Brown the sausage with chopped onion and minced garlic. Add tomato paste, diced tomatoes, basil, oregano, and salt. Simmer up to 10 minutes stirring occasionally until sauce is heated through and well incorporated.", shortcutText: "no-shortcut" },
+      { name: "Make meat sauce",   text: "Brown the sausage with chopped onion and minced garlic. Add tomato paste, diced tomatoes, basil, oregano, and salt. Simmer up to 10 minutes stirring occasionally until sauce is heated through and well incorporated.", shortcutText: "Brown the sausage with chopped onion and minced garlic, then add the spaghetti sauce to the meat, mix, and heat thoroughly." },
       { name: "Make ricotta mix",  text: "Combine ricotta, egg, half the parmesan, salt, and a pinch of basil.", shortcutText: "no-shortcut" },
       { name: "Layer",             text: "In a greased 9x13 baking dish, layer: noodles, ricotta mix, meat sauce, mozzarella. Repeat layers, ending with sparse chunks from the meat sauce for texture and mozzarella on top.", shortcutText: "no-shortcut" },
       { name: "Bake",              text: "Cover with foil and bake at 375°F for 20 minutes. Uncover and bake 15 more minutes until bubbly and golden.", shortcutText: "no-shortcut" },
@@ -3187,7 +3202,7 @@ const DEFAULT_RECIPES = [
     name: "Lemon Meringue Pie",
     cuisine: "American",
     dishType: "dessert",
-    difficulty: "moderate",
+    difficulty: "hard",
     priceLevel: "cheap",
     timeRequirement: "medium",
     multiTasking: "possible",
@@ -3196,9 +3211,10 @@ const DEFAULT_RECIPES = [
     servings: 16,
     caloriesPerServing: 310,
     timeToComplete: [
-      { phase: "prep",  minutes: 25 },
-      { phase: "bake",  minutes: 22 },
-      { phase: "chill", minutes: 60 },
+      { phase: "prep",  minutes: 15, skippable: false },
+      { phase: "cook",  minutes: 10, skippable: false },
+      { phase: "bake",  minutes: 22, skippable: false },
+      { phase: "chill", minutes: 60, skippable: false },
     ],
     neededEquipment: ["oven", "pie-dish", "chef-knife", "cutting-board", "stand-mixer", "measuring-spoons", "measuring-cups", "zester"],
 
@@ -3239,8 +3255,8 @@ const DEFAULT_RECIPES = [
     servings: 12,
     caloriesPerServing: 270,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
-      { phase: "bake", minutes: 22 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "bake", minutes: 22, skippable: false },
     ],
     neededEquipment: ["oven", "muffin-tin", "measuring-spoons", "mixing-bowl", "whisk", "baking-spatula"],
 
@@ -3284,8 +3300,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 340,
     timeToComplete: [
-      { phase: "prep", minutes: 25 },
-      { phase: "cook", minutes: 10 },
+      { phase: "prep", minutes: 25, skippable: false },
+      { phase: "cook", minutes: 10, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups"],
 
@@ -3331,8 +3347,9 @@ const DEFAULT_RECIPES = [
     servings: 8,
     caloriesPerServing: 430,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
-      { phase: "cook", minutes: 360 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "slow-cook", minutes: 360, skippable: false },
+      { phase: "cook", minutes: 10, skippable: true },
     ],
     neededEquipment: ["slow-cooker", "stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons"],
 
@@ -3355,7 +3372,7 @@ const DEFAULT_RECIPES = [
     steps: [
       { name: "Season & sear",     text: "Season the chuck roast generously with salt and pepper.", shortcutText: "no-shortcut" },
       { name: "Slow cook",         text: "Place roast in a slow cooker or covered Dutch oven with chipotle peppers, garlic, and a splash of water. Cook on low 6–8 hours (or 300°F for 4–5 hours) until fall-apart tender.", shortcutText: "If you don't have a slow cooker, you can cook the roast in a Dutch oven or roasting pan in the oven at 300°F for 4–5 hours until fall-apart tender." },
-      { name: "Shred",             text: "Remove beef and shred with two forks. Return to the cooking juices and toss to coat, then sear in a skillet until slightly crispy.", shortcutText: "no-shortcut" },
+      { name: "Shred",             text: "Remove beef and shred with two forks. Return to the cooking juices and toss to coat, then sear in a skillet until slightly crispy.", shortcutText: "Remove beef and shred with two forks. Return to the cooking juices and toss to coat." },
       { name: "Assemble tacos",    text: "Serve shredded beef in warm tortillas topped with cilantro, chopped red onion, shredded cabbage, chopped cucumber, queso fresco, lime, and sour cream if desired.", shortcutText: "no-shortcut" },
     ],
 
@@ -3380,8 +3397,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 60,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
-      { phase: "rest", minutes: 15 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "rest", minutes: 15, skippable: true },
     ],
     neededEquipment: ["chef-knife", "cutting-board", "wooden-spoon", "mixing-bowl"],
 
@@ -3418,8 +3435,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 250,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 20 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 20, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "potato-masher"],
 
@@ -3457,8 +3474,8 @@ const DEFAULT_RECIPES = [
     servings: 8,
     caloriesPerServing: 520,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
-      { phase: "bake", minutes: 55 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "bake", minutes: 50, skippable: false },
     ],
     neededEquipment: ["oven", "mixing-bowl", "chef-knife", "cutting-board", "wooden-spoon", "baking-sheet"],
 
@@ -3507,8 +3524,8 @@ const DEFAULT_RECIPES = [
     caloriesPerServing: 140,
     batchSize: 12,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
-      { phase: "bake", minutes: 20 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "bake", minutes: 20, skippable: false },
     ],
     neededEquipment: ["oven", "baking-sheet", "measuring-spoons", "measuring-cups", "mixing-bowl", "baking-spatula"],
 
@@ -3549,9 +3566,9 @@ const DEFAULT_RECIPES = [
     servings: 12,
     caloriesPerServing: 440,
     timeToComplete: [
-      { phase: "prep",  minutes: 20 },
-      { phase: "bake",  minutes: 80 },
-      { phase: "chill", minutes: 480 },
+      { phase: "prep",  minutes: 20, skippable: false },
+      { phase: "bake",  minutes: 80, skippable: false },
+      { phase: "chill", minutes: 480, skippable: false },
     ],
     neededEquipment: ["oven", "springform-pan", "wooden-spoon", "measuring-spoons", "measuring-cups", "hand-mixer", "mixing-bowl", "baking-spatula", "baking-sheet"],
 
@@ -3592,8 +3609,8 @@ const DEFAULT_RECIPES = [
     caloriesPerServing: 160,
     batchSize: 12,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
-      { phase: "bake", minutes: 20 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "bake", minutes: 20, skippable: false },
     ],
     neededEquipment: ["oven", "baking-sheet", "measuring-spoons", "measuring-cups", "mixing-bowl", "baking-spatula"],
 
@@ -3633,8 +3650,9 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 520,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
-      { phase: "fry",  minutes: 20 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "cook", minutes: 10, skippable: true },
+      { phase: "fry",  minutes: 20, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "deep-fryer"],
 
@@ -3683,8 +3701,8 @@ const DEFAULT_RECIPES = [
     servings: 16,
     caloriesPerServing: 310,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "bake", minutes: 25 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "bake", minutes: 25, skippable: false },
     ],
     neededEquipment: ["oven", "baking-dish", "measuring-spoons", "measuring-cups", "mixing-bowl", "baking-spatula"],
 
@@ -3721,8 +3739,8 @@ const DEFAULT_RECIPES = [
     servings: 16,
     caloriesPerServing: 310,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
-      { phase: "bake", minutes: 48 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "bake", minutes: 48, skippable: false },
     ],
     neededEquipment: ["oven", "baking-dish", "chef-knife", "cutting-board", "baking-spatula", "measuring-spoons", "measuring-cups", "hand-mixer"],
 
@@ -3764,9 +3782,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 550,
     timeToComplete: [
-      { phase: "prep",     minutes: 15 },
-      { phase: "marinate", minutes: 30 },
-      { phase: "cook",     minutes: 35 },
+      { phase: "prep",     minutes: 15, skippable: false },
+      { phase: "cook",     minutes: 35, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "skillet"],
 
@@ -3818,8 +3835,9 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 480,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
-      { phase: "cook", minutes: 150 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "cook", minutes: 10, skippable: true },
+      { phase: "slow-cook", minutes: 150, skippable: false },
     ],
     neededEquipment: ["oven", "baking-dish", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "skillet"],
 
@@ -3832,16 +3850,16 @@ const DEFAULT_RECIPES = [
       { ingredientId: "beef-stock",         quantity: "1",   unit: "tbsp",   shortcutSubstitute: "none" },
       { ingredientId: "dried-thyme",              quantity: "1",   unit: "tbsp",   shortcutSubstitute: "none" },
       { ingredientId: "bay-leaves",         quantity: "1",   unit: "whole",  shortcutSubstitute: "none" },
-      { ingredientId: "gravy-mix",          quantity: "1",   unit: "pkg",    shortcutSubstitute: "none" },
+      { ingredientId: "cornstarch",          quantity: "2.5",   unit: "tbsp",    shortcutSubstitute: "gravy-mix" },
       { ingredientId: "salt",                quantity: "2",   unit: "tsp",    shortcutSubstitute: "none" },
       { ingredientId: "black-pepper",              quantity: "2", unit: "tsp",    shortcutSubstitute: "none" },
     ],
 
     steps: [
-      { name: "Sear roast",        text: "Season roast with salt and pepper. Sear on all sides in a hot Dutch oven or skillet until browned.", shortcutText: "no-shortcut" },
+      { name: "Sear roast",        text: "Season roast with salt and pepper. Sear on all sides in a hot Dutch oven or skillet until browned.", shortcutText: "" },
       { name: "Add vegetables",    text: "Add chopped potatoes, carrots, onion, garlic, thyme, bay leaf, and beef stock to the Dutch oven (or transfer to a roasting pan or slow cooker).", shortcutText: "no-shortcut" },
       { name: "Slow cook",         text: "Cover tightly and cook in a 325°F oven for 2–3 hours, or in a slow cooker on low for 8 hours, until beef is fork-tender.", shortcutText: "no-shortcut" },
-      { name: "Make gravy",        text: "Prepare gravy mix per package instructions or using the drippings from the pot if desired. Serve over the roast and vegetables.", shortcutText: "no-shortcut" },
+      { name: "Make gravy",        text: "Pour 2-3 cups of drippings from the roast (avoiding solids) into the skillet. Remove a few tablespoons in a small container to whisk the cornstarch into, creating a slurry. Bring the drippings in the skillet to a simmer, then whisk in the slurry, continuing to cook and whisk until thickened and seasoning with salt and pepper. Serve over the roast and vegetables.", shortcutText: "Prepare gravy mix per package instructions. Serve over the roast and vegetables." },
     ],
 
     recommendedSides: ["seasonal-berry-salad"],
@@ -3865,9 +3883,9 @@ const DEFAULT_RECIPES = [
     servings: 16,
     caloriesPerServing: 310,
     timeToComplete: [
-      { phase: "prep",  minutes: 15 },
-      { phase: "bake",  minutes: 55 },
-      { phase: "chill", minutes: 180 },
+      { phase: "prep",  minutes: 15, skippable: false },
+      { phase: "bake",  minutes: 55, skippable: false },
+      { phase: "chill", minutes: 180, skippable: false },
     ],
     neededEquipment: ["oven", "pie-dish", "wooden-spoon", "measuring-spoons", "measuring-cups", "baking-spatula", "hand-mixer"],
 
@@ -3910,9 +3928,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 460,
     timeToComplete: [
-      { phase: "prep",     minutes: 15 },
-      { phase: "marinate", minutes: 30 },
-      { phase: "cook",     minutes: 30 },
+      { phase: "prep",     minutes: 15, skippable: false },
+      { phase: "cook",     minutes: 30, skippable: false },
     ],
     neededEquipment: ["deep-fryer", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "mixing-bowl"],
 
@@ -3969,10 +3986,10 @@ const DEFAULT_RECIPES = [
     caloriesPerServing: 110,
     batchSize: 12,
     timeToComplete: [
-      { phase: "prep", minutes: 40 },
-      { phase: "rest", minutes: 45 },
-      { phase: "bake", minutes: 15 },
-      { phase: "chill", minutes: 60 },
+      { phase: "prep", minutes: 40, skippable: false },
+      { phase: "rest", minutes: 45, skippable: false },
+      { phase: "bake", minutes: 15, skippable: false },
+      { phase: "chill", minutes: 60, skippable: true },
     ],
     neededEquipment: ["oven", "baking-sheet", "measuring-spoons", "measuring-cups", "mixing-bowl", "blender", "sifter", "piping-bag", "stand-mixer"],
 
@@ -3996,7 +4013,7 @@ const DEFAULT_RECIPES = [
       { name: "Pipe & rest shells",        text: "Transfer batter to a piping bag fitted with a 1/2-inch round tip. Line two baking sheets with parchment or silicone mats. Pipe 1.5-inch circles spaced 1.5 inches apart (or you may make them larger, but the batch size will be smaller). Gently tap each tray on the counter a few times to release any trapped air bubbles, or pop surface bubbles with a toothpick. Let the piped shells sit uncovered at room temperature for 40-50 minutes until dry to the touch (appearance is no longer glossy) and a skin has formed on the surface of the cookies.", shortcutText: "no-shortcut" },
       { name: "Bake shells",               text: "Preheat the oven to 270°F. Bake one tray at a time on the center rack for 18-20 minutes, rotating the pan halfway through. The shells are done when they can be cleanly lifted off the parchment without sticking (but allow them to fully cool before removing them from the sheet).", shortcutText: "no-shortcut" },
       { name: "Make filling",   text: "In a saucepan, combine half the granulated sugar and 1 1/2 tbsp of water. Heat on low, stirring to dissolve the sugar, then increase heat and bring to a boil (stir occasionally while preparing the yolks). In a bowl with an electric mixer, beat the egg yolks until thick and foamy. Once the sugar syrup reaches 240°F, remove from heat and slowly drizzle the syrup into the bowl with the yolks (continuing to mix on medium-low speed until the bowl no longer feels warm, about 5 minutes). Add the butter one tablespoon at a time while continuing to mix, then the remaining vanilla and raspberry extract and additional food coloring (if desired). Continue to mix about 5 minutes until the texture is smooth and creamy.", shortcutText: "no-shortcut" },
-      { name: "Assemble",   text: "Add the remaining sugar to the room-temperature raspberry jam (if desired) and mix. Transfer the buttercream filling to a piping bag. Pair cooled shells by size. Pipe a ring of buttercream around the edge of one shell from each pair, then add a small spoonful of raspberry jam in the center. Add pieces of fresh raspberries if desired (or whole raspberries, if you made larger shells). Sandwich with the matching shell and press gently (you may use more buttercream if needed to glue the two halves together). Refrigerate assembled macarons for at least 1 hour (ideally overnight to strengthen the flavors and perfect the shell texture).", shortcutText: "no-shortcut" },
+      { name: "Assemble",   text: "Add the remaining sugar to the room-temperature raspberry jam (if desired) and mix. Transfer the buttercream filling to a piping bag. Pair cooled shells by size. Pipe a ring of buttercream around the edge of one shell from each pair, then add a small spoonful of raspberry jam in the center. Add pieces of fresh raspberries if desired (or whole raspberries, if you made larger shells). Sandwich with the matching shell and press gently (you may use more buttercream if needed to glue the two halves together). Refrigerate assembled macarons for 1 hour (ideally overnight to strengthen the flavors and perfect the shell texture).", shortcutText: "no-shortcut" },
     ],
 
     recommendedSides: [],
@@ -4017,8 +4034,9 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 510,
     timeToComplete: [
-      { phase: "prep", minutes: 40 },
-      { phase: "bake", minutes: 25 },
+      { phase: "prep", minutes: 20, skippable: false },
+      { phase: "cook", minutes: 20, skippable: true },
+      { phase: "bake", minutes: 25, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "oven", "baking-dish", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups"],
 
@@ -4069,8 +4087,8 @@ const DEFAULT_RECIPES = [
     servings: 6,
     caloriesPerServing: 35,
     timeToComplete: [
-      { phase: "prep",  minutes: 10 },
-      { phase: "chill", minutes: 15 },
+      { phase: "prep",  minutes: 10, skippable: false },
+      { phase: "chill", minutes: 15, skippable: true },
     ],
     neededEquipment: ["blender", "measuring-spoons"],
 
@@ -4107,8 +4125,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 130,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "chill", minutes: 15 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "chill", minutes: 15, skippable: true },
     ],
     neededEquipment: ["stove", "stock-pot", "baking-dish", "baking-spatula"],
 
@@ -4140,8 +4158,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 520,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 20 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 20, skippable: false },
     ],
     neededEquipment: ["oven", "baking-sheet", "chef-knife", "cutting-board"],
 
@@ -4182,7 +4200,7 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 130,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
+      { phase: "prep", minutes: 10, skippable: false },
     ],
     neededEquipment: ["chef-knife", "cutting-board", "salad-tongs", "measuring-spoons", "mixing-bowl", "whisk"],
 
@@ -4222,8 +4240,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 640,
     timeToComplete: [
-      { phase: "prep", minutes: 40 },
-      { phase: "cook", minutes: 30 },
+      { phase: "prep", minutes: 35, skippable: false },
+      { phase: "cook", minutes: 35, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "skillet"],
 
@@ -4274,8 +4292,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 420,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 45 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 45, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "rice-cooker"],
 
@@ -4323,8 +4341,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 490,
     timeToComplete: [
-      { phase: "prep", minutes: 5 },
-      { phase: "cook", minutes: 15 },
+      { phase: "prep", minutes: 5, skippable: false },
+      { phase: "cook", minutes: 15, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "wooden-spoon"],
 
@@ -4366,8 +4384,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 400,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 20 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 20, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "wooden-spoon"],
 
@@ -4414,8 +4432,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 580,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 20 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 20, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "skillet", "chef-knife", "cutting-board", "wooden-spoon"],
 
@@ -4464,8 +4482,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 220,
     timeToComplete: [
-      { phase: "prep", minutes: 5 },
-      { phase: "cook", minutes: 20 },
+      { phase: "prep", minutes: 5, skippable: false },
+      { phase: "cook", minutes: 20, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "wooden-spoon"],
 
@@ -4499,9 +4517,9 @@ const DEFAULT_RECIPES = [
     servings: 16,
     caloriesPerServing: 310,
     timeToComplete: [
-      { phase: "prep",  minutes: 15 },
-      { phase: "bake",  minutes: 10 },
-      { phase: "chill", minutes: 180 },
+      { phase: "prep",  minutes: 15, skippable: false },
+      { phase: "bake",  minutes: 10, skippable: false },
+      { phase: "chill", minutes: 180, skippable: false },
     ],
     neededEquipment: ["oven", "pie-dish", "chef-knife", "cutting-board", "baking-spatula", "measuring-spoons", "measuring-cups"],
 
@@ -4537,8 +4555,9 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 490,
     timeToComplete: [
-      { phase: "prep", minutes: 15 },
-      { phase: "fry",  minutes: 20 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "fry",  minutes: 15, skippable: false },
+      { phase: "cook", minutes: 10, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "mixing-bowl"],
 
@@ -4590,8 +4609,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 320,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 20 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 20, skippable: false },
     ],
     neededEquipment: ["oven", "baking-dish", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "potato-masher"],
 
@@ -4630,8 +4649,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 460,
     timeToComplete: [
-      { phase: "prep", minutes: 25 },
-      { phase: "cook", minutes: 45 },
+      { phase: "prep", minutes: 25, skippable: false },
+      { phase: "cook", minutes: 45, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "blender", "rice-cooker"],
 
@@ -4688,8 +4707,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 480,
     timeToComplete: [
-      { phase: "prep", minutes: 25 },
-      { phase: "cook", minutes: 45 },
+      { phase: "prep", minutes: 25, skippable: false },
+      { phase: "cook", minutes: 45, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "blender", "rice-cooker"],
 
@@ -4745,8 +4764,8 @@ const DEFAULT_RECIPES = [
     servings: 12,
     caloriesPerServing: 420,
     timeToComplete: [
-      { phase: "prep",  minutes: 30 },
-      { phase: "chill", minutes: 240 },
+      { phase: "prep",  minutes: 30, skippable: false },
+      { phase: "chill", minutes: 240, skippable: true },
     ],
     neededEquipment: ["oven", "loaf-pan", "baking-spatula", "measuring-spoons", "measuring-cups", "hand-mixer", "sifter"],
 
@@ -4787,8 +4806,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 380,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 20 },
+      { phase: "prep", minutes: 10, skippable: false },
+      { phase: "cook", minutes: 20, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "blender"],
 
@@ -4838,8 +4857,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 280,
     timeToComplete: [
-      { phase: "prep", minutes: 10 },
-      { phase: "cook", minutes: 25 },
+      { phase: "prep", minutes: 5, skippable: false },
+      { phase: "cook", minutes: 15, skippable: false },
     ],
     neededEquipment: ["stove", "stock-pot", "chef-knife", "cutting-board", "wooden-spoon", "blender"],
 
@@ -4879,8 +4898,9 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 580,
     timeToComplete: [
-      { phase: "prep", minutes: 40 },
-      { phase: "bake", minutes: 25 },
+      { phase: "prep", minutes: 15, skippable: false },
+      { phase: "cook", minutes: 20, skippable: false },
+      { phase: "bake", minutes: 25, skippable: false },
     ],
     neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "baking-dish", "oven"],
 
@@ -4930,11 +4950,9 @@ const DEFAULT_RECIPES = [
     servings: 12,
     caloriesPerServing: 160,
     timeToComplete: [
-      { phase: "prep", minutes: 25 },
-      { phase: "rise", minutes: 60 },
-      { phase: "prep", minutes: 10 },
-      { phase: "rise", minutes: 30 },
-      { phase: "bake", minutes: 18 },
+      { phase: "prep", minutes: 25, skippable: false },
+      { phase: "rise", minutes: 90, skippable: false },
+      { phase: "bake", minutes: 18, skippable: false },
     ],
     neededEquipment: ["oven", "baking-sheet", "mixing-bowl", "baking-spatula"],
 
@@ -4974,8 +4992,8 @@ const DEFAULT_RECIPES = [
     servings: 4,
     caloriesPerServing: 460,
     timeToComplete: [
-      { phase: "prep", minutes: 20 },
-      { phase: "cook", minutes: 25 },
+      { phase: "prep", minutes: 25, skippable: false },
+      { phase: "cook", minutes: 25, skippable: false },
     ],
 
     neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons", "measuring-cups", "blender", "rice-cooker"],

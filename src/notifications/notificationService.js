@@ -8,6 +8,8 @@
 // page refreshes. An in-session setTimeout is also set so notifications fire
 // even if the user stays on the page for hours.
 
+import { formatPhaseLabel, getEffectiveTimePhases } from '../utils/recipeUtils'
+
 const SCHEDULED_KEY  = 'gp_scheduled_notifications'
 const SENT_TODAY_KEY = 'gp_notifications_sent_today'
 
@@ -126,7 +128,7 @@ export function checkScheduledNotifications() {
 //
 // Call cancelRecipeAdvanceReminders() when a recipe is removed from the plan.
 
-const PASSIVE_REMINDER_PHASES = new Set(['rise', 'chill', 'marinate', 'rest'])
+const PASSIVE_REMINDER_PHASES = new Set(['rise', 'chill', 'marinate', 'rest', 'slow-cook'])
 
 function _formatPhaseMinutes(min) {
   if (min < 60) return `${min} min`
@@ -139,10 +141,11 @@ function _formatPhaseMinutes(min) {
  * Schedule advance-start notifications for all passive phases in a recipe.
  * @param {object} recipe           - Recipe object with timeToComplete array
  * @param {number} plannedCookTime  - Unix timestamp (ms) for planned cook start
+ * @param {boolean} useShortcut     - Whether shortcut-skippable phases are omitted
  */
-export function scheduleRecipeAdvanceReminders(recipe, plannedCookTime) {
-  const phases = recipe.timeToComplete
-  if (!Array.isArray(phases) || !plannedCookTime) return
+export function scheduleRecipeAdvanceReminders(recipe, plannedCookTime, useShortcut = false) {
+  const phases = getEffectiveTimePhases(recipe.timeToComplete, useShortcut)
+  if (!phases.length || !plannedCookTime) return
 
   const totalMinutes = phases.reduce((s, p) => s + (p.minutes ?? 0), 0)
   let minutesFromStart = 0
@@ -151,7 +154,7 @@ export function scheduleRecipeAdvanceReminders(recipe, plannedCookTime) {
     if (PASSIVE_REMINDER_PHASES.has(phase.phase) && (phase.minutes ?? 0) >= 15) {
       const minutesRemaining = totalMinutes - minutesFromStart
       const triggerTime = plannedCookTime - minutesRemaining * 60 * 1000
-      const phaseLabel  = phase.phase.charAt(0).toUpperCase() + phase.phase.slice(1)
+      const phaseLabel  = formatPhaseLabel(phase.phase)
       const id = `recipe-advance-${recipe.id}-${phase.phase}-${minutesFromStart}`
 
       scheduleNotification({
@@ -171,11 +174,13 @@ export function scheduleRecipeAdvanceReminders(recipe, plannedCookTime) {
  * Call this when a recipe is removed from a planned day.
  * @param {string} recipeId
  * @param {Array}  timeToComplete - The recipe's timeToComplete array
+ * @param {boolean} useShortcut   - Whether shortcut-skippable phases are omitted
  */
-export function cancelRecipeAdvanceReminders(recipeId, timeToComplete) {
-  if (!Array.isArray(timeToComplete)) return
+export function cancelRecipeAdvanceReminders(recipeId, timeToComplete, useShortcut = false) {
+  const phases = getEffectiveTimePhases(timeToComplete, useShortcut)
+  if (!phases.length) return
   let minutesFromStart = 0
-  for (const phase of timeToComplete) {
+  for (const phase of phases) {
     if (PASSIVE_REMINDER_PHASES.has(phase.phase) && (phase.minutes ?? 0) >= 15) {
       cancelScheduledNotification(`recipe-advance-${recipeId}-${phase.phase}-${minutesFromStart}`)
     }
