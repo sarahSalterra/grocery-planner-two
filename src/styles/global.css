@@ -167,10 +167,7 @@ a { color: inherit; text-decoration: none; }
   transform: translateY(-1px);
 }
 
-.menu-card--optional {
-  border-style: dashed;
-  opacity: 0.85;
-}
+.menu-card--optional {}
 
 .menu-card__icon { font-size: 1.6rem; flex-shrink: 0; }
 
@@ -1544,6 +1541,14 @@ a { color: inherit; text-decoration: none; }
   flex-shrink: 0;
 }
 
+.priority-item__icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  width: 1.6rem;
+  text-align: center;
+  line-height: 1;
+}
+
 .priority-item__text {
   display: flex;
   flex-direction: column;
@@ -1851,7 +1856,17 @@ a { color: inherit; text-decoration: none; }
 /* ─── Compact priority list (for settings sidebar) ──────────────────────────── */
 
 .priority-list--compact .priority-item { padding: 9px 10px; }
-.priority-item--compact .priority-item__label { font-size: 0.85rem; }
+.priority-item--compact .priority-item__label {
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.priority-item--compact .priority-item__label .priority-item__icon {
+  font-size: 0.85rem;
+  width: auto;
+  line-height: 1;
+}
 .priority-item--compact .priority-item__desc  { font-size: 0.7rem; }
 
 /* ─── Meal Planning Page ─────────────────────────────────────────────────────── */

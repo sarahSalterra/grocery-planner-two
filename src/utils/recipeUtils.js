@@ -271,12 +271,22 @@ const SIZE_MULTIPLIER = {
  * than linearly. Prep time scales at 70% of the quantity multiplier to reflect
  * that doubling ingredients does not quite double active prep work.
  *
+ * Recipes with a minServings field (cakes, pies, muffins, breads, etc.) cannot be
+ * scaled below that minimum — the factor is clamped upward so the serving count
+ * never drops below minServings. Scaling UP is always allowed.
+ *
  * @param {object} recipe        - Recipe object from DEFAULT_RECIPES
  * @param {string} recipeSize    - One of "half" | "single" | "double" | "triple" | "quadruple"
  * @returns {object}             - Scaled recipe (new object, base data unchanged)
  */
 export function scaleRecipe(recipe, recipeSize = 'single') {
-  const factor = SIZE_MULTIPLIER[recipeSize] ?? 1
+  const requestedFactor = SIZE_MULTIPLIER[recipeSize] ?? 1
+
+  // Clamp factor so scaled servings never drop below the recipe's minimum batch size.
+  const baseServings = recipe.servings ?? 4
+  const minFactor = recipe.minServings ? recipe.minServings / baseServings : 0
+  const factor = Math.max(requestedFactor, minFactor)
+
   if (factor === 1) return recipe
 
   const scaledServings = Math.round((recipe.servings ?? 4) * factor)

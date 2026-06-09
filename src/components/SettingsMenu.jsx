@@ -105,7 +105,10 @@ function CookingPriorityView({ preferences, onUpdate }) {
               <span className="priority-item__rank">{index + 1}</span>
               <div className="priority-item__text">
                 <span className="priority-item__label-row">
-                  <span className="priority-item__label">{p.label}</span>
+                  <span className="priority-item__label">
+                    {p.icon && <span className="priority-item__icon" aria-hidden="true">{p.icon}</span>}
+                    {p.label}
+                  </span>
                   {tip && (
                     <button
                       className="priority-learn-btn"
@@ -308,6 +311,7 @@ function ShopScheduleView({ preferences, onUpdate }) {
 // ─── Sub-view: Edit Substitution Mode ────────────────────────────────────────
 
 function EditSubstitutionView({ preferences, onUpdate }) {
+  const recs    = getRecommendations(preferences.prioritiesRanked ?? [])
   const options = [
     { id: 'strict',  label: 'Strict',  desc: 'Most technical — minimal substitutions, closest to the original recipe' },
     { id: 'regular', label: 'Regular', desc: 'Flexible and intuitive — sensible swaps when needed (default)' },
@@ -319,16 +323,28 @@ function EditSubstitutionView({ preferences, onUpdate }) {
         Controls how many substitution options are shown on recipe pages when "Show Substitutions" is on.
       </p>
       <div className="settings-option-cards">
-        {options.map((opt) => (
-          <button
-            key={opt.id}
-            className={`settings-option-card settings-option-card--row ${preferences.substitutionMode === opt.id ? 'settings-option-card--selected' : ''}`}
-            onClick={() => onUpdate({ substitutionMode: opt.id })}
-          >
-            <span className="settings-option-card__label">{opt.label}</span>
-            <span className="settings-option-card__desc">{opt.desc}</span>
-          </button>
-        ))}
+        {options.map((opt) => {
+          const isSelected    = preferences.substitutionMode === opt.id
+          const isRecommended = (opt.id === 'lenient' && recs.lenientRecommended && !isSelected)
+                             || (opt.id === 'strict'  && recs.strictRecommended  && !isSelected)
+          return (
+            <button
+              key={opt.id}
+              className={[
+                'settings-option-card settings-option-card--row',
+                isSelected    ? 'settings-option-card--selected'    : '',
+                isRecommended ? 'settings-option-card--recommended' : '',
+              ].join(' ')}
+              onClick={() => onUpdate({ substitutionMode: opt.id })}
+            >
+              <span className="settings-option-card__label">{opt.label}</span>
+              <span className="settings-option-card__desc">{opt.desc}</span>
+              {isRecommended && (
+                <span className="settings-option-card__badge">Recommended</span>
+              )}
+            </button>
+          )
+        })}
       </div>
     </div>
   )
@@ -381,9 +397,16 @@ function DietaryView({ preferences, onUpdate }) {
   const [allergyInput, setAllergyInput] = useState('')
 
   function toggleMode(modeId) {
-    const next = activeModes.includes(modeId)
+    let next = activeModes.includes(modeId)
       ? activeModes.filter((m) => m !== modeId)
       : [...activeModes, modeId]
+    // Pescatarian allows fish so it conflicts with vegetarian/vegan (no meat/fish).
+    // Remove the conflicting modes whenever one side of the conflict is added.
+    if (modeId === 'pescatarian' && !activeModes.includes(modeId)) {
+      next = next.filter((m) => m !== 'vegetarian' && m !== 'vegan')
+    } else if ((modeId === 'vegetarian' || modeId === 'vegan') && !activeModes.includes(modeId)) {
+      next = next.filter((m) => m !== 'pescatarian')
+    }
     onUpdate({ dietaryModes: next })
   }
 

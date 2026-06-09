@@ -102,36 +102,43 @@ export const SHOP_SCHEDULES = [
 export const PRIORITIES = [
   {
     id: "cheapest",
+    icon: "💰",
     label: "Cost-Effective",
     desc: "Prioritize recipes that cost the least to make",
   },
   {
     id: "easiest",
+    icon: "⭐",
     label: "Easy to Make",
     desc: "Prefer simple, low-effort recipes",
   },
   {
     id: "quickest",
+    icon: "⏱️",
     label: "Quick to Cook",
     desc: "Get meals done in the least amount of time",
   },
   {
     id: "exploration",
+    icon: "🌍",
     label: "Explore Flavors",
     desc: "Try new recipes and cuisines for fun",
   },
   {
     id: "frequency",
+    icon: "📅",
     label: "Cook Less Often",
     desc: "Minimize how many times per week you cook",
   },
   {
     id: "low-waste",
+    icon: "♻️",
     label: "Low Waste",
     desc: "Use up ingredients and avoid clutter or spoilage",
   },
   {
     id: "healthy",
+    icon: "🥗",
     label: "Healthiness",
     desc: "Prefer lighter, lower-calorie meals",
   },

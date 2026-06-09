@@ -103,6 +103,7 @@ function PageTwo({ data, onChange }) {
           return (
             <li key={id} className="priority-item">
               <span className="priority-item__rank">{index + 1}</span>
+              {priority.icon && <span className="priority-item__icon" aria-hidden="true">{priority.icon}</span>}
               <div className="priority-item__text">
                 <span className="priority-item__label">{priority.label}</span>
                 <span className="priority-item__desc">{priority.desc}</span>
@@ -330,9 +331,16 @@ function PageFour({ data, onChange }) {
 
   function toggleMode(modeId) {
     const current = data.dietaryModes ?? []
-    const next = current.includes(modeId)
+    let next = current.includes(modeId)
       ? current.filter((m) => m !== modeId)
       : [...current, modeId]
+    // Pescatarian allows fish so it conflicts with vegetarian/vegan (no meat/fish).
+    // Remove the conflicting modes whenever one side of the conflict is added.
+    if (modeId === 'pescatarian' && !current.includes(modeId)) {
+      next = next.filter((m) => m !== 'vegetarian' && m !== 'vegan')
+    } else if ((modeId === 'vegetarian' || modeId === 'vegan') && !current.includes(modeId)) {
+      next = next.filter((m) => m !== 'pescatarian')
+    }
     onChange('dietaryModes', next)
   }
 

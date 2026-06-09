@@ -6,6 +6,7 @@ import { getPreferences, savePreferences } from '../db/preferencesDB'
 import StepNav from '../components/StepNav'
 import MiniSettings from '../components/MiniSettings'
 import { isRecipeAllergyExcluded } from '../utils/dietaryUtils'
+import { scaleRecipe } from '../utils/recipeUtils'
 
 const MAX_SUGGESTIONS = 8
 
@@ -276,8 +277,9 @@ export default function LowWaste() {
               <ul className="lw-recipe-list">
                 {matchingRecipes.map((recipe) => {
                   const isSelected = selectedRecipes.has(recipe.id)
+                  const scaledRecipe = scaleRecipe(recipe, preferences.recipeSize ?? 'single')
 
-                  const matchedIngredients = recipe.ingredients
+                  const matchedIngredients = scaledRecipe.ingredients
                     .filter((ing) => selectedIngredientIds.has(ing.ingredientId))
                     .map((ing) => ({
                       id:       ing.ingredientId,
