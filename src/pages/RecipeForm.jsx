@@ -585,61 +585,6 @@ export default function RecipeForm() {
           </FormField>
         </FormSection>
 
-        {/* Equipment */}
-        <FormSection title="Needed Equipment">
-          <p className="form-empty-note">
-            Search for tools needed beyond normal ingredients. Basic items are common tools;
-            special items are more likely to require a fully equipped kitchen.
-          </p>
-          <div className="equipment-picker">
-            <div className="equipment-picker__input-row">
-              <input
-                className="form-input"
-                list="equipment-options"
-                type="text"
-                placeholder="Type equipment name"
-                value={equipmentInput}
-                onChange={(e) => setEquipmentInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault()
-                    addEquipmentByName()
-                  }
-                }}
-              />
-              <button
-                className="form-add-row-btn equipment-picker__add"
-                onClick={addEquipmentByName}
-              >
-                Add
-              </button>
-            </div>
-            {selectedEquipment.length === 0 ? (
-              <p className="form-empty-note">No equipment selected yet.</p>
-            ) : (
-              <div className="equipment-tag-list">
-                {selectedEquipment.map((item) => (
-                  <div key={item.id} className="equipment-tag">
-                    <div>
-                      <span className="equipment-tag__name">{item.name}</span>
-                      <span className="equipment-tag__meta">
-                        {item.type}{item.substitutePossible ? ' · substitute possible' : ''}
-                      </span>
-                    </div>
-                    <button
-                      className="equipment-tag__remove"
-                      onClick={() => removeEquipment(item.id)}
-                      title="Remove equipment"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </FormSection>
-
         {/* Ingredients */}
         <FormSection title="Ingredients">
           {metricUnits && (
@@ -701,8 +646,8 @@ export default function RecipeForm() {
           <button className="form-add-row-btn" onClick={addIngredient}>+ Add Ingredient</button>
         </FormSection>
 
-        {/* Steps */}
-        <FormSection title="Steps">
+        {/* Directions */}
+        <FormSection title="Directions">
           {form.steps.length === 0 && (
             <p className="form-empty-note">No steps yet.</p>
           )}
@@ -740,6 +685,61 @@ export default function RecipeForm() {
             </div>
           ))}
           <button className="form-add-row-btn" onClick={addStep}>+ Add Step</button>
+        </FormSection>
+
+        {/* Equipment — optional; placed after directions so it can be skipped easily */}
+        <FormSection title="Needed Equipment">
+          <p className="form-empty-note">
+            Optional. Search for tools needed beyond normal ingredients. Basic items are common tools;
+            special items are more likely to require a fully equipped kitchen.
+          </p>
+          <div className="equipment-picker">
+            <div className="equipment-picker__input-row">
+              <input
+                className="form-input"
+                list="equipment-options"
+                type="text"
+                placeholder="Type equipment name"
+                value={equipmentInput}
+                onChange={(e) => setEquipmentInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault()
+                    addEquipmentByName()
+                  }
+                }}
+              />
+              <button
+                className="form-add-row-btn equipment-picker__add"
+                onClick={addEquipmentByName}
+              >
+                Add
+              </button>
+            </div>
+            {selectedEquipment.length === 0 ? (
+              <p className="form-empty-note">No equipment selected yet.</p>
+            ) : (
+              <div className="equipment-tag-list">
+                {selectedEquipment.map((item) => (
+                  <div key={item.id} className="equipment-tag">
+                    <div>
+                      <span className="equipment-tag__name">{item.name}</span>
+                      <span className="equipment-tag__meta">
+                        {item.type}{item.substitutePossible ? ' · substitute possible' : ''}
+                      </span>
+                    </div>
+                    <button
+                      className="equipment-tag__remove"
+                      onClick={() => removeEquipment(item.id)}
+                      title="Remove equipment"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </FormSection>
 
         {/* Recommended Sides */}

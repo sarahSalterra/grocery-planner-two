@@ -49,6 +49,8 @@ const DEFAULTS = {
   shopDay2:     null,                // 0–6 (Sun–Sat), second shop day (twice-weekly only)
   shopCycleRef: null,                // ISO date string "YYYY-MM-DD" — first shopping date of
                                      // the biweekly cycle; weeks 0,2,4… from this are shop weeks
+  // Custom department order for the Shop page; null = DEFAULT_SHOP_DEPARTMENT_ORDER
+  shopDepartmentOrder: null,
 
   // ── Inventory & Ingredients ─────────────────────────────────────────────────
   householdInventory: ["toilet-paper", "toothpaste", "ziplock-bags"],

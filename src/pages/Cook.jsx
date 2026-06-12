@@ -286,10 +286,10 @@ function CookRecipeModal({ recipe, preferences, ingredientsMap, allergyOmitIds, 
             </ul>
           </div>
 
-          {/* Steps */}
+          {/* Directions */}
           <div className="modal-section">
             <h3 className="modal-section__title">
-              {browseMode ? 'Steps' : `Steps — ${stepsChecked.size} / ${recipe.steps.length} done`}
+              {browseMode ? 'Directions' : `Directions — ${stepsChecked.size} / ${recipe.steps.length} done`}
             </h3>
             <ol className="cook-step-list">
               {recipe.steps.map((step, i) => {

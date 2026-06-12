@@ -15,7 +15,7 @@
 import { getRecipes }        from '../db/recipesDB'
 import { getIngredients }    from '../db/ingredientsDB'
 import { getHouseholdGoods } from '../db/householdGoodsDB'
-import { DEPARTMENTS }       from '../db/data/filterOptions'
+import { DEFAULT_SHOP_DEPARTMENT_ORDER } from '../db/data/filterOptions'
 import { getAllergyOmitIds, getDietarySubstitute, getShortcutFallbackSub, recipeNeedsAutoShortcut, isDietaryFieldIncompatible, DIETARY_MODE_FIELD } from './dietaryUtils'
 import { scaleRecipe, parseQtyStr } from './recipeUtils'
 
@@ -31,10 +31,44 @@ export const DEPT_LABELS = {
   dairy:     'Dairy',
   snacks:    'Snacks',
   drinks:    'Drinks',
+  florist:   'Florist',
   household: 'Household',
   hygiene:   'Hygiene',
   pets:      'Pets',
-  wholesale: 'Wholesale 🏪',
+  baby:      'Baby',
+  wholesale:            'Wholesale',
+  'international market': 'International Market',
+}
+
+export function normalizeShopDepartmentOrder(order) {
+  const defaults = DEFAULT_SHOP_DEPARTMENT_ORDER
+  if (!order?.length) return [...defaults]
+  const seen = new Set()
+  const result = []
+  for (const d of order) {
+    if (defaults.includes(d) && !seen.has(d)) {
+      result.push(d)
+      seen.add(d)
+    }
+  }
+  for (const d of defaults) {
+    if (!seen.has(d)) result.push(d)
+  }
+  return result
+}
+
+export function getShopDepartmentOrder(preferences) {
+  return normalizeShopDepartmentOrder(preferences?.shopDepartmentOrder)
+}
+
+export function sortSectionsByShopOrder(sections, preferences) {
+  const order = getShopDepartmentOrder(preferences)
+  const index = Object.fromEntries(order.map((d, i) => [d, i]))
+  return [...sections].sort((a, b) => {
+    const ai = index[a.dept] ?? 999
+    const bi = index[b.dept] ?? 999
+    return ai - bi
+  })
 }
 
 /**
@@ -290,15 +324,24 @@ function _buildGroceryList(preferences, recipesMap, ingredientsMap, goodsMap) {
   })
   Object.values(byDept).forEach((arr) => arr.sort((a, b) => a.name.localeCompare(b.name)))
 
-  const sections = DEPARTMENTS.filter((d) => byDept[d]?.length > 0).map((d) => ({
-    dept:  d,
-    label: DEPT_LABELS[d] ?? d,
-    items: byDept[d],
-  }))
+  const deptOrder = getShopDepartmentOrder(preferences)
+  const sections = []
 
-  if (wholesaleItems.length > 0) {
-    wholesaleItems.sort((a, b) => a.name.localeCompare(b.name))
-    sections.push({ dept: 'wholesale', label: DEPT_LABELS.wholesale, items: wholesaleItems })
+  for (const d of deptOrder) {
+    if (d === 'wholesale') {
+      if (wholesaleItems.length > 0) {
+        wholesaleItems.sort((a, b) => a.name.localeCompare(b.name))
+        sections.push({ dept: 'wholesale', label: DEPT_LABELS.wholesale, items: wholesaleItems })
+      }
+      continue
+    }
+    if (byDept[d]?.length > 0) {
+      sections.push({
+        dept:  d,
+        label: DEPT_LABELS[d] ?? d,
+        items: byDept[d],
+      })
+    }
   }
 
   return sections

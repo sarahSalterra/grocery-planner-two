@@ -3,10 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import StepNav from '../components/StepNav'
 import MiniSettings from '../components/MiniSettings'
 import { getPreferences, savePreferences } from '../db/preferencesDB'
-import { buildGroceryList, DEPT_LABELS } from '../utils/groceryUtils'
+import { buildGroceryList, DEPT_LABELS, sortSectionsByShopOrder } from '../utils/groceryUtils'
 import { getIngredients } from '../db/ingredientsDB'
 import { getStackedSubOptions } from '../utils/dietaryUtils'
-import { DEPARTMENTS } from '../db/data/filterOptions'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -15,7 +14,6 @@ function fmtNum(n) {
 }
 
 const MAX_ADD_SUGGESTIONS = 6
-const DEPT_ORDER = [...DEPARTMENTS, 'wholesale']
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -168,8 +166,6 @@ export default function Shop() {
 
   // ── Merge extra items into sections by department ─────────────────────────
   const displaySections = useMemo(() => {
-    if (extraItems.length === 0) return sections
-
     const result   = sections.map((s) => ({ ...s, items: [...s.items] }))
     const deptIndex = Object.fromEntries(result.map((s, i) => [s.dept, i]))
 
@@ -197,14 +193,8 @@ export default function Shop() {
       }
     }
 
-    result.sort((a, b) => {
-      const ai = DEPT_ORDER.indexOf(a.dept)
-      const bi = DEPT_ORDER.indexOf(b.dept)
-      return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi)
-    })
-
-    return result
-  }, [sections, extraItems])
+    return sortSectionsByShopOrder(result, preferences)
+  }, [sections, extraItems, preferences])
 
   const totalItems  = displaySections.reduce((sum, s) => sum + s.items.length, 0)
   const allDone     = totalItems > 0 && checkedCount === totalItems

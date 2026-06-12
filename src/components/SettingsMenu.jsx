@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import {
   HOUSEHOLD_SIZES,
   PRIORITIES,
@@ -11,6 +11,7 @@ import {
   getNotificationPermission,
 } from '../notifications/notificationService'
 import { DIETARY_MODE_LABELS } from '../utils/dietaryUtils'
+import { getShopDepartmentOrder, DEPT_LABELS } from '../utils/groceryUtils'
 import { GLOSSARY } from '../db/data/glossary'
 
 // ─── Sub-view: Household Size ─────────────────────────────────────────────────
@@ -308,6 +309,103 @@ function ShopScheduleView({ preferences, onUpdate }) {
   )
 }
 
+// ─── Sub-view: Store Departments ─────────────────────────────────────────────
+
+function ShopDeptDragHandle() {
+  return (
+    <span className="shop-dept-item__handle" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="currentColor" className="shop-dept-item__handle-icon">
+        <circle cx="9" cy="7" r="1.5" />
+        <circle cx="15" cy="7" r="1.5" />
+        <circle cx="9" cy="12" r="1.5" />
+        <circle cx="15" cy="12" r="1.5" />
+        <circle cx="9" cy="17" r="1.5" />
+        <circle cx="15" cy="17" r="1.5" />
+      </svg>
+    </span>
+  )
+}
+
+function ShoppingDepartmentsView({ preferences, onUpdate }) {
+  const [order, setOrder] = useState(() => getShopDepartmentOrder(preferences))
+  const [dragIndex, setDragIndex] = useState(null)
+  const [overIndex, setOverIndex] = useState(null)
+
+  useEffect(() => {
+    setOrder(getShopDepartmentOrder(preferences))
+  }, [preferences.shopDepartmentOrder])
+
+  function commitOrder(next) {
+    setOrder(next)
+    onUpdate({ shopDepartmentOrder: next })
+  }
+
+  function reorder(from, to) {
+    if (from === null || to === null || from === to) return
+    const next = [...order]
+    const [moved] = next.splice(from, 1)
+    next.splice(to, 0, moved)
+    commitOrder(next)
+  }
+
+  function handleDragStart(e, index) {
+    setDragIndex(index)
+    e.dataTransfer.effectAllowed = 'move'
+    e.dataTransfer.setData('text/plain', String(index))
+  }
+
+  function handleDragOver(e, index) {
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'move'
+    if (dragIndex !== index) setOverIndex(index)
+  }
+
+  function handleDrop(e, index) {
+    e.preventDefault()
+    const from = dragIndex ?? parseInt(e.dataTransfer.getData('text/plain'), 10)
+    if (!Number.isNaN(from)) reorder(from, index)
+    setDragIndex(null)
+    setOverIndex(null)
+  }
+
+  function handleDragEnd() {
+    setDragIndex(null)
+    setOverIndex(null)
+  }
+
+  return (
+    <div className="settings-subview__body">
+      <p className="settings-subview__desc">
+        Drag departments to set the order they appear on your shopping list, matching how you walk through your store.
+      </p>
+      <ol className="shop-dept-list">
+        {order.map((dept, index) => (
+          <li
+            key={dept}
+            className={[
+              'shop-dept-item',
+              dragIndex === index ? 'shop-dept-item--dragging' : '',
+              overIndex === index && dragIndex !== index ? 'shop-dept-item--over' : '',
+            ].filter(Boolean).join(' ')}
+            draggable
+            onDragStart={(e) => handleDragStart(e, index)}
+            onDragOver={(e) => handleDragOver(e, index)}
+            onDrop={(e) => handleDrop(e, index)}
+            onDragEnd={handleDragEnd}
+            onDragLeave={() => { if (overIndex === index) setOverIndex(null) }}
+          >
+            <ShopDeptDragHandle />
+            <span className="shop-dept-item__rank">{index + 1}</span>
+            <span className="shop-dept-item__label">
+              {DEPT_LABELS[dept] ?? dept.charAt(0).toUpperCase() + dept.slice(1)}
+            </span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  )
+}
+
 // ─── Sub-view: Edit Substitution Mode ────────────────────────────────────────
 
 function EditSubstitutionView({ preferences, onUpdate }) {
@@ -530,12 +628,38 @@ function ToggleRow({ label, checked, onToggle }) {
   )
 }
 
+function EditPencilIcon() {
+  return (
+    <svg
+      className="settings-edit-icon"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M12 20h9" />
+      <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+    </svg>
+  )
+}
+
 function ToggleEditRow({ label, checked, onToggle, onEdit }) {
   return (
     <div className="settings-row">
       <span className="settings-row__label">{label}</span>
       <div className="settings-row__controls">
-        <button className="settings-edit-btn" onClick={onEdit}>Edit</button>
+        <button
+          type="button"
+          className="settings-edit-btn"
+          onClick={onEdit}
+          aria-label={`Edit ${label}`}
+        >
+          <EditPencilIcon />
+        </button>
         <button
           className={`toggle ${checked ? 'toggle--on' : 'toggle--off'}`}
           onClick={onToggle}
@@ -545,20 +669,6 @@ function ToggleEditRow({ label, checked, onToggle, onEdit }) {
           <span className="toggle__knob" />
         </button>
       </div>
-    </div>
-  )
-}
-
-function ActionRow({ label, danger, onClick }) {
-  return (
-    <div className="settings-row">
-      <span className={`settings-row__label${danger ? ' settings-row__label--danger' : ''}`}>{label}</span>
-      <button
-        className={`settings-action-btn${danger ? ' settings-action-btn--danger' : ''}`}
-        onClick={onClick}
-      >
-        {danger ? 'Reset' : 'Edit →'}
-      </button>
     </div>
   )
 }
@@ -757,6 +867,7 @@ const VIEW_TITLES = {
   kitchenEquipment: 'Kitchen Equipment',
   planMode:        'Planned Cooking',
   shopSchedule:    'Shopping Schedule',
+  shopDepartments: 'Store Departments',
   editSubstitution:'Substitution Mode',
   editShortcut:    'Shortcut Mode',
   dietary:         'Diet & Allergies',
@@ -825,6 +936,7 @@ export default function SettingsMenu({ isOpen, onClose, preferences, onUpdate })
         {view === 'kitchenEquipment'&& <KitchenEquipmentView preferences={preferences} onUpdate={onUpdate} />}
         {view === 'planMode'        && <PlanModeView        preferences={preferences} onUpdate={onUpdate} />}
         {view === 'shopSchedule'    && <ShopScheduleView    preferences={preferences} onUpdate={onUpdate} />}
+        {view === 'shopDepartments' && <ShoppingDepartmentsView preferences={preferences} onUpdate={onUpdate} />}
         {view === 'editSubstitution'&& <EditSubstitutionView preferences={preferences} onUpdate={onUpdate} />}
         {view === 'editShortcut'    && <EditShortcutView    preferences={preferences} onUpdate={onUpdate} />}
         {view === 'dietary'         && <DietaryView         preferences={preferences} onUpdate={onUpdate} />}
@@ -856,6 +968,7 @@ export default function SettingsMenu({ isOpen, onClose, preferences, onUpdate })
                 onClick={() => setView('dietary')}
               />
               <DrillRow label="Shopping Schedule" onClick={() => setView('shopSchedule')} />
+              <DrillRow label="Store Departments" onClick={() => setView('shopDepartments')} />
               <ToggleRow
                 label="Wholesale Shopping"
                 checked={preferences.wholesale ?? false}
@@ -865,16 +978,13 @@ export default function SettingsMenu({ isOpen, onClose, preferences, onUpdate })
 
             <div className="settings-section">
               <h3 className="settings-section__title">Customize</h3>
-              <ActionRow label="Customize Recipes"   onClick={() => onUpdate({ _action: 'customizeRecipes' })} />
-              <ActionRow label="Customize Inventory" onClick={() => onUpdate({ _action: 'customizeInventory' })} />
+              <DrillRow label="Customize Recipes" onClick={() => onUpdate({ _action: 'customizeRecipes' })} />
+              <DrillRow label="Customize Inventory" onClick={() => onUpdate({ _action: 'customizeInventory' })} />
             </div>
 
             <div className="settings-section">
               <h3 className="settings-section__title">Cooking Guide</h3>
-              <div className="settings-row">
-                <span className="settings-row__label">Glossary</span>
-                <button className="settings-action-btn" onClick={() => setView('glossary')}>View →</button>
-              </div>
+              <DrillRow label="Glossary" onClick={() => setView('glossary')} />
               <ToggleRow
                 label="Beginner Mode"
                 checked={preferences.glossaryBeginnerMode ?? false}

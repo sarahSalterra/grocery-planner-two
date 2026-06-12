@@ -10,6 +10,10 @@ import { scaleRecipe } from '../utils/recipeUtils'
 
 const MAX_SUGGESTIONS = 8
 
+function countSelectedIngredientMatches(recipe, selectedIds) {
+  return (recipe.ingredients ?? []).filter((ing) => selectedIds.has(ing.ingredientId)).length
+}
+
 // Mirrors the badge logic in MealPlanning so the two UIs stay consistent
 const PRIORITY_TO_BADGE = {
   cheapest:    (r) => r.priceLevel        ? { label: r.priceLevel,      type: 'price'      } : null,
@@ -73,10 +77,16 @@ export default function LowWaste() {
 
   const matchingRecipes = useMemo(() => {
     if (selectedIngredientIds.size === 0) return []
-    return recipes.filter((recipe) => {
-      if (allergyList.length && isRecipeAllergyExcluded(recipe, ingredientsMap, allergyList)) return false
-      return (recipe.ingredients ?? []).some((ing) => selectedIngredientIds.has(ing.ingredientId))
-    })
+    return recipes
+      .filter((recipe) => {
+        if (allergyList.length && isRecipeAllergyExcluded(recipe, ingredientsMap, allergyList)) return false
+        return countSelectedIngredientMatches(recipe, selectedIngredientIds) > 0
+      })
+      .sort((a, b) => {
+        const diff = countSelectedIngredientMatches(b, selectedIngredientIds)
+          - countSelectedIngredientMatches(a, selectedIngredientIds)
+        return diff !== 0 ? diff : a.name.localeCompare(b.name)
+      })
   }, [recipes, ingredientsMap, allergyList, selectedIngredientIds])
 
   // ── Priority badges (mirrors MealPlanning logic) ──────────────────────────

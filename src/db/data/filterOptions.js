@@ -88,3 +88,10 @@ export const ADDITIONAL_DEPARTMENTS = [
   "wholesale",
   "international market",
 ]
+
+// Default aisle order on the Shop page (wholesale last; user can customize in settings)
+export const DEFAULT_SHOP_DEPARTMENT_ORDER = [
+  ...DEPARTMENTS,
+  ...ADDITIONAL_DEPARTMENTS.filter((d) => d !== "wholesale"),
+  "wholesale",
+]
