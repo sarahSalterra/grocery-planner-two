@@ -903,6 +903,7 @@ a { color: inherit; text-decoration: none; }
 .recipe-badge--mealprep   { background: #e0f7fa; color: #00695c; }
 .recipe-badge--shortcut   { background: #fff8e1; color: #f57f17; font-weight: 700; }
 .recipe-badge--calories   { background: #f1f8e9; color: #558b2f; }
+.recipe-badge--similar    { background: #ede7f6; color: #4527a0; }
 
 .recipe-card__edit-btn {
   font-size: 0.8rem;

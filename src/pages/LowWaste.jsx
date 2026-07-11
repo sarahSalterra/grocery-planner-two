@@ -7,11 +7,18 @@ import StepNav from '../components/StepNav'
 import MiniSettings from '../components/MiniSettings'
 import { isRecipeAllergyExcluded } from '../utils/dietaryUtils'
 import { scaleRecipe } from '../utils/recipeUtils'
+import {
+  buildIngredientEquivalence,
+  countEquivalenceMatches,
+  ingredientMatchesSelection,
+  recipeMatchesSelectedIngredients,
+} from '../utils/ingredientEquivalenceUtils'
 
 const MAX_SUGGESTIONS = 8
 
-function countSelectedIngredientMatches(recipe, selectedIds) {
-  return (recipe.ingredients ?? []).filter((ing) => selectedIds.has(ing.ingredientId)).length
+function findMatchingSelectedIngredient(ingredientId, selectedIngredients, canonical) {
+  const group = canonical[ingredientId] ?? ingredientId
+  return selectedIngredients.find((si) => (canonical[si.id] ?? si.id) === group) ?? null
 }
 
 // Mirrors the badge logic in MealPlanning so the two UIs stay consistent
@@ -73,21 +80,26 @@ export default function LowWaste() {
     () => Object.fromEntries(ingredients.map((i) => [i.id, i])),
     [ingredients]
   )
+  const ingredientEquivalence = useMemo(
+    () => buildIngredientEquivalence(ingredients),
+    [ingredients]
+  )
   const allergyList = preferences.allergyIngredients ?? []
 
   const matchingRecipes = useMemo(() => {
     if (selectedIngredientIds.size === 0) return []
+    const { canonical } = ingredientEquivalence
     return recipes
       .filter((recipe) => {
         if (allergyList.length && isRecipeAllergyExcluded(recipe, ingredientsMap, allergyList)) return false
-        return countSelectedIngredientMatches(recipe, selectedIngredientIds) > 0
+        return recipeMatchesSelectedIngredients(recipe, selectedIngredientIds, canonical)
       })
       .sort((a, b) => {
-        const diff = countSelectedIngredientMatches(b, selectedIngredientIds)
-          - countSelectedIngredientMatches(a, selectedIngredientIds)
+        const diff = countEquivalenceMatches(b, selectedIngredientIds, canonical)
+          - countEquivalenceMatches(a, selectedIngredientIds, canonical)
         return diff !== 0 ? diff : a.name.localeCompare(b.name)
       })
-  }, [recipes, ingredientsMap, allergyList, selectedIngredientIds])
+  }, [recipes, ingredientsMap, allergyList, selectedIngredientIds, ingredientEquivalence])
 
   // ── Priority badges (mirrors MealPlanning logic) ──────────────────────────
   const badgePriorities = useMemo(() => {
@@ -123,9 +135,10 @@ export default function LowWaste() {
     }
     setSelectedRecipes((prev) => {
       const next = new Set()
+      const { canonical } = ingredientEquivalence
       for (const rid of prev) {
         const recipe = recipes.find((r) => r.id === rid)
-        if (recipe?.ingredients.some((ing) => remaining.has(ing.ingredientId))) {
+        if (recipe?.ingredients.some((ing) => ingredientMatchesSelection(ing.ingredientId, remaining, canonical))) {
           next.add(rid)
         }
       }
@@ -151,10 +164,11 @@ export default function LowWaste() {
 
     // Collect all use-up ingredient IDs referenced by the selected recipes
     const useUpIds = new Set()
+    const { canonical } = ingredientEquivalence
     for (const recipeId of selectedRecipes) {
       const recipe = recipes.find((r) => r.id === recipeId)
       recipe?.ingredients
-        .filter((ing) => selectedIngredientIds.has(ing.ingredientId))
+        .filter((ing) => ingredientMatchesSelection(ing.ingredientId, selectedIngredientIds, canonical))
         .forEach((ing) => useUpIds.add(ing.ingredientId))
     }
 
@@ -290,14 +304,24 @@ export default function LowWaste() {
                   const scaledRecipe = scaleRecipe(recipe, preferences.recipeSize ?? 'single')
 
                   const matchedIngredients = scaledRecipe.ingredients
-                    .filter((ing) => selectedIngredientIds.has(ing.ingredientId))
-                    .map((ing) => ({
-                      id:       ing.ingredientId,
-                      name:     selectedIngredients.find((si) => si.id === ing.ingredientId)?.name,
-                      quantity: ing.quantity,
-                      unit:     ing.unit,
-                    }))
-                    .filter((ing) => ing.name)
+                    .filter((ing) => ingredientMatchesSelection(
+                      ing.ingredientId,
+                      selectedIngredientIds,
+                      ingredientEquivalence.canonical
+                    ))
+                    .map((ing) => {
+                      const matchedSearch = findMatchingSelectedIngredient(
+                        ing.ingredientId,
+                        selectedIngredients,
+                        ingredientEquivalence.canonical
+                      )
+                      return {
+                        id:       ing.ingredientId,
+                        name:     matchedSearch?.name ?? ingredientsMap[ing.ingredientId]?.name ?? ing.ingredientId,
+                        quantity: ing.quantity,
+                        unit:     ing.unit,
+                      }
+                    })
 
                   return (
                     <li

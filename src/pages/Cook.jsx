@@ -5,6 +5,7 @@ import MiniSettings from '../components/MiniSettings'
 import { getPreferences, savePreferences } from '../db/preferencesDB'
 import { getRecipes } from '../db/recipesDB'
 import { getIngredients } from '../db/ingredientsDB'
+import { completeRecipeInPlan } from '../utils/mealPlanUtils'
 import { CUISINES } from '../db/data/filterOptions'
 import { getRecipeEquipment } from '../db/data/equipment.js'
 import CookPromptModal from '../notifications/CookPromptModal'
@@ -568,11 +569,6 @@ export default function Cook() {
   const isPlanned = planMode === 'planned'
   const today     = new Date().getDay()
 
-  const cookedIds = useMemo(
-    () => new Set(preferences.cookedRecipeIds ?? []),
-    [preferences.cookedRecipeIds]
-  )
-
   // ── View state ────────────────────────────────────────────────────────────
   const [showAllWeek,       setShowAllWeek]       = useState(false)
   const [activeRecipeId,    setActiveRecipeId]    = useState(null)  // recipe open in modal
@@ -612,12 +608,14 @@ export default function Cook() {
 
   // Which meals to show depending on toggle
   const displayedMeals = isPlanned && !showAllWeek ? todaysMeals : allPlannedMeals
-
-  // Remove already-cooked recipes from the display
-  const activeMeals = displayedMeals.filter((m) => !cookedIds.has(m.recipeId))
+  const activeMeals = displayedMeals
 
   const hasAnyPlanned  = allPlannedMeals.length > 0
-  const allCurrentDone = activeMeals.length === 0 && displayedMeals.length > 0
+  const allCurrentDone =
+    activeMeals.length === 0 &&
+    isPlanned &&
+    !showAllWeek &&
+    allPlannedMeals.length > 0
 
   // ── Recipe actions ────────────────────────────────────────────────────────
   function openRecipe(id, useShortcut = false) {
@@ -632,10 +630,7 @@ export default function Cook() {
   }
 
   function completeRecipe(id) {
-    const updated = {
-      ...preferences,
-      cookedRecipeIds: [...(preferences.cookedRecipeIds ?? []), id],
-    }
+    const updated = completeRecipeInPlan(preferences, id)
     setPreferencesState(updated)
     savePreferences(updated)
     setActiveRecipeId(null)

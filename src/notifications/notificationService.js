@@ -208,16 +208,7 @@ function _markSentToday(key) {
 // ─── Daily notification helpers ────────────────────────────────────────────────
 
 function _hasUncookedMeals(preferences) {
-  const cooked   = new Set(preferences.cookedRecipeIds ?? [])
-  const planMode = preferences.planMode ?? 'unplanned'
-  if (planMode === 'planned') {
-    return Object.values(preferences.mealsByDay ?? {}).some(
-      (dayMeals) => dayMeals.some((m) => !cooked.has(m.recipeId))
-    )
-  }
-  return [...(preferences.weekMeals ?? []), ...(preferences.weekMeals2 ?? [])].some(
-    (m) => !cooked.has(m.recipeId)
-  )
+  return _hasMealsPlanned(preferences)
 }
 
 function _hasMealsPlanned(preferences) {
@@ -231,16 +222,13 @@ function _hasMealsPlanned(preferences) {
 async function _fireCookMorningNotification(preferences, todayDow) {
   const planMode  = preferences.planMode ?? 'unplanned'
   const isPlanned = planMode === 'planned'
-  const cooked    = new Set(preferences.cookedRecipeIds ?? [])
 
   let title = 'Cook Something Today? 🍳'
   let body  = 'You have recipes planned for this week. Want to make something today?'
   let url   = '/cook?cookPrompt=1'
 
   if (isPlanned) {
-    const todayMeals = (preferences.mealsByDay?.[todayDow] ?? []).filter(
-      (m) => !cooked.has(m.recipeId)
-    )
+    const todayMeals = preferences.mealsByDay?.[todayDow] ?? []
     if (todayMeals.length > 0) {
       title = 'Ready to Cook Today? 🍳'
       body  = 'You have meals planned for today. Ready to get started?'

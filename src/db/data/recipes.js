@@ -997,7 +997,7 @@ const DEFAULT_RECIPES = [
     timeRequirement: "short",
     multiTasking: "possible",
     mealprepIdeal: "no",
-    shortcutReplaces: null,
+    shortcutReplaces: "fresh chicken, roasted → rotisserie chicken",
     servings: 4,
     caloriesPerServing: 480,
     timeToComplete: [
@@ -1008,8 +1008,8 @@ const DEFAULT_RECIPES = [
     neededEquipment: ["stove", "skillet", "chef-knife", "cutting-board", "wooden-spoon", "measuring-spoons"],
 
     ingredients: [
-      { ingredientId: "chicken-breast",     quantity: "1",   unit: "lb",     shortcutSubstitute: "none" },
-      { ingredientId: "cremini-mushrooms",          quantity: "0.5",   unit: "cup",    shortcutSubstitute: "none" },
+      { ingredientId: "chicken-breast",     quantity: "1",   unit: "lb",     shortcutSubstitute: "rotisserie-chicken" },
+      { ingredientId: "cremini-mushrooms",          quantity: "0.5",   unit: "cup",    shortcutSubstitute: "omit" },
       { ingredientId: "red-bell-pepper",    quantity: "0.5", unit: "whole",  shortcutSubstitute: "none" },
       { ingredientId: "green-bell-pepper",  quantity: "0.5", unit: "whole",  shortcutSubstitute: "none" },
       { ingredientId: "brown-onion",              quantity: "0.25", unit: "whole",  shortcutSubstitute: "none" },
@@ -1026,9 +1026,9 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Marinate chicken",  text: "Trim excess fat and slice chicken breast into strips. Toss with olive oil, cumin, chili powder, garlic, and a pinch of salt. Let sit 10–15 minutes.", shortcutText: "Trim excess fat and slice chicken breast into strips." },
-      { name: "Cook chicken",      text: "Cook chicken over high heat in a skillet until golden and cooked through. Set aside.", shortcutText: "Cook the chicken in a skillet over medium-high heat until just starting to brown." },
-      { name: "Cook vegetables",   text: "In the same pan, sauté sliced bell peppers, mushrooms, and onion until softened and lightly charred.", shortcutText: "In the same pan, sauté sliced bell peppers, mushrooms, and onion with the chicken until slightly softened. Add the fajita seasoning and 1/4 cup of water to the skillet, reduce heat to medium, and continue to cook until chicken is cooked through and sauce has thickened (about 5-7 minutes)." },
+      { name: "Marinate chicken",  text: "Trim excess fat and slice chicken breast into strips. Toss with olive oil, cumin, chili powder, garlic, and a pinch of salt. Let sit 10–15 minutes.", shortcutText: "Peel the meat from a store-bought rotisserie chicken, tear or cut it into short strips." },
+      { name: "Cook chicken",      text: "Cook chicken over high heat in a skillet until golden and cooked through. Set aside.", shortcutText: "" },
+      { name: "Cook vegetables",   text: "In the same pan, sauté sliced bell peppers, mushrooms, and onion until softened and lightly charred.", shortcutText: "In the same pan, sauté sliced bell peppers, and onionin olive oil until slightly softened. Add the fajita seasoning and 1/4 cup of water to the skillet, reduce heat to medium, add the chicken, and continue to cook until chicken is warmed through and sauce has thickened (about 5-7 minutes)." },
       { name: "Serve",             text: "Serve chicken and veggies in warm tortillas with sour cream, cilantro, and lime if desired.", shortcutText: "no-shortcut" },
     ],
 
@@ -1750,27 +1750,27 @@ const DEFAULT_RECIPES = [
     neededEquipment: ["oven", "baking-dish", "mixing-bowl", "measuring-spoons", "measuring-cups", "stand-mixer", "baking-spatula"],
 
     ingredients: [
-      { ingredientId: "all-purpose-flour",              quantity: "2.5", unit: "cup",    shortcutSubstitute: "none" },
-      { ingredientId: "salted-butter",             quantity: "16",  unit: "tbsp",   shortcutSubstitute: "none" },
+      { ingredientId: "all-purpose-flour",              quantity: "4", unit: "cup",    shortcutSubstitute: "none" },
+      { ingredientId: "salted-butter",             quantity: "1.5",  unit: "cup",   shortcutSubstitute: "none" },
       { ingredientId: "brown-sugar",        quantity: "2",   unit: "cup",    shortcutSubstitute: "none" },
       { ingredientId: "granulated-sugar",              quantity: "0.5", unit: "cup",    shortcutSubstitute: "none" },
-      { ingredientId: "active-dry-yeast",              quantity: "4",   unit: "tsp",    shortcutSubstitute: "instant-yeast" },
+      { ingredientId: "active-dry-yeast",              quantity: "2.5",   unit: "tsp",    shortcutSubstitute: "instant-yeast" },
       { ingredientId: "eggs",              quantity: "2",   unit: "whole",  shortcutSubstitute: "none" },
       { ingredientId: "whole-milk",              quantity: "1",   unit: "cup",    shortcutSubstitute: "none" },
-      { ingredientId: "ground-cinnamon",           quantity: "12",  unit: "tsp",    shortcutSubstitute: "none" },
-      { ingredientId: "cream-cheese",       quantity: "16",  unit: "tbsp",   shortcutSubstitute: "cream-cheese-frosting" },
+      { ingredientId: "ground-cinnamon",           quantity: "6",  unit: "tbsp",    shortcutSubstitute: "none" },
+      { ingredientId: "cream-cheese",       quantity: "12",  unit: "tbsp",   shortcutSubstitute: "cream-cheese-frosting" },
       { ingredientId: "vanilla-extract",    quantity: "1",   unit: "tsp",    shortcutSubstitute: "omit" },
       { ingredientId: "powdered-sugar",     quantity: "2",   unit: "cup",    shortcutSubstitute: "omit" },
-      { ingredientId: "salt",                quantity: "0.5",   unit: "tsp",    shortcutSubstitute: "none" },
+      { ingredientId: "salt",                quantity: "0.25",   unit: "tsp",    shortcutSubstitute: "none" },
     ],
 
     steps: [
-      { name: "Make dough",        text: "Dissolve a teaspoon of the sugar in warm milk and sprinkle the yeast across the top of the milk, waiting afterwards to ensure that it activates (allow the yeast to sit for at least 5 minutes. If it has not developed a foamy appearance after 15, throw it out and try again with new yeast). Mix the yeast milk with the flour, softened butter, sugar, salt, and eggs. Knead until elastic or use a stand mixer with the dough hook to knead until smooth and elastic.", shortcutText: "Mix the instant yeast, milk, flour, softened butter, sugar, salt, and eggs in a mixing bowl until just combined. Knead until elastic or use a stand mixer with the dough hook to knead until smooth and elastic." },
+      { name: "Make dough",        text: "Dissolve a teaspoon of the sugar in warm milk and sprinkle the yeast across the top of the milk, waiting afterwards to ensure that it activates (allow the yeast to sit for at least 5 minutes. If it has not developed a foamy appearance after 15, throw it out and try again with new yeast). Mix the yeast milk with the flour, 1/3 cup of the softened butter (per cup of milk used), sugar, salt, and eggs. Knead until elastic or use a stand mixer with the dough hook to knead until smooth and elastic.", shortcutText: "Mix the instant yeast, milk, flour, 1/3 cup of the softened butter (per cup of milk used), sugar, salt, and eggs in a mixing bowl until just combined. Knead until elastic or use a stand mixer with the dough hook to knead until smooth and elastic." },
       { name: "First rise",        text: "Cover dough and let rise in a warm place until at least doubled, about 2-4 hours.", shortcutText: "no-shortcut" },
-      { name: "Make filling",       text: "Mix the remaining softened butter, brown sugar, and cinnamon until mixed evenly.", shortcutText: "If you only have one mixing bowl, you can spread the butter and sprinkle the brown sugar and cinnamon directly onto the rolled-out dough, skipping the filling mixing step altogether." },
+      { name: "Make filling",       text: "Mix 2/3 cups of the softened butter (per 2 cups of brown sugar used), the brown sugar, and cinnamon until mixed evenly.", shortcutText: "If you only have one mixing bowl, you can spread the butter (2/3 cups of the butter per 2 cups of brown sugar used) and sprinkle the brown sugar and cinnamon directly onto the rolled-out dough, skipping the filling mixing step altogether." },
       { name: "Fill & roll",       text: "Roll dough into a 1/4 inch thick rectangle. Spread with the filling as evenly as possible. Roll tightly into a log and slice into rolls.", shortcutText: "no-shortcut" },
       { name: "Second rise",       text: "Place rolls in a greased or parchment-lined baking dish or sheet. Cover and let rise another 30–60 minutes.", shortcutText: "no-shortcut" },
-      { name: "Bake & frost",      text: "Bake at 375°F for 20–25 minutes until golden. Beat cream cheese with powdered sugar and vanilla. Frost the rolls while warm and serve.", shortcutText: "Bake at 375°F for 20–25 minutes until golden. Frost the rolls while warm and serve." },
+      { name: "Bake & frost",      text: "Bake at 350°F for 20-22 minutes until golden. Beat the cream cheese, the remaining softened butter (1/2 cup per two cups of powdered sugar used) with the powdered sugar and vanilla. Frost the rolls while warm and serve.", shortcutText: "Bake at 350°F for 20–22 minutes until golden. Frost the rolls while warm and serve." },
     ],
 
     recommendedSides: [],

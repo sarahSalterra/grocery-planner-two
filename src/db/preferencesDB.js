@@ -68,6 +68,9 @@ const DEFAULTS = {
   // Ingredient IDs the user confirmed they already have enough of.
   // Used to omit those ingredients from the final grocery list.
   checkedAvailableIngredients: [],
+  // Meal-plan fingerprint saved when the pantry check is completed; used to
+  // restore checked-off ingredients when reopening the prompt for the same plan.
+  pantryCheckMealSignature: null,
 
   // ── Restock List ─────────────────────────────────────────────────────────
   selectedRestockItems: [],

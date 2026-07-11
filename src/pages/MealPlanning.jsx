@@ -10,6 +10,8 @@ import MiniSettings from '../components/MiniSettings'
 import { isRecipeAllergyExcluded, getAllergyOmitIds, getDietarySubstitutes, getShortcutFallbackSub, recipeNeedsAutoShortcut, isDietaryOmittedIngredient, DIETARY_MODE_LABELS, DIETARY_MODE_FIELD, getStackedSubOptions, isDietaryFieldIncompatible } from '../utils/dietaryUtils'
 import { convertToMetric, formatMinutes, formatPhaseLabel, getEffectiveTimePhases, getTotalTime, getTotalActiveTime, scaleRecipe, parseQtyStr } from '../utils/recipeUtils'
 import { buildGroceryList } from '../utils/groceryUtils'
+import { buildIngredientEquivalence } from '../utils/ingredientEquivalenceUtils'
+import { groupRecipesBySimilarIngredients } from '../utils/recipeGroupingUtils'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -59,6 +61,31 @@ function defaultSortFromPreferences(preferences) {
 
 function isSortAtDefault(sortBy, sortDir, initSort) {
   return sortBy === (initSort?.field ?? null) && sortDir === (initSort?.dir ?? 'asc')
+}
+
+function collectSelectedMeals(isPlanned, mealsByDay, weekMeals, weekMeals2) {
+  const selectedMeals = []
+  if (isPlanned) {
+    Object.values(mealsByDay).forEach((dayMeals) =>
+      dayMeals.forEach((m) => {
+        selectedMeals.push({ recipeId: m.recipeId, useShortcut: m.useShortcut ?? false })
+        m.sides?.forEach((id) => selectedMeals.push({ recipeId: id, useShortcut: false }))
+      })
+    )
+  } else {
+    ;[...weekMeals, ...weekMeals2].forEach((m) => {
+      selectedMeals.push({ recipeId: m.recipeId, useShortcut: m.useShortcut ?? false })
+      m.sides?.forEach((id) => selectedMeals.push({ recipeId: id, useShortcut: false }))
+    })
+  }
+  return selectedMeals
+}
+
+function mealPlanSignature(selectedMeals) {
+  return selectedMeals
+    .map((m) => `${m.recipeId}${m.useShortcut ? ':sc' : ''}`)
+    .sort()
+    .join('|')
 }
 
 // ─── Recipe View Modal ────────────────────────────────────────────────────────
@@ -451,9 +478,11 @@ function CheckIngredientRows({ items, checked, onToggle }) {
   )
 }
 
-function CheckIngredientsModal({ commonItems, otherItems, onComplete, onSkip }) {
-  const [checked, setChecked] = useState(new Set())
-  const [otherOpen, setOtherOpen] = useState(false)
+function CheckIngredientsModal({ commonItems, otherItems, initialChecked, onComplete, onSkip }) {
+  const [checked, setChecked] = useState(() => new Set(initialChecked))
+  const [otherOpen, setOtherOpen] = useState(() =>
+    otherItems.some((item) => initialChecked.includes(item.ingredientId))
+  )
 
   function toggle(id) {
     setChecked((prev) => {
@@ -839,6 +868,7 @@ export default function MealPlanning() {
   const [cuisineFilter,   setCuisineFilter]   = useState('')
   const [mealprepFilter,  setMealprepFilter]  = useState(false)
   const [multiTaskFilter, setMultiTaskFilter] = useState(false)
+  const [similarIngredientsFilter, setSimilarIngredientsFilter] = useState(false)
   const [sortBy,          setSortBy]          = useState(initSort?.field ?? null)
   const [sortDir,         setSortDir]         = useState(initSort?.dir   ?? 'asc')
 
@@ -882,6 +912,11 @@ export default function MealPlanning() {
   }
 
   // ── Filtered & sorted recipe list ─────────────────────────────────────────
+  const ingredientEquivalence = useMemo(
+    () => buildIngredientEquivalence(ingredients),
+    [ingredients]
+  )
+
   const displayed = useMemo(() => {
     let list = [...recipes]
     // Allergy exclusion: hide recipes with non-omittable allergens
@@ -905,8 +940,31 @@ export default function MealPlanning() {
     } else {
       list.sort((a, b) => a.name.localeCompare(b.name))
     }
-    return list
-  }, [recipes, ingredientsMap, allergyList, dishGroup, cuisineFilter, mealprepFilter, multiTaskFilter, sortBy, sortDir])
+
+    if (similarIngredientsFilter) {
+      return groupRecipesBySimilarIngredients(
+        list,
+        recipes,
+        preferences.commonIngredients ?? [],
+        ingredientEquivalence.canonical
+      )
+    }
+
+    return list.map((recipe) => ({ recipe, showSimilarBadge: false }))
+  }, [
+    recipes,
+    ingredientsMap,
+    allergyList,
+    dishGroup,
+    cuisineFilter,
+    mealprepFilter,
+    multiTaskFilter,
+    similarIngredientsFilter,
+    sortBy,
+    sortDir,
+    preferences.commonIngredients,
+    ingredientEquivalence,
+  ])
 
   // ── Persist helpers ───────────────────────────────────────────────────────
   function persistMeals(byDay, wk1, wk2) {
@@ -1027,20 +1085,7 @@ export default function MealPlanning() {
       nameToId[ing.name.toLowerCase()] = id
     }
 
-    const selectedMeals = []
-    if (isPlanned) {
-      Object.values(mealsByDay).forEach((dayMeals) =>
-        dayMeals.forEach((m) => {
-          selectedMeals.push({ recipeId: m.recipeId, useShortcut: m.useShortcut ?? false })
-          m.sides?.forEach((id) => selectedMeals.push({ recipeId: id, useShortcut: false }))
-        })
-      )
-    } else {
-      ;[...weekMeals, ...weekMeals2].forEach((m) => {
-        selectedMeals.push({ recipeId: m.recipeId, useShortcut: m.useShortcut ?? false })
-        m.sides?.forEach((id) => selectedMeals.push({ recipeId: id, useShortcut: false }))
-      })
-    }
+    const selectedMeals = collectSelectedMeals(isPlanned, mealsByDay, weekMeals, weekMeals2)
 
     if (selectedMeals.length === 0) return { common: [], other: [] }
 
@@ -1111,7 +1156,15 @@ export default function MealPlanning() {
   function handleNext() {
     const { common, other } = computePantryCheckItems()
     if (common.length > 0 || other.length > 0) {
-      setCheckIngItems({ common, other })
+      const signature = mealPlanSignature(
+        collectSelectedMeals(isPlanned, mealsByDay, weekMeals, weekMeals2)
+      )
+      const scopeIds = [...common, ...other].map((item) => item.ingredientId)
+      const shouldRestore = preferences.pantryCheckMealSignature === signature
+      const initialChecked = shouldRestore
+        ? (preferences.checkedAvailableIngredients ?? []).filter((id) => scopeIds.includes(id))
+        : []
+      setCheckIngItems({ common, other, initialChecked })
     } else {
       navigate('/restock')
     }
@@ -1134,7 +1187,13 @@ export default function MealPlanning() {
       }
     }
 
-    const withCheck = { ...preferences, checkedAvailableIngredients: [...merged] }
+    const withCheck = {
+      ...preferences,
+      checkedAvailableIngredients: [...merged],
+      pantryCheckMealSignature: mealPlanSignature(
+        collectSelectedMeals(isPlanned, mealsByDay, weekMeals, weekMeals2)
+      ),
+    }
     // Rebuild sections so confirmed-as-have ingredients are excluded from the list
     const sections = buildGroceryList(withCheck)
     const validKeys = new Set(sections.flatMap((s) => s.items.map((i) => i.key)))
@@ -1170,6 +1229,7 @@ export default function MealPlanning() {
     setCuisineFilter('')
     setMealprepFilter(false)
     setMultiTaskFilter(false)
+    setSimilarIngredientsFilter(false)
     setSortBy(initSort?.field ?? null)
     setSortDir(initSort?.dir ?? 'asc')
   }
@@ -1178,6 +1238,7 @@ export default function MealPlanning() {
     cuisineFilter ||
     mealprepFilter ||
     multiTaskFilter ||
+    similarIngredientsFilter ||
     !isSortAtDefault(sortBy, sortDir, initSort)
   )
 
@@ -1323,6 +1384,12 @@ export default function MealPlanning() {
                 >
                   Multi-Taskable
                 </button>
+                <button
+                  className={`filter-chip ${similarIngredientsFilter ? 'filter-chip--on' : ''}`}
+                  onClick={() => setSimilarIngredientsFilter((f) => !f)}
+                >
+                  Similar Ingredients
+                </button>
                 {hasActiveFilters && (
                   <button
                     type="button"
@@ -1349,11 +1416,14 @@ export default function MealPlanning() {
           {displayed.length === 0 ? (
             <p className="recipe-list__empty">No recipes match the current filters.</p>
           ) : (
-            displayed.map((recipe) => (
+            displayed.map(({ recipe, showSimilarBadge }) => (
               <div key={recipe.id} className="recipe-card">
                 <div className="recipe-card__info">
                   <span className="recipe-card__name">{recipe.name}</span>
                   <div className="recipe-card__badges">
+                    {showSimilarBadge && (
+                      <span className="recipe-badge recipe-badge--similar">Similar</span>
+                    )}
                     {getBadges(recipe).map((badge, i) => (
                       <span key={i} className={`recipe-badge recipe-badge--${badge.type}`}>
                         {badge.label}
@@ -1410,6 +1480,7 @@ export default function MealPlanning() {
         <CheckIngredientsModal
           commonItems={checkIngItems.common}
           otherItems={checkIngItems.other}
+          initialChecked={checkIngItems.initialChecked ?? []}
           onComplete={handleCheckComplete}
           onSkip={handleCheckSkip}
         />

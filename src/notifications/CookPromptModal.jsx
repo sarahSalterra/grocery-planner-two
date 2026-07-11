@@ -324,12 +324,8 @@ export default function CookPromptModal({ preferences, recipesMap, onComplete, o
   const planMode      = preferences.planMode ?? 'unplanned'
   const isPlannedMode = planMode === 'planned'
   const todayDow      = new Date().getDay()
-  const cooked        = useMemo(
-    () => new Set(preferences.cookedRecipeIds ?? []),
-    [preferences.cookedRecipeIds]
-  )
 
-  // All uncompleted week meals (deduplicated by recipeId)
+  // All week meals (deduplicated by recipeId)
   const allMeals = useMemo(() => {
     let raw
     if (isPlannedMode) {
@@ -339,11 +335,11 @@ export default function CookPromptModal({ preferences, recipesMap, onComplete, o
     }
     const seen = new Set()
     return raw.filter((m) => {
-      if (cooked.has(m.recipeId) || seen.has(m.recipeId)) return false
+      if (seen.has(m.recipeId)) return false
       seen.add(m.recipeId)
       return true
     })
-  }, [isPlannedMode, preferences, cooked])
+  }, [isPlannedMode, preferences])
 
   // Today's planned meals only (planned mode)
   const todaysMeals = useMemo(() => {
@@ -351,11 +347,11 @@ export default function CookPromptModal({ preferences, recipesMap, onComplete, o
     const raw  = preferences.mealsByDay?.[todayDow] ?? []
     const seen = new Set()
     return raw.filter((m) => {
-      if (cooked.has(m.recipeId) || seen.has(m.recipeId)) return false
+      if (seen.has(m.recipeId)) return false
       seen.add(m.recipeId)
       return true
     })
-  }, [isPlannedMode, preferences, todayDow, cooked])
+  }, [isPlannedMode, preferences, todayDow])
 
   // Start in planned view if user is in planned mode and has today's meals
   const startInPlannedView = isPlannedMode && todaysMeals.length > 0

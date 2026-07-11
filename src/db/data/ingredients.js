@@ -218,7 +218,7 @@ const DEFAULT_INGREDIENTS = [
     allergySubstitute: "none",
     strictSubstitute: "none",
     regularSubstitute: ["Fresh Pears"],
-    lenientSubstitute: ["Canned Peaches","Canned Pineapples","Canned Mangoes"],
+    lenientSubstitute: ["Canned Peaches","Canned Pineapple","Canned Mangoes"],
     otherSubstitute: "none",
   },
 
@@ -362,7 +362,7 @@ const DEFAULT_INGREDIENTS = [
     allergySubstitute: "omit",
     strictSubstitute: "none",
     regularSubstitute: "none",
-    lenientSubstitute: ["Dried Pineapple","Dried Peaches","Dried Mango","Dried Pears","Dried Kiwi"],
+    lenientSubstitute: ["Dried Pineapple","Dried Peaches","Dried Mangoes","Dried Pears","Dried Kiwi"],
     otherSubstitute: "none",
   },
 
@@ -442,7 +442,7 @@ const DEFAULT_INGREDIENTS = [
     allergySubstitute: "omit",
     strictSubstitute: "none",
     regularSubstitute: "none",
-    lenientSubstitute: ["Dried Pineapple","Dried Apples","Dried Mango","Dried-Pears","Dried Kiwi"],
+    lenientSubstitute: ["Dried Pineapple","Dried Apples","Dried Mango","Dried Pears","Dried Kiwi"],
     otherSubstitute: "none",
   },
 
@@ -458,7 +458,7 @@ const DEFAULT_INGREDIENTS = [
     allergySubstitute: "omit",
     strictSubstitute: "none",
     regularSubstitute: "none",
-    lenientSubstitute: ["Dried Pineapple","Dried Peaches","Dried Mangoes","Dried Apples","Dried Kiwi"],
+    lenientSubstitute: ["Dried Pineapple","Dried Peaches","Dried Mango","Dried Apples","Dried Kiwi"],
     otherSubstitute: "none",
   },
 
@@ -704,7 +704,7 @@ const DEFAULT_INGREDIENTS = [
 
   {
     id: "mango",
-    name: "Fresh Mango",
+    name: "Fresh Mangoes",
     department: "produce",
     vegSubstitute: "n/a",
     veganSubstitute: "n/a",
@@ -713,8 +713,8 @@ const DEFAULT_INGREDIENTS = [
     fishSubstitute: "n/a",
     allergySubstitute: "omit",
     strictSubstitute: "none",
-    regularSubstitute: ["Canned Mangoes","Frozen Mango"],
-    lenientSubstitute: ["Mango Nectar","Dried Mango"],
+    regularSubstitute: ["Canned Mangoes","Frozen Mangoes"],
+    lenientSubstitute: ["Mango Nectar","Dried Mangoes"],
     otherSubstitute: "none",
   },
 
@@ -746,7 +746,7 @@ const DEFAULT_INGREDIENTS = [
     allergySubstitute: "omit",
     strictSubstitute: "none",
     regularSubstitute: "none",
-    lenientSubstitute: ["Lemon","Limes","Grapefruit"],
+    lenientSubstitute: ["Lemon","Lime","Grapefruit"],
     otherSubstitute: "none",
   },
 
@@ -1563,8 +1563,8 @@ const DEFAULT_INGREDIENTS = [
     fishSubstitute: "n/a",
     allergySubstitute: "none",
     strictSubstitute: "none",
-    regularSubstitute: "Milk + Lemon Juice",
-    lenientSubstitute: "none",
+    regularSubstitute: "none",
+    lenientSubstitute: "Milk + Lemon Juice",
     otherSubstitute: "none",
   },
 
@@ -1612,7 +1612,7 @@ const DEFAULT_INGREDIENTS = [
     allergySubstitute: "none",
     strictSubstitute: "none",
     regularSubstitute: "none",
-    lenientSubstitute: ["Chocolatealmond Milk", "Chocolate Oat Milk"],
+    lenientSubstitute: ["Chocolate Almond Milk", "Chocolate Oat Milk"],
     otherSubstitute: "none",
   },
 
@@ -1643,7 +1643,7 @@ const DEFAULT_INGREDIENTS = [
     fishSubstitute: "n/a",
     allergySubstitute: "none",
     strictSubstitute: "none",
-    regularSubstitute: "Half And Half",
+    regularSubstitute: "Half and Half",
     lenientSubstitute: ["Almond Creamer", "Oat Creamer"],
     otherSubstitute: "none",
   },
@@ -1867,7 +1867,7 @@ const DEFAULT_INGREDIENTS = [
     fishSubstitute: "n/a",
     allergySubstitute: "none",
     strictSubstitute: "none",
-    regularSubstitute: ["Cream-Cheese"],
+    regularSubstitute: "none",
     lenientSubstitute: "Cream-Cheese",
     otherSubstitute: "none",
   },
@@ -3091,8 +3091,8 @@ const DEFAULT_INGREDIENTS = [
     fishSubstitute: "n/a",
     allergySubstitute: "none",
     strictSubstitute: "none",
-    regularSubstitute: "Canned-Cherries",
-    lenientSubstitute: ["Cherries", "Canned-Cherries"],
+    regularSubstitute: "Canned Cherries",
+    lenientSubstitute: ["Fresh Cherries"],
     otherSubstitute: "none",
   },
 
@@ -3123,8 +3123,8 @@ const DEFAULT_INGREDIENTS = [
     fishSubstitute: "n/a",
     allergySubstitute: "none",
     strictSubstitute: "none",
-    regularSubstitute: "Fresh-Green-Beans",
-    lenientSubstitute: "Fresh-Green-Beans",
+    regularSubstitute: "Fresh Green Beans",
+    lenientSubstitute: "Canned Green Beans",
     otherSubstitute: "none",
   },
 
@@ -3155,7 +3155,7 @@ const DEFAULT_INGREDIENTS = [
     fishSubstitute: "n/a",
     allergySubstitute: "none",
     strictSubstitute: "none",
-    regularSubstitute: "Large-Shrimp",
+    regularSubstitute: "Large Shrimp",
     lenientSubstitute: "none",
     otherSubstitute: "none",
   },
@@ -3491,9 +3491,9 @@ const DEFAULT_INGREDIENTS = [
     glutenSubstitute: "n/a",
     dairySubstitute: "n/a",
     fishSubstitute: "n/a",
-    allergySubstitute: "Butter",
+    allergySubstitute: "Salted Butter",
     strictSubstitute: "none",
-    regularSubstitute: "Butter",
+    regularSubstitute: "Salted Butter",
     lenientSubstitute: "Vegetable Oil",
     otherSubstitute: "none",
   },
@@ -3734,7 +3734,7 @@ const DEFAULT_INGREDIENTS = [
     allergySubstitute: "none",
     strictSubstitute: "none",
     regularSubstitute: "Gravy Mix",
-    lenientSubstitute: ["Cream Of Chicken Soup","Cream Of Mushroom Soup","Cream Of Potato Soup"],
+    lenientSubstitute: ["Cream of Chicken Soup","Cream of Mushroom Soup","Cream of Potato Soup"],
     otherSubstitute: "none",
   },
 
@@ -3926,7 +3926,7 @@ const DEFAULT_INGREDIENTS = [
     allergySubstitute: "none",
     strictSubstitute: "none",
     regularSubstitute: "none",
-    lenientSubstitute: ["Cream Of Mushroom Soup", "Cream Of Chicken Soup"],
+    lenientSubstitute: ["Cream of Mushroom Soup", "Cream of Chicken Soup"],
     otherSubstitute: "none",
   },
 
@@ -4188,7 +4188,7 @@ const DEFAULT_INGREDIENTS = [
 
   {
     id: "crab",
-    name: "Crab Meat (canned)",
+    name: "Crab Meat",
     department: "pantry",
     vegSubstitute: "Hearts Of Palm",
     veganSubstitute: "Hearts Of Palm",
@@ -4204,7 +4204,7 @@ const DEFAULT_INGREDIENTS = [
 
   {
     id: "cream-of-chicken-soup",
-    name: "Cream of Chicken Soup (canned)",
+    name: "Cream of Chicken Soup",
     department: "pantry",
     vegSubstitute: "Cream Of Mushroom Soup",
     veganSubstitute: "none",
@@ -4220,7 +4220,7 @@ const DEFAULT_INGREDIENTS = [
 
   {
     id: "cream-of-mushroom-soup",
-    name: "Cream of Mushroom Soup (canned)",
+    name: "Cream of Mushroom Soup",
     department: "pantry",
     vegSubstitute: "n/a",
     veganSubstitute: "none",
@@ -4236,7 +4236,7 @@ const DEFAULT_INGREDIENTS = [
 
   {
     id: "cream-of-potato-soup",
-    name: "Cream of Potato Soup (canned)",
+    name: "Cream of Potato Soup",
     department: "pantry",
     vegSubstitute: "n/a",
     veganSubstitute: "none",
@@ -4262,7 +4262,7 @@ const DEFAULT_INGREDIENTS = [
     allergySubstitute: "none",
     strictSubstitute: "none",
     regularSubstitute: "none",
-    lenientSubstitute: ["Cream Of Buckwheat","Grits","Cream Of Rice"],
+    lenientSubstitute: ["Cream of Buckwheat","Grits","Cream of Rice"],
     otherSubstitute: "none",
   },
 
@@ -4300,7 +4300,7 @@ const DEFAULT_INGREDIENTS = [
 
   {
     id: "crushed-tomatoes",
-    name: "Crushed Tomatoes",
+    name: "Canned Crushed Tomatoes",
     department: "pantry",
     vegSubstitute: "n/a",
     veganSubstitute: "n/a",
@@ -4309,14 +4309,14 @@ const DEFAULT_INGREDIENTS = [
     fishSubstitute: "n/a",
     allergySubstitute: "none",
     strictSubstitute: "none",
-    regularSubstitute: ["Diced-Tomatoes"],
-    lenientSubstitute: ["Fresh Tomatoes","Stewed Tomatoes"],
+    regularSubstitute: ["Canned Diced Tomatoes"],
+    lenientSubstitute: ["Fresh Tomatoes","Canned Stewed Tomatoes"],
     otherSubstitute: "none",
   },
 
   {
     id: "diced-tomatoes",
-    name: "Diced Tomatoes (canned)",
+    name: "Canned Diced Tomatoes",
     department: "pantry",
     vegSubstitute: "n/a",
     veganSubstitute: "n/a",
@@ -4325,8 +4325,8 @@ const DEFAULT_INGREDIENTS = [
     fishSubstitute: "n/a",
     allergySubstitute: "none",
     strictSubstitute: "none",
-    regularSubstitute: ["Crushed-Tomatoes"],
-    lenientSubstitute: ["Fresh Tomatoes","Stewed Tomatoes"],
+    regularSubstitute: ["Canned Crushed Tomatoes"],
+    lenientSubstitute: ["Fresh Tomatoes","Canned Stewed Tomatoes"],
     otherSubstitute: "none",
   },
 
@@ -4933,7 +4933,7 @@ const DEFAULT_INGREDIENTS = [
     fishSubstitute: "n/a",
     allergySubstitute: "Canola Oil",
     strictSubstitute: "none",
-    regularSubstitute: ["Avocado Oil","Canola Oil","Butter"],
+    regularSubstitute: ["Avocado Oil","Canola Oil","Salted Butter"],
     lenientSubstitute: ["Vegetable Oil","Sunflower Oil"],
     otherSubstitute: "none",
   },
@@ -5078,7 +5078,7 @@ const DEFAULT_INGREDIENTS = [
     allergySubstitute: "omit",
     strictSubstitute: "none",
     regularSubstitute: "omit",
-    lenientSubstitute: "Pickled Jalapenos",
+    lenientSubstitute: "Pickled Jalapeños",
     otherSubstitute: "none",
   },
 
@@ -5164,7 +5164,7 @@ const DEFAULT_INGREDIENTS = [
 
   {
     id: "pinto-beans",
-    name: "Pinto Beans (canned)",
+    name: "Pinto Beans",
     department: "pantry",
     vegSubstitute: "n/a",
     veganSubstitute: "n/a",
@@ -5180,7 +5180,7 @@ const DEFAULT_INGREDIENTS = [
 
   {
     id: "pork-rinds",
-    name: "Pork Rinds (canned)",
+    name: "Canned Pork Rinds",
     department: "pantry",
     vegSubstitute: "n/a",
     veganSubstitute: "n/a",
@@ -5324,7 +5324,7 @@ const DEFAULT_INGREDIENTS = [
 
   {
     id: "ranch-style-beans",
-    name: "Ranch Style Beans (canned)",
+    name: "Ranch Style Beans",
     department: "pantry",
     vegSubstitute: "n/a",
     veganSubstitute: "n/a",
@@ -5356,7 +5356,7 @@ const DEFAULT_INGREDIENTS = [
 
   {
     id: "red-beans",
-    name: "Red Beans (canned)",
+    name: "Red Beans",
     department: "pantry",
     vegSubstitute: "n/a",
     veganSubstitute: "n/a",
@@ -5500,7 +5500,7 @@ const DEFAULT_INGREDIENTS = [
 
   {
     id: "sauerkraut",
-    name: "Sauerkraut (canned)",
+    name: "Sauerkraut",
     department: "pantry",
     vegSubstitute: "n/a",
     veganSubstitute: "n/a",
@@ -5877,8 +5877,8 @@ const DEFAULT_INGREDIENTS = [
     fishSubstitute: "n/a",
     allergySubstitute: "omit",
     strictSubstitute: "none",
-    regularSubstitute: ["omit","Mayo + Tajin"],
-    lenientSubstitute: "Mayonnaise",
+    regularSubstitute: "omit",
+    lenientSubstitute: ["Mayonnaise", "Mayo + Tajin"],
     otherSubstitute: "none",
   },
 
@@ -6028,7 +6028,7 @@ const DEFAULT_INGREDIENTS = [
 
   {
     id: "tomato-soup",
-    name: "Tomato Soup (canned)",
+    name: "Canned Tomato Soup",
     department: "pantry",
     vegSubstitute: "none",
     veganSubstitute: "none",
@@ -6140,7 +6140,7 @@ const DEFAULT_INGREDIENTS = [
 
   {
     id: "water-chestnuts",
-    name: "Water Chestnuts (canned)",
+    name: "Water Chestnuts",
     department: "pantry",
     vegSubstitute: "n/a",
     veganSubstitute: "n/a",
@@ -6279,8 +6279,8 @@ const DEFAULT_INGREDIENTS = [
     fishSubstitute: "n/a",
     allergySubstitute: "none",
     strictSubstitute: "none",
-    regularSubstitute: "87.5% Cake Flour + 12.5% Cornstarch",
-    lenientSubstitute: "Cake Flour",
+    regularSubstitute: "none",
+    lenientSubstitute: ["Cake Flour", "87.5% Cake Flour + 12.5% Cornstarch"],
     otherSubstitute: "none",
   },
 
@@ -6343,8 +6343,8 @@ const DEFAULT_INGREDIENTS = [
     fishSubstitute: "n/a",
     allergySubstitute: "none",
     strictSubstitute: "none",
-    regularSubstitute: "30% Baking Soda",
-    lenientSubstitute: "none",
+    regularSubstitute: "none",
+    lenientSubstitute: "30% Baking Soda",
     otherSubstitute: "none",
   },
 
@@ -6359,8 +6359,8 @@ const DEFAULT_INGREDIENTS = [
     fishSubstitute: "n/a",
     allergySubstitute: "none",
     strictSubstitute: "none",
-    regularSubstitute: "300% Baking Powder",
-    lenientSubstitute: "none",
+    regularSubstitute: "none",
+    lenientSubstitute: "300% Baking Powder",
     otherSubstitute: "none",
   },
 
@@ -6375,8 +6375,8 @@ const DEFAULT_INGREDIENTS = [
     fishSubstitute: "n/a",
     allergySubstitute: "none",
     strictSubstitute: "none",
-    regularSubstitute: "89% Granulated Sugar + 11% Molasses",
-    lenientSubstitute: "Turbinado Sugar",
+    regularSubstitute: "none",
+    lenientSubstitute: ["Turbinado Sugar", "89% Granulated Sugar + 11% Molasses"],
     otherSubstitute: "none",
   },
 
@@ -6728,7 +6728,7 @@ const DEFAULT_INGREDIENTS = [
     allergySubstitute: "Vegan Marshmallows",
     strictSubstitute: "none",
     regularSubstitute: "none",
-    lenientSubstitute: "Marshmallow Creme",
+    lenientSubstitute: "Marshmallow Cream",
     otherSubstitute: "none",
   },
 
@@ -7097,8 +7097,8 @@ const DEFAULT_INGREDIENTS = [
     fishSubstitute: "n/a",
     allergySubstitute: "omit",
     strictSubstitute: "none",
-    regularSubstitute: "omit",
-    lenientSubstitute: "Chili Flakes",
+    regularSubstitute: "Chili Flakes",
+    lenientSubstitute: "omit",
     otherSubstitute: "none",
   },
 
@@ -7819,8 +7819,8 @@ const DEFAULT_INGREDIENTS = [
     fishSubstitute: "n/a",
     allergySubstitute: "omit",
     strictSubstitute: "none",
-    regularSubstitute: "omit",
-    lenientSubstitute: ["Chili Crisp"],
+    regularSubstitute: "Chili Crisp",
+    lenientSubstitute: "omit",
     otherSubstitute: "none",
   },
 
@@ -7947,8 +7947,8 @@ const DEFAULT_INGREDIENTS = [
     fishSubstitute: "n/a",
     allergySubstitute: "omit",
     strictSubstitute: "none",
-    regularSubstitute: "omit",
-    lenientSubstitute: "Chili Flakes",
+    regularSubstitute: "Chili Flakes",
+    lenientSubstitute: "omit",
     otherSubstitute: "none",
   },
 
@@ -8011,8 +8011,8 @@ const DEFAULT_INGREDIENTS = [
     fishSubstitute: "n/a",
     allergySubstitute: "omit",
     strictSubstitute: "none",
-    regularSubstitute: "none",
-    lenientSubstitute: "Ginger Root",
+    regularSubstitute: "Ginger Root",
+    lenientSubstitute: "none",
     otherSubstitute: "none",
   },
 
