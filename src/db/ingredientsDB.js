@@ -29,6 +29,7 @@ export function getIngredients() {
     // These always reflect the current defaults so stale stored values
     // (e.g. dairySubstitute was "n/a" and is now "omit") are corrected.
     const SOURCE_FIELDS = [
+      'name',
       'department',
       'vegSubstitute', 'veganSubstitute', 'glutenSubstitute',
       'dairySubstitute', 'fishSubstitute',

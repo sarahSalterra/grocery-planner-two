@@ -6,6 +6,10 @@ import { getPreferences, savePreferences } from '../db/preferencesDB'
 import { buildGroceryList, DEPT_LABELS, sortSectionsByShopOrder } from '../utils/groceryUtils'
 import { getIngredients } from '../db/ingredientsDB'
 import { getStackedSubOptions } from '../utils/dietaryUtils'
+import {
+  ingredientMatchesSearchQuery,
+  resolveIngredientDisplayName,
+} from '../utils/ingredientDisplayUtils'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -28,8 +32,27 @@ export default function Shop() {
     const fresh = getPreferences()
     setPreferences(fresh)
     setChecked(new Set(fresh.shoppingChecked ?? []))
-    setExtraItems(fresh.shopExtraItems ?? [])
+    const ingMap = Object.fromEntries(getIngredients().map((i) => [i.id, i]))
+    const normalizedExtras = (fresh.shopExtraItems ?? []).map((e) => {
+      const name = resolveIngredientDisplayName(e.ingredientId, e.name, ingMap)
+      return name === e.name ? e : { ...e, name }
+    })
+    const extrasChanged =
+      normalizedExtras.length !== (fresh.shopExtraItems ?? []).length ||
+      normalizedExtras.some((e, i) => e.name !== (fresh.shopExtraItems ?? [])[i]?.name)
+    setExtraItems(normalizedExtras)
+    if (extrasChanged) {
+      const updated = { ...fresh, shopExtraItems: normalizedExtras }
+      setPreferences(updated)
+      savePreferences(updated)
+    }
   }, [])
+
+  const allIngredients = useMemo(getIngredients, [])
+  const ingredientsMap = useMemo(
+    () => Object.fromEntries(allIngredients.map((i) => [i.id, i])),
+    [allIngredients]
+  )
 
   // Use the stored snapshot if present; fall back to computing on the fly
   // (backward compat for users whose list was saved before this change).
@@ -37,15 +60,16 @@ export default function Shop() {
   const sections = useMemo(() => {
     if (preferences.shoppingListCleared) return []
     const stored = preferences.groceryListSections ?? []
-    return stored.length > 0 ? stored : buildGroceryList(preferences)
-  }, [preferences])
+    const raw = stored.length > 0 ? stored : buildGroceryList(preferences)
+    return raw.map((s) => ({
+      ...s,
+      items: s.items.map((item) => ({
+        ...item,
+        name: resolveIngredientDisplayName(item.id, item.name, ingredientsMap),
+      })),
+    }))
+  }, [preferences, ingredientsMap])
 
-  // Ingredients map + sub mode — used to show optional substitutions per item
-  const allIngredients = useMemo(getIngredients, [])
-  const ingredientsMap = useMemo(
-    () => Object.fromEntries(allIngredients.map((i) => [i.id, i])),
-    [allIngredients]
-  )
   const subMode = preferences.substitutionMode ?? 'regular'
 
   // Which items currently have their substitutions expanded
@@ -83,11 +107,23 @@ export default function Shop() {
   function clearList() {
     setChecked(new Set())
     setExtraItems([])
-    const updated = {
+    const base = {
       ...preferences,
-      shoppingListCleared: true,
-      shoppingChecked: [],
+      mealsByDay: {},
+      weekMeals: [],
+      weekMeals2: [],
+      selectedRestockItems: [],
+      checkedAvailableIngredients: [],
+      pantryCheckMealSignature: null,
       shopExtraItems: [],
+      shoppingChecked: [],
+      shoppingListCleared: false,
+    }
+    const sectionsAfterClear = buildGroceryList(base)
+    const updated = {
+      ...base,
+      groceryListSections: sectionsAfterClear,
+      shoppingListCleared: true,
     }
     setPreferences(updated)
     savePreferences(updated)
@@ -95,12 +131,16 @@ export default function Shop() {
 
   function reloadList() {
     setChecked(new Set())
-    setExtraItems([])
+    const extras = preferences.shopExtraItems ?? []
+    setExtraItems(extras)
     const updated = {
       ...preferences,
       shoppingListCleared: false,
       shoppingChecked: [],
-      shopExtraItems: [],
+      groceryListSections:
+        (preferences.groceryListSections ?? []).length > 0
+          ? preferences.groceryListSections
+          : buildGroceryList(preferences),
     }
     setPreferences(updated)
     savePreferences(updated)
@@ -124,17 +164,21 @@ export default function Shop() {
     const alreadyAdded = new Set(extraItems.map((e) => e.name.toLowerCase()))
     return allIngredients
       .filter((ing) =>
-        ing.name.toLowerCase().includes(q) &&
-        !alreadyAdded.has(ing.name.toLowerCase())
+        ingredientMatchesSearchQuery(ing, q) &&
+        !alreadyAdded.has(resolveIngredientDisplayName(ing.id, ing.name, ingredientsMap).toLowerCase())
       )
       .slice(0, MAX_ADD_SUGGESTIONS)
-  }, [addInput, allIngredients, extraItems])
+  }, [addInput, allIngredients, extraItems, ingredientsMap])
 
   function addExtraItem(name, ingredientId, department) {
-    const trimmed = name.trim()
-    if (!trimmed) return
-    if (extraItems.some((e) => e.name.toLowerCase() === trimmed.toLowerCase())) return
-    const newItem = { name: trimmed, department: department || 'pantry', ingredientId: ingredientId ?? null }
+    const displayName = resolveIngredientDisplayName(ingredientId, name, ingredientsMap).trim()
+    if (!displayName) return
+    if (extraItems.some((e) => e.name.toLowerCase() === displayName.toLowerCase())) return
+    const newItem = {
+      name: displayName,
+      department: department || 'pantry',
+      ingredientId: ingredientId ?? null,
+    }
     const next = [...extraItems, newItem]
     setExtraItems(next)
     setAddInput('')
@@ -148,8 +192,24 @@ export default function Shop() {
   function commitAdd(val) {
     const trimmed = val.trim()
     if (!trimmed) return
-    const match = allIngredients.find((i) => i.name.toLowerCase() === trimmed.toLowerCase())
-    addExtraItem(match?.name ?? trimmed, match?.id ?? null, match?.department ?? 'pantry')
+    const slug = trimmed.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+    const match = allIngredients.find((i) => {
+      const display = resolveIngredientDisplayName(i.id, i.name, ingredientsMap)
+      return (
+        display.toLowerCase() === trimmed.toLowerCase() ||
+        i.id === slug ||
+        i.name.toLowerCase() === trimmed.toLowerCase()
+      )
+    })
+    if (match) {
+      addExtraItem(
+        resolveIngredientDisplayName(match.id, match.name, ingredientsMap),
+        match.id,
+        match.department
+      )
+    } else {
+      addExtraItem(trimmed, null, 'pantry')
+    }
   }
 
   function removeExtraItem(name) {
@@ -234,16 +294,19 @@ export default function Shop() {
             />
             {showSuggestions && addSuggestions.length > 0 && (
               <ul className="shop-add-suggestions" role="listbox">
-                {addSuggestions.map((ing) => (
+                {addSuggestions.map((ing) => {
+                  const label = resolveIngredientDisplayName(ing.id, ing.name, ingredientsMap)
+                  return (
                   <li
                     key={ing.id}
                     className="shop-add-suggestion"
                     role="option"
-                    onMouseDown={() => addExtraItem(ing.name, ing.id, ing.department)}
+                    onMouseDown={() => addExtraItem(label, ing.id, ing.department)}
                   >
-                    {ing.name}
+                    {label}
                   </li>
-                ))}
+                  )
+                })}
               </ul>
             )}
           </div>

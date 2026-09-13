@@ -3509,6 +3509,7 @@ const DEFAULT_RECIPES = [
       { ingredientId: "quick-oats",         quantity: "0.25",   unit: "cup",    shortcutSubstitute: "none" },
       { ingredientId: "brown-onion",              quantity: "0.25", unit: "whole",  shortcutSubstitute: "none" },
       { ingredientId: "eggs",              quantity: "1",   unit: "whole",  shortcutSubstitute: "none" },
+      { ingredientId: "whole-milk",        quantity: "0.25", unit: "cup",    shortcutSubstitute: "none" },
       { ingredientId: "parmesan-cheese",    quantity: "0.5",   unit: "cup",    shortcutSubstitute: "none" },
       { ingredientId: "worcestershire-sauce",quantity: "0.5",  unit: "tbsp",   shortcutSubstitute: "none" },
       { ingredientId: "garlic",             quantity: "2",   unit: "clove",  shortcutSubstitute: "none" },
@@ -3520,7 +3521,7 @@ const DEFAULT_RECIPES = [
     ],
 
     steps: [
-      { name: "Mix loaf",          text: "Combine ground beef, crushed crackers, oats, diced onion, garlic, egg, grated parmesan, worcestershire, diced tomatoes, and seasoned salt. Mix until combined (you may use your hands to save time, otherwise a baking spatula works well).", shortcutText: "no-shortcut" },
+      { name: "Mix loaf",          text: "Combine ground beef, crushed crackers, oats, diced onion, garlic, egg, milk, grated parmesan, worcestershire, diced tomatoes, and seasoned salt. Mix until combined (you may use your hands to save time, otherwise a baking spatula works well).", shortcutText: "no-shortcut" },
       { name: "Shape & top",       text: "Form into a loaf in a greased baking dish or sheet. Bake at 375°F for 40-45 minutes until internal temp reaches 160°F, making the sauce while you wait (and any desired sides).", shortcutText: "no-shortcut" },
       { name: "Mix & add sauce",        text: "Combine ketchup, poupon mustard, and brown sugar in a small bowl. Mix until combined, spread over the top of the loaf, and return to the oven for 10-15 minutes until the sauce is bubbly and slightly darkened. Let rest up to 10 minutes before slicing.", shortcutText: "no-shortcut" },
     ],

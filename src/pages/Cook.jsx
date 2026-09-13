@@ -575,6 +575,7 @@ export default function Cook() {
   const [activeMealShortcut,setActiveMealShortcut]= useState(false) // shortcut flag for open meal
   const [resumeId,          setResumeId]          = useState(null)  // last uncompleted → shows "Continue"
   const [browsingLib,       setBrowsingLib]        = useState(false)
+  const [bulkCompleteIds,   setBulkCompleteIds]   = useState(() => new Set())
 
   // ── Planned meals ─────────────────────────────────────────────────────────
   // All meals from the entire plan (deduped by recipeId)
@@ -617,6 +618,14 @@ export default function Cook() {
     !showAllWeek &&
     allPlannedMeals.length > 0
 
+  useEffect(() => {
+    const visible = new Set(activeMeals.map((m) => m.recipeId))
+    setBulkCompleteIds((prev) => {
+      const next = new Set([...prev].filter((id) => visible.has(id)))
+      return next.size === prev.size ? prev : next
+    })
+  }, [activeMeals])
+
   // ── Recipe actions ────────────────────────────────────────────────────────
   function openRecipe(id, useShortcut = false) {
     if (resumeId && resumeId !== id) setResumeId(null) // different recipe clears Continue
@@ -633,6 +642,34 @@ export default function Cook() {
     const updated = completeRecipeInPlan(preferences, id)
     setPreferencesState(updated)
     savePreferences(updated)
+    setActiveRecipeId(null)
+    setResumeId(null)
+    setBulkCompleteIds((prev) => {
+      if (!prev.has(id)) return prev
+      const next = new Set(prev)
+      next.delete(id)
+      return next
+    })
+  }
+
+  function toggleBulkComplete(recipeId) {
+    setBulkCompleteIds((prev) => {
+      const next = new Set(prev)
+      if (next.has(recipeId)) next.delete(recipeId)
+      else next.add(recipeId)
+      return next
+    })
+  }
+
+  function completeSelectedRecipes() {
+    if (bulkCompleteIds.size === 0) return
+    let updated = preferences
+    for (const id of bulkCompleteIds) {
+      updated = completeRecipeInPlan(updated, id)
+    }
+    setPreferencesState(updated)
+    savePreferences(updated)
+    setBulkCompleteIds(new Set())
     setActiveRecipeId(null)
     setResumeId(null)
   }
@@ -712,7 +749,6 @@ export default function Cook() {
 
             {allCurrentDone ? (
 
-              /* ── All meals for the current view done ── */
               <div className="cook-all-done">
                 <span className="cook-all-done__icon">✓</span>
                 <p className="cook-all-done__msg">
@@ -732,7 +768,20 @@ export default function Cook() {
 
             ) : (
 
-              /* ── Active meal list ── */
+              <>
+                {bulkCompleteIds.size > 0 && (
+                  <div className="cook-bulk-bar">
+                    <button
+                      type="button"
+                      className="btn btn--primary cook-bulk-complete-btn"
+                      onClick={completeSelectedRecipes}
+                    >
+                      Complete selected ({bulkCompleteIds.size})
+                    </button>
+                  </div>
+                )}
+
+              {/* ── Active meal list ── */}
               <ul className="cook-meal-list">
                 {activeMeals.map((meal, idx) => {
                   const recipe           = recipesMap[meal.recipeId]
@@ -747,6 +796,17 @@ export default function Cook() {
 
                   return (
                     <li key={`${meal.recipeId}_${idx}`} className="cook-meal-card">
+                      <label
+                        className="cook-meal-card__check"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={bulkCompleteIds.has(meal.recipeId)}
+                          onChange={() => toggleBulkComplete(meal.recipeId)}
+                          aria-label={`Select ${recipe.name} to mark complete`}
+                        />
+                      </label>
                       <div className="cook-meal-card__info">
                         <span className="cook-meal-card__name">{recipe.name}</span>
                         {meal.sides?.length > 0 && (
@@ -772,6 +832,7 @@ export default function Cook() {
                   )
                 })}
               </ul>
+              </>
             )}
           </>
         )}

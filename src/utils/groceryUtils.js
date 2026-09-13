@@ -18,6 +18,7 @@ import { getHouseholdGoods } from '../db/householdGoodsDB'
 import { DEFAULT_SHOP_DEPARTMENT_ORDER } from '../db/data/filterOptions'
 import { getAllergyOmitIds, getDietarySubstitute, getShortcutFallbackSub, recipeNeedsAutoShortcut, isDietaryFieldIncompatible, DIETARY_MODE_FIELD } from './dietaryUtils'
 import { scaleRecipe, parseQtyStr } from './recipeUtils'
+import { resolveIngredientDisplayName } from './ingredientDisplayUtils'
 
 export const DEPT_LABELS = {
   produce:   'Produce',
@@ -189,7 +190,7 @@ function _buildGroceryList(preferences, recipesMap, ingredientsMap, goodsMap) {
           const subData    = ingredientsMap[subIng.ingredientId]
           const subDietSub = getDietarySubstitute(subData, dietaryModes)
 
-          const subDisplayName = subDietSub ?? subData?.name ?? subIng.ingredientId
+          const subDisplayName = resolveIngredientDisplayName(subIng.ingredientId, subDietSub ?? subData?.name, ingredientsMap)
           const subSlug = subDietSub
             ? subDietSub.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
             : null
@@ -245,7 +246,9 @@ function _buildGroceryList(preferences, recipesMap, ingredientsMap, goodsMap) {
         }
       }
 
-      const displayName = dietarySub ?? data?.name ?? ing.ingredientId
+      const displayName = dietarySub
+        ? resolveIngredientDisplayName(null, dietarySub, ingredientsMap)
+        : resolveIngredientDisplayName(ing.ingredientId, data?.name, ingredientsMap)
       const slugSub     = dietarySub
         ? dietarySub.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
         : null
@@ -297,8 +300,9 @@ function _buildGroceryList(preferences, recipesMap, ingredientsMap, goodsMap) {
         atLeast:    false,
       })
     } else {
-      const matchKey = Object.keys(ingAgg).find((k) => k.startsWith(`ing_${good.id}_`))
+      const matchKey = findIngredientAggKey(ingAgg, good.id)
       if (matchKey) {
+        // Restock has no quantity — keep recipe totals and flag "at least" for the trip.
         ingAgg[matchKey].atLeast = true
       } else {
         standaloneGoods.push({
@@ -308,7 +312,7 @@ function _buildGroceryList(preferences, recipesMap, ingredientsMap, goodsMap) {
           department: good.department,
           qty:        null,
           unit:       null,
-          atLeast:    false,
+          atLeast:    true,
         })
       }
     }
@@ -345,4 +349,14 @@ function _buildGroceryList(preferences, recipesMap, ingredientsMap, goodsMap) {
   }
 
   return sections
+}
+
+/** Match a restock/household item id to an aggregated recipe ingredient row. */
+function findIngredientAggKey(ingAgg, goodId) {
+  const directKey = `ing_${goodId}`
+  if (ingAgg[directKey]) return directKey
+  for (const [key, item] of Object.entries(ingAgg)) {
+    if (item.id === goodId) return key
+  }
+  return null
 }

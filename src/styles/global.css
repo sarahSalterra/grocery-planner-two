@@ -3517,6 +3517,15 @@ a { color: inherit; text-decoration: none; }
 
 .cook-all-done__btn { margin-top: 4px; }
 
+.cook-bulk-bar {
+  margin-bottom: 12px;
+}
+
+.cook-bulk-complete-btn {
+  width: 100%;
+  max-width: 320px;
+}
+
 /* ── Meal list ── */
 
 .cook-meal-list {
@@ -3582,6 +3591,20 @@ a { color: inherit; text-decoration: none; }
 }
 
 .cook-meal-card__btn--resume:hover { background: #c96a2a; }
+
+.cook-meal-card__check {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.cook-meal-card__check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-primary, #4a7c59);
+  cursor: pointer;
+}
 
 /* ── Cook step list (inside the cook modal) ── */
 

@@ -15,7 +15,24 @@ export function initHouseholdGoodsDB() {
 export function getHouseholdGoods() {
   try {
     const stored = localStorage.getItem(KEY)
-    return stored ? JSON.parse(stored) : [...DEFAULT_HOUSEHOLD_GOODS]
+    if (!stored) return [...DEFAULT_HOUSEHOLD_GOODS]
+    const storedList = JSON.parse(stored)
+    const defaultsMap = Object.fromEntries(DEFAULT_HOUSEHOLD_GOODS.map((g) => [g.id, g]))
+    const storedIds = new Set(storedList.map((g) => g.id))
+    const SOURCE_FIELDS = ['name', 'department']
+
+    const merged = storedList.map((good) => {
+      const def = defaultsMap[good.id]
+      if (!def) return good
+      const result = { ...def, ...good }
+      for (const f of SOURCE_FIELDS) {
+        if (f in def) result[f] = def[f]
+      }
+      return result
+    })
+
+    const newDefaults = DEFAULT_HOUSEHOLD_GOODS.filter((g) => !storedIds.has(g.id))
+    return [...merged, ...newDefaults]
   } catch {
     return [...DEFAULT_HOUSEHOLD_GOODS]
   }
